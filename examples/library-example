@@ -4664,7 +4664,7 @@ const Admin = (function () {
     isErrorLvl &&
       console.error(
       ...data,
-      `\n\nDescription and solution of errors: https://chimildic.github.io/goofy/#/errors\nTelegram: https://t.me/forum_goofy`
+      `\n\Description and solution of errors: https://chimildic.github.io/goofy/#/errors\nTelegram: https://t.me/forum_goofy`
       );
   }
 
