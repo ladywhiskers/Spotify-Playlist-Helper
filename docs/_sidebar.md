@@ -2,7 +2,6 @@
 - [Overview](/)
 - [Installation](/install.md)
 - [First Playlist](/first-playlist.md)
-- [Audiolist](/audiolist.md)
 - **Usage**
 - [How It Works](/details.md)
 - [Templates](/template.md)
@@ -15,4 +14,3 @@
 - [Migration](/migrate.md)
 - [Advanced Tuning](/tuning.md)
 - **Support**
-- <div style="display: flex;flex-direction: column;gap: 14px;"><iframe src="https://yoomoney.ru/quickpay/fundraise/button?billNumber=16VDH2J5QHV.241206&amp;" width="330" height="50" frameborder="0" allowtransparency="true" scrolling="no"></iframe> <iframe src="https://ghbtns.com/github-btn.html?user=chimildic&amp;repo=goofy&amp;type=star&amp;count=true" frameborder="0" scrolling="0" width="85" height="20" title="GitHub"></iframe></div>
