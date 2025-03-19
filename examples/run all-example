@@ -1,0 +1,55 @@
+function myFunction() {
+  updateAllPlaylists();
+}/**
+ * Updates all playlists defined in the script, regardless of time or schedule.
+ * This function iterates through a list of playlist update functions and executes them sequentially.
+ * It handles potential errors during the update process and logs the results.
+ *
+ * @returns {Promise<boolean>} True if all playlist updates were attempted, false otherwise.
+ */
+async function updateAllPlaylists() {
+  console.log("Starting updateAllPlaylists");
+  try {
+    // Define an array of playlist update functions.
+    const playlistUpdateFunctions = [
+      updateHeardLikedandForgotten_,
+      songsToLike_,
+      updateDiscoverDaily_,
+      updateFocusedWork_,
+      updatePoolOfMemory,
+      updateArchives,
+      updateHottest100Shortlist,
+      updateChill,
+      updateDanceable,
+      updateHighEnergy,
+      updateHappyMix,
+      updateMoodyMix,
+      updateRomanticMix,
+      updateSadMix,
+    ];
+
+    // Execute each playlist update function sequentially.
+    for (const updateFunction of playlistUpdateFunctions) {
+      console.log(`Running: ${updateFunction.name}`);
+      try {
+        const result = await updateFunction();
+        if (result) {
+          console.log(`Successfully updated: ${updateFunction.name}`);
+        } else {
+          console.error(`Failed to update: ${updateFunction.name}`);
+        }
+      } catch (error) {
+        console.error(
+          `Error updating ${updateFunction.name}:`,
+          error
+        );
+      }
+    }
+
+    console.log("Finished updateAllPlaylists");
+    return true;
+  } catch (error) {
+    console.error("Error in updateAllPlaylists:", error);
+    return false;
+  }
+}

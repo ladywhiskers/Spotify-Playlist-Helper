@@ -1,0 +1,26 @@
+const Season = (function () {
+    const SEASON_MAP = {
+      "winter": [11, 0, 1], // December, January, February
+      "autumn": [2, 3, 4], // March, April, May
+      "spring": [5, 6, 7], // June, July, August
+      "summer": [8, 9, 10], // September, October, November
+    };
+  
+    function getCurrentSeason(today) {
+      const month = today.getMonth();
+      for (const season in SEASON_MAP) {
+        if (SEASON_MAP[season].includes(month)) {
+          return season;
+        }
+      }
+      return "unknown"; // Default case
+    }
+  
+    return { getCurrentSeason };
+  })();
+    // Helper function to create Cheerio objects
+  function createCheerio(url) {
+    let content = CustomUrlFetchApp.fetch(url).getContentText();
+    return Cheerio.load(content);
+  }
+  

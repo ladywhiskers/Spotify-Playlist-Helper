@@ -1,3 +1,5 @@
+/* exported Config */
+/* global PLAYLIST_IDS */
 // Documentation: https://chimildic.github.io/goofy
 // Telegram: https://t.me/forum_goofy
 // Forum: https://github.com/Chimildic/goofy/discussions
@@ -6,8 +8,6 @@ const UserProperties = PropertiesService.getUserProperties();
 const KeyValue = UserProperties.getProperties();
 const API_BASE_URL = "https://api.spotify.com/v1";
 const DEFAULT_DATE = new Date("2000-01-01");
-
-// library.gs
 const TrackUtils = (function () {
   return {
     getAndProcessTracks,
@@ -192,6 +192,7 @@ const CustomUrlFetchApp = (function () {
         })
       );
       Combiner.push(responses, responsePack);
+      Admin.pause(2); // Pause for 2 seconds after each batch
     }
     return responses;
 
@@ -4037,8 +4038,11 @@ const SpotifyRequest = (function () {
     }
   }
 
+  // In SpotifyRequest.getFullObjByIds
   function getFullObjByIds(objType, ids, limit, market) {
     market = market ? `&market=${market}` : "";
+    // Reduce the limit to 20
+    limit = 20; // Changed from 85 to 20
     let requestCount = Math.ceil(ids.length / limit);
     let offset = limit;
     let urls = [];
@@ -4613,7 +4617,7 @@ const Admin = (function () {
     isErrorLvl &&
       console.error(
         ...data,
-        `\n\nОписание и решение ошибок: https://chimildic.github.io/goofy/#/errors\nТелеграм: https://t.me/forum_goofy`
+        `\n\nDescription and solution of errors: https://chimildic.github.io/goofy/#/errors\nTelegram: https://t.me/forum_goofy`
       );
   }
 

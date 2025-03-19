@@ -1,0 +1,36 @@
+// playlistConstants.js
+const PLAYLIST_IDS = {
+  // Daily Playlists
+  HEARD_LIKED_FORGOTTEN_PLAYLIST_ID: "YOUR_HEARD_LIKED_FORGOTTEN_PLAYLIST_ID", // Replace with your actual ID
+  DISCOVER_DAILY_PLAYLIST_ID: "YOUR_DISCOVER_DAILY_PLAYLIST_ID", // Replace with your actual ID
+  //Songs to Like
+  PLEX_PLAYLIST_ID: "YOUR_PLEX_PLAYLIST_ID", // Replace with your actual ID
+  ALL_PLEX_TRACKS_ID: "YOUR_ALL_PLEX_TRACKS_ID", // Replace with your actual ID
+  PLEX_TO_LIKE_PLAYLIST_ID: "YOUR_PLEX_TO_LIKE_PLAYLIST_ID", // Replace with your actual ID
+  SPOTIFY_LIKE_PLAYLIST_ID: "YOUR_SPOTIFY_LIKE_PLAYLIST_ID", // Replace with your actual ID
+  //Pool of Memory
+  POOL_OF_MEMORY_PLAYLIST_ID: "YOUR_POOL_OF_MEMORY_PLAYLIST_ID", // Replace with your actual ID
+  //Discover Weekly Archive and Daily Jams
+  DISCOVER_WEEKLY_ARCHIVE_ID: "YOUR_DISCOVER_WEEKLY_ARCHIVE_ID", // Replace with your actual ID
+  DAILY_JAMS_ARCHIVE_ID: "YOUR_DAILY_JAMS_ARCHIVE_ID", // Replace with your actual ID
+  DAILY_JAMS_ID: "YOUR_DAILY_JAMS_ID", // Replace with your actual ID
+  //Hottest 100 Shortlist
+  HOTTEST_100_SHORTLIST_ID: "YOUR_HOTTEST_100_SHORTLIST_ID", // Replace with your actual ID
+  //Chill
+  CHILL_PLAYLIST_ID: "YOUR_CHILL_PLAYLIST_ID", // Replace with your actual ID
+  BANNED_PLAYLIST_ID: "YOUR_BANNED_PLAYLIST_ID", // Replace with your actual ID
+  DANCEABLE_PLAYLIST_ID: "YOUR_DANCEABLE_PLAYLIST_ID", // Replace with your actual ID
+  CHILL_ARCHIVE_PLAYLIST_ID: "YOUR_CHILL_ARCHIVE_PLAYLIST_ID", // Replace with your actual ID
+  DAD_KINDA_MUSIC_PLAYLIST_ID: "YOUR_DAD_KINDA_MUSIC_PLAYLIST_ID", // Replace with your actual ID
+  //Danceable
+  HAPPY_PLAYLIST_ID: "YOUR_HAPPY_PLAYLIST_ID", // Replace with your actual ID
+  DANCE_ARCHIVE_PLAYLIST_ID: "YOUR_DANCE_ARCHIVE_PLAYLIST_ID", // Replace with your actual ID
+  //Focused Work
+  QUARANTINED_PLAYLIST_ID: "YOUR_QUARANTINED_PLAYLIST_ID", // Replace with your actual ID
+  //Other
+  RECENT_TRACKS_LIMIT: 200,
+  DISCOVER_DAILY_LIMIT: 10,
+  START_DATE_FORGOTTEN: "2023-01-01",
+  DAYS_AGO_FORGOTTEN: 365,
+  MAX_TRACKS_FORGOTTEN: 100,
+};

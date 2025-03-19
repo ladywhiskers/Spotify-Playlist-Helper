@@ -347,7 +347,7 @@ function runTasks_() {
 
 There are two ways to hide functions. Such a function cannot be run directly in the code editor and is not available for triggers.
 
-The first way is useful for reducing the list of selectable functions when creating a trigger. Additionally, an example of its use is in the [trigger economy](/best-practices?id=Экономика-триггеров).
+The first way is useful for reducing the list of selectable functions when creating a trigger. Additionally, an example of its use is in the [trigger economy](/best-practices?id=trigger-economy).
 
 Add an underscore at the end of the name. In the example, the `create` function is available to run, but `update_` is not.
 
