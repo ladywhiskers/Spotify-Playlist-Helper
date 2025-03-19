@@ -13,38 +13,41 @@ Suppose there is a daily playlist that does not need to be updated on Wednesdays
 The keyword `return` is used to return a value from a function. Code after this command is never executed. Using `return` without a return value is a special case, the receiving side will get an `undefined` value. In the case of a trigger run, this is simply equivalent to the function ending.
 
 The example demonstrates that if today is Wednesday, the function terminates. The code after `return` will not be executed. But if today is another day of the week, execution will not enter the `if` branch, meaning it will not execute the `return` command, and will proceed further to the playlist update logic.
+
 ```js
-if (Selector.isDayOfWeek('Wednesday')){
-  console.log('Today is Wednesday. The playlist will not be updated.');
+if (Selector.isDayOfWeek("Wednesday")) {
+  console.log("Today is Wednesday. The playlist will not be updated.");
   return;
 }
 
 // Playlist update logic
-let tracks = Source.getPlaylistTracks('', 'id');
+let tracks = Source.getPlaylistTracks("", "id");
 // ...
 ```
+
 Another situation. We have a playlist with 40 tracks. We listen to it periodically. Let's add some branching depending on the number of listened tracks. For example, if less than or equal to 10 tracks are listened to, update all tracks. From 10 to 40 (exclusive), remove the listened tracks from the playlist. If there are 40 tracks, do not touch the playlist.
 
 ```js
-const ID_TARGET = 'id result';
+const ID_TARGET = "id result";
 
-let tracks = Source.getPlaylistTracks('', ID_TARGET);
+let tracks = Source.getPlaylistTracks("", ID_TARGET);
 Filter.removeTracks(tracks, RecentTracks.get());
 
 if (tracks.length == 40) {
-    return;
+  return;
 } else if (tracks.length > 10 && tracks.length < 40) {
-    Playlist.saveWitUpdate({
-        id: ID_TARGET,
-        tracks: tracks,
-    });
+  Playlist.saveWitUpdate({
+    id: ID_TARGET,
+    tracks: tracks,
+  });
 } else {
-    Playlist.saveWithReplace({
-        id: ID_TARGET,
-        tracks: Source.getPlaylistTracks('', 'id result'),
-    });
+  Playlist.saveWithReplace({
+    id: ID_TARGET,
+    tracks: Source.getPlaylistTracks("", "id result"),
+  });
 }
 ```
+
 ## Debugging
 
 Debugging allows you to stop code execution at any point and analyze the values at that moment.
@@ -62,17 +65,19 @@ As a result, the debugger will open on the right, where you can view intermediat
 ![Debugger](/img/debuger.png)
 
 When running a function through a trigger, various information might be needed. For example, the number of tracks before and after filters. To output such messages, use the `console.log` function.
+
 ```js
 let tracks = Source.getSavedTracks();
-console.log('Number of favorite tracks', tracks.length);
+console.log("Number of favorite tracks", tracks.length);
 ```
 
 ![Log example](/img/example-log.png)
 
 To solve the task of getting track names, output them as follows:
+
 ```js
 let tracks = Source.getSavedTracks();
-tracks.forEach(track => console.log(track.name));
+tracks.forEach((track) => console.log(track.name));
 ```
 
 Additionally, [hotkeys](https://github.com/Chimildic/goofy/discussions/112) for quick navigation to the function description directly from the code editor can be useful.
@@ -107,19 +112,19 @@ Now you have two goofy projects: the main one and a copy. Each is authorized und
 ```js
 // copy project
 function saveWithReplace(data) {
-  return Playlist.saveWithReplace(data)
+  return Playlist.saveWithReplace(data);
 }
 
 function getFollowedTracks(params) {
-  return Source.getFollowedTracks(params)
+  return Source.getFollowedTracks(params);
 }
 
 function getSavedTracks(limit) {
-  return Source.getSavedTracks(limit)
+  return Source.getSavedTracks(limit);
 }
 
 function getUserId() {
-  return User.id
+  return User.id;
 }
 ```
 
@@ -129,19 +134,23 @@ Now you can call `CopyGoofy` to invoke functions.
 // main project
 function example() {
   // Tracks from the main account
-  let followedTracksFirstAccount = Source.getFollowedTracks({ type: 'followed' })
+  let followedTracksFirstAccount = Source.getFollowedTracks({
+    type: "followed",
+  });
   // Tracks from the copy account
-  let followedTracksSecondAccount = CopyGoofy.getFollowedTracks({ type: 'followed' })
+  let followedTracksSecondAccount = CopyGoofy.getFollowedTracks({
+    type: "followed",
+  });
 
   // Create a playlist under the main account
   Playlist.saveWithReplace({
     // ...
-  })
+  });
 
   // Create a playlist under the copy account
   CopyGoofy.saveWithReplace({
-    // ...    
-  })
+    // ...
+  });
 
   // Due to Apps Script limitations, the following syntax is not possible. Hence, wrapper functions are created.
   // Error: CopyGoofy.Playlist.saveWithReplace()
@@ -149,27 +158,28 @@ function example() {
 ```
 
 The main account can also read files directly from the copy's folder.
+
 ```js
 // main project
-Cache.read(`root/${CopyGoofy.getUserId()}/filename.json`)
+Cache.read(`root/${CopyGoofy.getUserId()}/filename.json`);
 ```
 
 ```js
 // copy project
 function saveWithReplace(data) {
-  return Playlist.saveWithReplace(data)
+  return Playlist.saveWithReplace(data);
 }
 
 function getFollowedTracks(params) {
-  return Source.getFollowedTracks(params)
+  return Source.getFollowedTracks(params);
 }
 
 function getSavedTracks(limit) {
-  return Source.getSavedTracks(limit)
+  return Source.getSavedTracks(limit);
 }
 
 function getUserId() {
-  return User.id
+  return User.id;
 }
 ```
 
@@ -179,19 +189,23 @@ Now you can call `CopyGoofy` to invoke functions.
 // main project
 function example() {
   // Tracks from the main account
-  let followedTracksFirstAccount = Source.getFollowedTracks({ type: 'followed' })
+  let followedTracksFirstAccount = Source.getFollowedTracks({
+    type: "followed",
+  });
   // Tracks from the copy account
-  let followedTracksSecondAccount = CopyGoofy.getFollowedTracks({ type: 'followed' })
+  let followedTracksSecondAccount = CopyGoofy.getFollowedTracks({
+    type: "followed",
+  });
 
   // Create a playlist under the main account
   Playlist.saveWithReplace({
     // ...
-  })
+  });
 
   // Create a playlist under the copy account
   CopyGoofy.saveWithReplace({
-    // ...    
-  })
+    // ...
+  });
 
   // Due to Apps Script limitations, the following syntax is not possible. Hence, wrapper functions are created.
   // Error: CopyGoofy.Playlist.saveWithReplace()
@@ -199,10 +213,12 @@ function example() {
 ```
 
 The main account can also read files directly from the copy's folder.
+
 ```js
 // main project
-Cache.read(`root/${CopyGoofy.getUserId()}/filename.json`)
+Cache.read(`root/${CopyGoofy.getUserId()}/filename.json`);
 ```
+
 ## Command Palette
 
 The command palette is a list of actions available to the code editor. Here are some useful ones.
@@ -212,29 +228,29 @@ Place the cursor on any line of code and press <kbd>F1</kbd> or right-click to o
 ![Command Palette - Font](/img/cmdp-font.gif)
 
 - Quick Copy. Place the cursor anywhere in the line. Hold down <kbd>Shift</kbd><kbd>Alt</kbd> and press <kbd>↓</kbd>. The same effect occurs with a selected code fragment.
-  
+
   ![Quick Copy](/img/cmdp-fast-copy.gif)
 
 - Vertical Selection. Place the cursor in the desired location. Hold down <kbd>Shift</kbd><kbd>Alt</kbd> and drag the mouse to the opposite corner.
-  
+
   ![Vertical Selection](/img/cmdp-vertical-select.gif)
 
 - Vertical Selection without Mouse. Use the arrow keys to reach the desired position. Hold down <kbd>Ctrl</kbd><kbd>Alt</kbd> and press the up or down arrow. Then hold down <kbd>Ctrl</kbd><kbd>Shift</kbd> and press the left or right arrow.
-  
+
   ![Vertical Selection without Mouse](/img/cmdp-vertical-select-no-mouse.gif)
 
 - Rename. Select a word, such as a variable, and press <kbd>F2</kbd>. All mentions will change to the new name.
-  
+
   ![Rename Variable](/img/cmdp-rename-f2.gif)
 
 - Move Line. Place the cursor anywhere in the line. Hold down <kbd>Alt</kbd> and press the up or down arrow. Similarly for selection.
-  
+
   ![Move Line](/img/cmdp-move-code.gif)
 
 - Comment Action. Place the cursor anywhere in the line and press <kbd>Ctrl</kbd><kbd>/</kbd>, the line will be commented. Pressing again will remove the comment. Similarly for a selected fragment.
-  
+
   For multi-line comments, use the combination <kbd>Shift</kbd><kbd>Alt</kbd><kbd>A</kbd>
-  
+
   ![Multi-line Comment](img/cmdp-fast-comment.gif)
 
 - The combination for quick formatting is <kbd>Shift</kbd><kbd>Alt</kbd><kbd>F</kbd>
@@ -253,6 +269,7 @@ The simplest way is the Spotify console. An add-on that calls API methods with s
 3. Add the artist's _id_ in the field and click the `try it` button.
 
 The response on the right will show all available attributes of the artist. For example, genres. Use them in [rangeTracks](/reference/filter?id=rangetracks) for `genres` or `ban_genres`
+
 ```js
 "genres": [
   "candy pop",
@@ -277,19 +294,20 @@ Elements are iterated in a loop, and the necessary information is logged. Not su
 
 ```js
 // Artist and their genres
-artists.forEach(a => console.log(a.name, a.genres));
+artists.forEach((a) => console.log(a.name, a.genres));
 
 // List of: artist - track
-console.log(tracks.map(t => `${t.artists[0].name} - ${t.name}`).join('\n'));
+console.log(tracks.map((t) => `${t.artists[0].name} - ${t.name}`).join("\n"));
 ```
 
 ## Advanced Trigger
 
-In the [trigger economy](/best-practices?id=Экономика-триггеров) section, a method of reducing triggers by combining functions with **similar schedules** is described. For example, updating daily playlists. Instead of the "1 trigger = 1 function" scheme, switch to "1 trigger = 2+ functions". This section describes the "1 trigger = all functions" method, regardless of schedule similarity.
+In the [trigger economy](/best-practices?id=trigger-economy) section, a method of reducing triggers by combining functions with **similar schedules** is described. For example, updating daily playlists. Instead of the "1 trigger = 1 function" scheme, switch to "1 trigger = 2+ functions". This section describes the "1 trigger = all functions" method, regardless of schedule similarity.
 
 As an illustration, the `runTasks_` function. It is activated by one trigger every 15 minutes but performs three functions (tasks) at different times thanks to the Clerk: updating the listening history every 15 minutes, adding new likes to the cache daily, and rewriting the likes cache weekly in case tracks are deleted.
 
 The Clerk is a software module `Clerk` with two functions:
+
 - `runOnceAfter` - perform a task once a day after a specified time of day.
 - `runOnceAWeek` - perform a task on a specific day of the week after a specified time of day.
 
@@ -307,9 +325,13 @@ According to the comments:
 ```js
 // Trigger: every 15 minutes (1)
 function runTasks_() {
-  RecentTracks.update() // runs every 15 minutes (2)
-  let isUpdatedSavedTracks = Clerk.runOnceAWeek('monday', '01:00', updateSavedTracks) // (3)
-  !isUpdatedSavedTracks && Clerk.runOnceAfter('01:00', appendSavedTracks) // (4)
+  RecentTracks.update(); // runs every 15 minutes (2)
+  let isUpdatedSavedTracks = Clerk.runOnceAWeek(
+    "monday",
+    "01:00",
+    updateSavedTracks
+  ); // (3)
+  !isUpdatedSavedTracks && Clerk.runOnceAfter("01:00", appendSavedTracks); // (4)
 
   function updateSavedTracks(tracks) {
     // runs every Monday after 1 AM
@@ -330,9 +352,9 @@ The first way is useful for reducing the list of selectable functions when creat
 Add an underscore at the end of the name. In the example, the `create` function is available to run, but `update_` is not.
 
 ```js
-function create(){}
+function create() {}
 
-function update_(){}
+function update_() {}
 ```
 
 - This way, the `runTasks_` function is hidden (the trigger for it is created programmatically).
@@ -344,13 +366,13 @@ The second way is useful for isolating repetitive blocks. For example, when diff
 JavaScript allows defining a function inside another function, thereby reducing its scope. In the example, the `get` function is available for calls inside `append` but not visible inside `update`.
 
 ```js
-function update(){}
+function update() {}
 
-function append(){
-
-  function get(){}
+function append() {
+  function get() {}
 }
 ```
+
 ## Request Economy
 
 Apps Script provides a daily quota of 20,000 requests. When this limit is reached, it becomes impossible to fetch tracks or modify playlists. The exact time of quota reset is unknown.
@@ -360,9 +382,10 @@ Functions that make many requests in a single call have a corresponding note in 
 ?> Reducing the number of requests saves quota and execution time.
 
 Suppose you need to remove favorite tracks from the source and randomly select ten favorite tracks for a playlist.
+
 ```js
 // Correct version
-let topTracks = Source.getTopTracks('long');
+let topTracks = Source.getTopTracks("long");
 let savedTracks = Source.getSavedTracks();
 
 Filter.removeTracks(topTracks, savedTracks);
@@ -370,6 +393,7 @@ Selector.keepRandom(savedTracks, 10);
 ```
 
 Several mistakes can be made. These examples are not fictional; they have been found in user algorithms.
+
 ```js
 // Not creating a variable for savedTracks
 // Error: fetching the same tracks twice
@@ -389,150 +413,162 @@ Filter.removeTracks(topTracks, Source.getSavedTracks());
 
 1. When the algorithm requires the same set of elements, try changing the order. As shown in the _correct version_ above, use the full set wherever needed and only then modify it.
 2. If this is not possible, create a copy instead of making new requests.
+
 ```js
 let savedTracks = Source.getSavedTracks();
 let copySavedTracks = Selector.sliceCopy(savedTracks);
 ```
 
 The `getCountRequest` function returns the number of requests made from the start of execution to the function call. The value is not cached and resets to zero with each run. Add the following line of code at the end of your function to compare the quality of your optimization.
+
 ```js
-console.log('Number of requests', CustomUrlFetchApp.getCountRequest());
+console.log("Number of requests", CustomUrlFetchApp.getCountRequest());
 ```
 
 Consider the impact of functions that can select a _random_ number of elements. For example, each artist has a different number of albums, which will affect the number of requests made with each new run.
 
-## Экономика триггеров
+## Trigger Economy
 
-Согласно [ограничением](/details?id=Ограничения), на один проект (копию библиотеки) приходится 20 триггеров. При этом один всегда занят обновлением истории прослушиваний.
+According to the [limitations](/details?id=limitations), each project (library copy) is limited to 20 triggers. One of these is always used for updating the listening history.
 
-Предположим, что есть 3 ежедневных плейлиста. Каждая функция вызывается отдельным триггером. 
+Suppose there are 3 daily playlists. Each function is called by a separate trigger.
 
 ```js
-function createSavedAndForgot(){}
+function createSavedAndForgot() {}
 
-function createDailyMix(){}
+function createDailyMix() {}
 
-function createRecom(){}
+function createRecom() {}
 ```
 
-Если время запуска не имеет особого значения, объединим функции. Тем самым экономя 2 триггера.
-- [скроем функции](/best-practices?id=Скрытие-функции)
-- удалим предыдущие триггеры
-- создадим новый триггер для объединяющей функции `createEveryDayPlaylists`
+If the execution time is not critical, we can combine these functions, thus saving 2 triggers.
+
+- [hide the functions](/best-practices?id=hiding-functions)
+- delete the previous triggers
+- create a new trigger for the combined function `createEveryDayPlaylists`
 
 ```js
-function createEveryDayPlaylists(){
-    createSavedAndForgot_();
-    createDailyMix_();
-    createRecom_();
+function createEveryDayPlaylists() {
+  createSavedAndForgot_();
+  createDailyMix_();
+  createRecom_();
 }
 
-function createSavedAndForgot_(){}
-function createDailyMix_(){}
-function createRecom_(){}
+function createSavedAndForgot_() {}
+function createDailyMix_() {}
+function createRecom_() {}
 ```
 
-?> При этом важно проследить за другим ограничением - временем выполнения (6 минут). Для корректной работы, время выполнения совокупности объединенных функций не должно превысить этот предел.
+?> It is important to monitor another limitation - execution time (6 minutes). For proper operation, the combined functions' total execution time should not exceed this limit.
 
 ## Google Drive
 
-### Путь до файла
+### File Path
 
-С версии 1.6.1 поддерживается создание файлов в папках. Все данные по-прежнему размещаются в корневой папке `Goofy Data`. Скрипты предыдущих версий не требуют изменений.
+Starting from version 1.6.1, creating files in folders is supported. All data is still placed in the root `Goofy Data` folder. Scripts from previous versions do not require changes.
 
-Создаваемые папки делятся на два вида:
-- _Папки аккаунта_. Создаются автоматически в корне с именем _id_ аккаунта Spotify.
-- _Пользовательские_. Создаются вами при использовании модуля [Cache](/reference/cache).
+The created folders are divided into two types:
 
-?> Описываемые примеры работы с папками справедливы для всех функций `Cache`
+- _Account folders_. Automatically created in the root with the name of the Spotify account _id_.
+- _Custom folders_. Created by you when using the [Cache](/reference/cache) module.
 
-Пример 1 - Для создания файла укажите только имя. Он будет находится в _папке аккаунта_.
+?> The described examples of working with folders are valid for all `Cache` functions.
+
+Example 1 - To create a file, specify only the name. It will be located in the _account folder_.
+
 ```js
-Cache.write('MySavedTracks.json', []);
+Cache.write("MySavedTracks.json", []);
 ```
 
-Пример 2 - Чтобы создать _пользовательскую_ папку, укажите в строке: имя папки, слэш `/`, имя файла. Ниже пример создания файла `example.json` в папке `test`, которая разместится в _папке аккаунта_.
+Example 2 - To create a _custom_ folder, specify in the string: the folder name, a slash `/`, and the file name. Below is an example of creating the `example.json` file in the `test` folder, which will be placed in the _account folder_.
+
 ```js
-Cache.write('test/example.json', []);
+Cache.write("test/example.json", []);
 ```
 
-Пример 3 - Новую _пользовательскую_ папку можно создать в корне `Goofy Data`. Для этого укажите зарезервированное слово `root` и добавьте слэш `/`. Ниже пример создания файла `example.json`, который будет располагаться в папке `shared` в корне `Goofy Data`.
-```js
-Cache.write('root/shared/example.json', []);
+Example 3 - A new _custom_ folder can be created in the root of `Goofy Data`. To do this, specify the reserved word `root` and add a slash `/`. Below is an example of creating the `example.json` file, which will be located in the `shared` folder in the root of `Goofy Data`.
 
-// Аналогично
-Cache.write('../shared/example.json', []);
+```js
+Cache.write("root/shared/example.json", []);
+
+// Similarly
+Cache.write("../shared/example.json", []);
 ```
 
-Пример 4 - Если не хотите запутаться в расположениях, явно указывайте зарезервированные слова `root` и `user`, чтобы различать начало пути.
-```js
-// Папка shared в корне Goofy Data
-Cache.write('root/shared/example.json', []);
-Cache.write('../shared/example.json', []);
+Example 4 - If you do not want to get confused about locations, explicitly specify the reserved words `root` and `user` to distinguish the start of the path.
 
-// Папка myfolder в папке аккаунта
-Cache.write('user/myfolder/example.json', []);
-Cache.write('./myfolder/example.json', []);
+```js
+// The shared folder in the root of Goofy Data
+Cache.write("root/shared/example.json", []);
+Cache.write("../shared/example.json", []);
+
+// The myfolder folder in the account folder
+Cache.write("user/myfolder/example.json", []);
+Cache.write("./myfolder/example.json", []);
 ```
 
-Пример 5 - Вложенность папок не ограничивается. 
+Example 5 - Folder nesting is not limited.
+
 ```js
-Cache.write('root/shared/radio/rock/lastfm.json', []);
-Cache.write('user/private/radio/pixie.json', []);
+Cache.write("root/shared/radio/rock/lastfm.json", []);
+Cache.write("user/private/radio/pixie.json", []);
 ```
 
-Пример 6 - Если у вас несколько аккаунтов Spotify пользуются проектами goofy на одном аккаунте Google, можете создавать _файлы общего назначения_. Например, один проект собирает треки для радио и сохраняет в общую папку, а второй аккаунт просто читает этот файл не тратя свое время на такой же поиск.
+Example 6 - If you have multiple Spotify accounts using goofy projects on one Google account, you can create _shared files_. For instance, one project collects tracks for a radio and saves them in a shared folder, while the second account simply reads this file without spending time on the same search.
 
-?> Нельзя разместить файл в корневой папке `Goofy Data`. Они всегда будут переносится в папку аккаунта. Сделано для того, чтобы большинству не пришлось руками изменять структуру Диска. Обязательно укажите хотя бы одну папку, которая будет находится на одному уровне с папками аккаунта. 
+?> You cannot place a file in the root `Goofy Data` folder. They will always be moved to the account folder. This is done so that most users do not have to manually change the Drive structure. Be sure to specify at least one folder that will be at the same level as the account folders.
 
 ```js
-// Первый проект пишет в файл
-Cache.write('root/shared/myradio.json', []);
+// The first project writes to the file
+Cache.write("root/shared/myradio.json", []);
 
-// Второй проект читает его
-let radioTracks = Cache.read('root/shared/myradio.json');
+// The second project reads it
+let radioTracks = Cache.read("root/shared/myradio.json");
 ```
 
-### Управление версиями
+### Version Control
 
-Файлы от [Cache](/reference/cache) хранятся на [Google Диске](https://drive.google.com/). В том числе [история прослушиваний](/details?id=История-прослушиваний). Удаленный файл попадает в корзину, где доступен еще 30 дней. Каждый файл имеет до 100 версий. Каждая запись в один и тот же файл создает новую версию. 
+Files from [Cache](/reference/cache) are stored on [Google Drive](https://drive.google.com/), including the [listening history](/details?id=Listening-History). A deleted file goes to the trash, where it is available for another 30 days. Each file can have up to 100 versions. Each write to the same file creates a new version.
 
-Если нужно откатиться к предыдущей версии файла
-1. Зайдите в папку `Goofy Data` на [Google Диске](https://drive.google.com/)
-2. Нажмите правой кнопкой мыши по файлу и выберите пункт `управлять версиями`
-3. Найдите версию по дате изменения и в меню трех точек скачайте его
-4. В этом же окне нажмите кнопку `загрузить новую версию` и выберите ранее скачанный файл
+To revert to a previous version of a file:
 
-?> При откате истории прослушиваний, не оставляйте пустой файл. В нем должен быть хотя бы пустой массив `[]`.
+1. Go to the `Goofy Data` folder on [Google Drive](https://drive.google.com/)
+2. Right-click on the file and select `manage versions`
+3. Find the version by the modification date and download it from the three-dot menu
+4. In the same window, click the `upload new version` button and select the previously downloaded file
 
-## keep и slice
+?> When reverting the listening history, do not leave an empty file. It should contain at least an empty array `[]`.
 
-Среди функций `Selector` есть группа, которая начинается со слов `keep` и `slice`. Когда какую использовать?
+## keep and slice
 
-Их различие заключается в отсутствии и наличии возвращаемого значения:
-- Группа `keep` вызывает внутри себя функцию `replace`. Тем самым заменяя элементы исходного массива на новые. 
-- Группа `slice` не изменяет исходный массив. Создается новый массив и возвращается как результат.
+Among the `Selector` functions, there is a group that starts with the words `keep` and `slice`. When should you use each?
+
+The difference lies in the absence or presence of a return value:
+
+- The `keep` group calls the `replace` function internally, thereby replacing the elements of the original array with new ones.
+- The `slice` group does not modify the original array. A new array is created and returned as a result.
 
 ```js
-// Данный код
-let tracks = Source.getTopTracks('long');
+// This code
+let tracks = Source.getTopTracks("long");
 tracks = Selector.sliceFirst(tracks, 10);
 
-// Эквивалентен этому
-let tracks = Source.getTopTracks('long');
+// Is equivalent to this
+let tracks = Source.getTopTracks("long");
 Selector.keepFirst(tracks, 10);
 ```
 
-Тогда зачем нужно две группы? Зависит от контекста использования. С `keep` код выглядит чище. Нет постоянных приравниваний в ту же переменную.
+Then why do we need two groups? Depends on the context of use. With `keep` the code looks cleaner. No constant equating to the same variable
 
-Функции `slice` полезны для комбинирования:
+`slice` functions are useful for combining:
+
 ```js
-// Выбор в одну строку
+// Selection in one line
 let tracks = Selector.sliceRandom(RecentTracks.get(), 100);
 
-// Выбор до обновления плейлиста
+// Selection before updating the playlist
 Playlist.saveWithReplace({
-    // ...
-    tracks: Selector.sliceFirst(tracks, 50),
+  // ...
+  tracks: Selector.sliceFirst(tracks, 50),
 });
 ```
