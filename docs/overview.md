@@ -1,20 +1,20 @@
-<center><img width="40%" style="margin: 4em 0 2em 0" src="img/logo.svg"></img></center>
+This is my version of <a target="_blank" href="https://github.com/Chimildic/goofy">Goofy, written by Chimildic</a>. Detail about how to use and install is best found there, and I'm sure my changes can be reverse engineered.
 
-<center style="margin: 0 0 0 0">Конструктор плейлистов Spotify. Сбор треков, фильтр, обновление по событиям. Бесплатно.</center>
+My configuration for this is in the examples folder, feel free to have an explore. There are some minor additions in the library file, but most of the heavy lifting is performed by main.
 
-<center>Выполните <a target="_blank" href="https://chimildic.github.io/goofy/#/install">установку</a> и создайте свой <a target="_blank" href="https://chimildic.github.io/goofy/#/first-playlist">первый плейлист</a>.</center>
-</br>
+<p align="center">Spotify Playlist Constructor. Collect tracks, filter, update by events. Free.</p>
+<p align="center">Follow the <a target="_blank" href="https://chimildic.github.io/goofy/#/install">installation</a> and create your <a target="_blank" href="https://chimildic.github.io/goofy/#/first-playlist">first playlist</a>.</p>
 
-<center><p align="center">Для андроид есть приложение <a target="_blank" href="https://play.google.com/store/apps/details?id=ru.chimildic.audiolist">Audiolist</p></center>
+<p align="center"><a target="_blank" href="https://play.google.com/store/apps/details?id=ru.chimildic.audiolist">Audiolist</a></p>
 
-<center><a target="_blank" href="https://t.me/forum_goofy"><img alt="Чат" src="https://img.shields.io/badge/Telegram-Чат-blue?logo=telegram&logoColor=white"></a></center>
+<p align="center"><a target="_blank" href="https://t.me/forum_goofy"><img alt="Chat" src="https://img.shields.io/badge/Telegram-Chat-blue?logo=telegram&logoColor=white"></a></p>
+ 
+## Features
 
-## Возможности
-
-- отслеживает историю прослушиваний
-- собирает рекомендации и новые релизы
-- имеет большой набор фильтров
-- импортирует <a target="_blank" href="https://chimildic.github.io/goofy/#/addon?id=Импорт-треков-с-радио">FM-радио</a> и Last.fm
-- поддерживает расширенный поиск
-- позволяет динамически менять очередь треков
-- работает по расписанию и событиям <a target="_blank" href="https://github.com/Chimildic/goofy/discussions/124">Tasker</a>
+- tracks listening history
+- replicates functions of <a target="_blank" href="http://smarterplaylists.playlistmachinery.com/about.html">Smarter Playlists</a> and <a target="_blank" href="http://playlistminer.playlistmachinery.com/">Playlist Miner</a>
+- has a large set of filters
+- imports from <a target="_blank" href="https://chimildic.github.io/goofy/#/addon?id=FM-radio">FM radio</a> and Last.fm
+- supports advanced search
+- allows dynamic track queue changes
+- works on schedule and events with <a target="_blank" href="https://github.com/Chimildic/goofy/discussions/124">Tasker</a>
