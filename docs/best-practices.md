@@ -1,33 +1,32 @@
-# Полезный опыт
+# Useful Experience
 
-Советы по работе с goofy и Apps Script
+Tips for working with goofy and Apps Script
 
-## Ветвление алгоритма
+## Branching Algorithm
 
-Алгоритм не обязан быть линейным. Если по какой-то причине не нужно обновлять плейлист, функцию можно прервать.
+An algorithm does not have to be linear. If for some reason the playlist does not need to be updated, the function can be terminated.
 
-Предположим, есть ежедневный плейлист, который не нужно обновлять в среду. Чтобы это реализовать, напишем условие проверки. Тем самым создав ветвление кода. 
+Suppose there is a daily playlist that does not need to be updated on Wednesdays. To implement this, we will write a condition check. This will create a branch in the code.
 
-?> О работе условия `if` почитайте отдельно [здесь](https://itchief.ru/javascript/сonditional-and-logical-operators)
+?> Read more about the `if` condition [here](https://itchief.ru/javascript/сonditional-and-logical-operators)
 
-Ключевое слово `return` используется для возврата значения из функции. Код после этой команды никогда не выполняется. Использование `return` без возвращаемого значения - частный случай, принимающая сторона получит значение `неопределенно`. В случае запуска с триггера, это просто эквивалент того, что функция завершилась.
+The keyword `return` is used to return a value from a function. Code after this command is never executed. Using `return` without a return value is a special case, the receiving side will get an `undefined` value. In the case of a trigger run, this is simply equivalent to the function ending.
 
-Пример демонстрирует, что если сегодня среда - завершаем функцию. Код после `return` не выполниться. Но если сегодня другой день недели, исполнение не попадет в ветку `if`, то есть не выполнит команду `return`, и пойдет дальше - к логике обновления плейлиста.
+The example demonstrates that if today is Wednesday, the function terminates. The code after `return` will not be executed. But if today is another day of the week, execution will not enter the `if` branch, meaning it will not execute the `return` command, and will proceed further to the playlist update logic.
 ```js
-if (Selector.isDayOfWeekRu('среда')){
-    console.log('Сегодня среда. Плейлист не будет обновлен.');
-    return;
+if (Selector.isDayOfWeek('Wednesday')){
+  console.log('Today is Wednesday. The playlist will not be updated.');
+  return;
 }
 
-// Логика обновления плейлиста
+// Playlist update logic
 let tracks = Source.getPlaylistTracks('', 'id');
 // ...
 ```
-
-Другая ситуация. Имеем плейлист с 40 треками. Переодически слушаем его. Добавим несколько ветвлений в зависимости от количества прослушанных треков. К примеру, если не прослушано менее 10 включительно, обновим все треки. От 10 до 40 не включительно, удалим прослушанные из плейлиста. При 40 не трогаем плейлист.
+Another situation. We have a playlist with 40 tracks. We listen to it periodically. Let's add some branching depending on the number of listened tracks. For example, if less than or equal to 10 tracks are listened to, update all tracks. From 10 to 40 (exclusive), remove the listened tracks from the playlist. If there are 40 tracks, do not touch the playlist.
 
 ```js
-const ID_TARGET = 'id результата';
+const ID_TARGET = 'id result';
 
 let tracks = Source.getPlaylistTracks('', ID_TARGET);
 Filter.removeTracks(tracks, RecentTracks.get());
@@ -42,74 +41,71 @@ if (tracks.length == 40) {
 } else {
     Playlist.saveWithReplace({
         id: ID_TARGET,
-        tracks: Source.getPlaylistTracks('', 'id источника'),
+        tracks: Source.getPlaylistTracks('', 'id result'),
     });
 }
 ```
+## Debugging
 
-!> Внимательно следите за словом `length`. В нем очень просто допустить опечатку.
+Debugging allows you to stop code execution at any point and analyze the values at that moment.
 
-## Выполнение отладки
+For example, you need to get all track names. But what is the key for this field: `title`, `name`, `label`, `trackname`? Iterating through them is long and inconvenient. By debugging, you will see all available keys for the track and other elements.
 
-Отладка позволяет остановить выполнение кода в любом месте и проанализировать значения к этому моменту.
+?> Spotify documentation is available [here](https://developer.spotify.com/documentation/web-api/reference/)
 
-К примеру, нужно получить все названия треков. Но какой ключ у этого поля: `title`, `name`, `label`, `trackname`? Перебирать долго и неудобно. Выполнив отладку, увидите все доступные ключи у трека и других элементов.
+Set a breakpoint by clicking next to the line number, select the function, and click `debug`.
 
-?> Документация от Spotify находится [здесь](https://developer.spotify.com/documentation/web-api/reference/)
+![Debugging](/img/fp-debug.gif)
 
-Установите точку остановки нажав рядом с номером строки, выберите функцию и нажмите `отладка`.
+As a result, the debugger will open on the right, where you can view intermediate variable values and continue execution step by step. There are 4 buttons at the top: run (to the next breakpoint or to the end), step over, step into, and step out. Try it yourself to understand it in practice.
 
-![Отладка](/img/fp-debug.gif)
+![Debugger](/img/debuger.png)
 
-В результате, справа откроется отладчик, где можно посмотреть промежуточные значения переменных, а также продолжить выполнение по шагам. Сверху 4 кнопки: запуск (до следующей точки или до конца), шаг с обходом, шаг с заходом внутрь и шаг с выходом изнутри. Попробуйте самостоятельно, чтобы понять на практике.
-
-![Отладчик](/img/debuger.png)
-
-Запуская функцию через триггер может понадобится различная информация. К примеру, какое количество треков было до и после фильтров. Для вывода подобных сообщений используйте функцию `console.log`.
+When running a function through a trigger, various information might be needed. For example, the number of tracks before and after filters. To output such messages, use the `console.log` function.
 ```js
 let tracks = Source.getSavedTracks();
-console.log('Количество любимых треков', tracks.length);
+console.log('Number of favorite tracks', tracks.length);
 ```
 
-![Пример логов](/img/example-log.png)
+![Log example](/img/example-log.png)
 
-Решая задачу получения названия треков, выведем их следующим образом
+To solve the task of getting track names, output them as follows:
 ```js
 let tracks = Source.getSavedTracks();
 tracks.forEach(track => console.log(track.name));
 ```
 
-Кроме того, полезным будут [горячие клавиши](https://github.com/Chimildic/goofy/discussions/112) для быстрого перехода к описанию функции прямо из редактора кода.
+Additionally, [hotkeys](https://github.com/Chimildic/goofy/discussions/112) for quick navigation to the function description directly from the code editor can be useful.
 
-## Несколько аккаунтов
+## Multiple Accounts
 
-Один Google аккаунт (Apps Script) может управлять несколькими аккаунтами Spotify (начиная с версии goofy 1.6.1).
+One Google account (Apps Script) can manage multiple Spotify accounts (starting from goofy version 1.6.1).
 
-Чтобы настроить goofy для дополнительного аккаунта Spotify, повторите шаги [установки](https://chimildic.github.io/goofy/#/install), но при этом:
+To set up goofy for an additional Spotify account, repeat the [installation](https://chimildic.github.io/goofy/#/install) steps, but:
 
-1. Скопируйте goofy проект, как вы это делали на [шаге 4 при установке](https://chimildic.github.io/goofy/#/install).
-2. Используйте те же значения `CLIENT_ID`, `CLIENT_SECRET`, `PRIVATE_CLIENT_ID`, `PRIVATE_CLIENT_SECRET` в _config_ файле (т.е. пропустите шаги 1-2).
-3. При выдачи прав доступа на шаге 10 входите через новый аккаунт Spotify.
+1. Copy the goofy project as you did in [step 4 of the installation](https://chimildic.github.io/goofy/#/install).
+2. Use the same `CLIENT_ID`, `CLIENT_SECRET`, `PRIVATE_CLIENT_ID`, `PRIVATE_CLIENT_SECRET` values in the _config_ file (i.e., skip steps 1-2).
+3. When granting access rights in step 10, log in through the new Spotify account.
 
-Теперь у вас два проекта с goofy: основной и копия. Каждая авторизована под разные Spotify аккаунты. Проекты могут взаимодействовать друг с другом:
+Now you have two goofy projects: the main one and a copy. Each is authorized under different Spotify accounts. Projects can interact with each other:
 
-- Общий диск. Используя [путь до файла](/best-practices?id=Путь-до-файла) функции [Cache](/reference/cache) умеют работать с файлами из других папок. По умолчанию каждый проект пишет файлы в папку с id аккаунта. То есть вы можете обновлять файлы в одном проекте и читать их в другом. 
-- Выполнив дополнительные шаги, вы сможете вызывать функции в проекте-копии находясь в проекте-основе. Функция запущенная таким образом будет использовать токен того аккаунта, в проекте которого находится.
+- Shared drive. Using the [file path](/best-practices?id=Путь-до-файла), the [Cache](/reference/cache) functions can work with files from other folders. By default, each project writes files to a folder with the account id. This means you can update files in one project and read them in another.
+- By performing additional steps, you can call functions in the copy project while being in the main project. A function launched this way will use the token of the account in which the project is located.
 
-### Управление копией
+### Managing the Copy
 
-1. Зайдите в настройки проекта-копии и скопируйте его идентификатор.
+1. Go to the settings of the copy project and copy its identifier.
 
-![Идентификатор проекта](/img/cross-project-id.png)
+![Project identifier](/img/cross-project-id.png)
 
-2. Теперь зайдите в основной проект. Напротив слова `библиотеки` нажмите кнопку плюса. Скопируйте идентификатор проекта из первого шага и укажите читаемое имя в поле идентификатор библиотеки. Например, никнейм второго Spotify аккаунта.
+2. Now go to the main project. Click the plus button next to the word `libraries`. Paste the project identifier from the first step and specify a readable name in the library identifier field. For example, the nickname of the second Spotify account.
 
-![Добавление библиотеки](/img/cross-add-library.png)
+![Adding a library](/img/cross-add-library.png)
 
-3. Чтобы проект-основа мог использовать функции проекта-копии необходимо создать публичные функции в копии. Обычно это просто обертка над функцией goofy. При этом важно указать возврат результата `return` и повторить входные аргументы (иногда их больше одного, сверяйтесь с документацией). 
+3. For the main project to use functions from the copy project, you need to create public functions in the copy. Usually, this is just a wrapper around a goofy function. It is important to specify the return result `return` and repeat the input arguments (sometimes there are more than one, refer to the documentation).
 
 ```js
-// проект-копия
+// copy project
 function saveWithReplace(data) {
   return Playlist.saveWithReplace(data)
 }
@@ -127,162 +123,211 @@ function getUserId() {
 }
 ```
 
-Теперь остается обращаться к `CopyGoofy` для вызова функций.
+Now you can call `CopyGoofy` to invoke functions.
 
 ```js
-// проект-основа
+// main project
 function example() {
-  // Треки от основы
+  // Tracks from the main account
   let followedTracksFirstAccount = Source.getFollowedTracks({ type: 'followed' })
-  // Треки от копии
+  // Tracks from the copy account
   let followedTracksSecondAccount = CopyGoofy.getFollowedTracks({ type: 'followed' })
 
-  // Создать плейлист под основой
+  // Create a playlist under the main account
   Playlist.saveWithReplace({
     // ...
   })
 
-  // Создать плейлист под копией
+  // Create a playlist under the copy account
   CopyGoofy.saveWithReplace({
     // ...    
   })
 
-  // Из-за особенностей Apps Script следующий синтаксис невозможен. Именно поэтому создаются функции-обертки.
-  // Ошибка: CopyGoofy.Playlist.saveWithReplace()
+  // Due to Apps Script limitations, the following syntax is not possible. Hence, wrapper functions are created.
+  // Error: CopyGoofy.Playlist.saveWithReplace()
 }
 ```
 
-Также основа может читать файлы напрямую из папки копии
+The main account can also read files directly from the copy's folder.
 ```js
-// проект-основа
+// main project
 Cache.read(`root/${CopyGoofy.getUserId()}/filename.json`)
 ```
 
-## Палитра команд
-
-Палитра команд - это список действий, доступных редактору кода. Приведем некоторые полезные из них.
-
-Установите курсор на любой строке кода и нажмите кнопку <kbd>F1</kbd> или вызовите контекстное меню правой кнопкой мыши и выберите палитру. В верхней части находится поле ввода для быстрого поиска команд. Справа от названия указываются горячие клавиши, если они доступны. Например, введите слово `шрифт`.
-
-![Палитра команд - Шрифт](/img/cmdp-font.gif)
-
-- Быстрое копирование. Установите курсор в любом месте строки. Зажмите клавиши <kbd>Shift</kbd><kbd>Alt</kbd> и нажимайте <kbd>↓</kbd>. Тот же эффект произойдет с выделенным фрагментом кода.
-  
-  ![Быстрое копирование](/img/cmdp-fast-copy.gif)
-
-- Вертикальное выделение. Установите курсор в требуемое место. Зажмите клавиши <kbd>Shift</kbd><kbd>Alt</kbd> и проведите мышкой в противоположный угол.
-  
-  ![Вертикальное выделение](/img/cmdp-vertical-select.gif)
-
-- Вертикальное выделение без мыши. Доберитесь стрелками до нужного положения. Зажмите <kbd>Ctrl</kbd><kbd>Alt</kbd> и нажимайте стрелку вверх или вниз. Теперь зажмите <kbd>Ctrl</kbd><kbd>Shift</kbd> и нажимайте стрелку вправо или влево.
-  
-  ![Вертикальное выделение без мыши](/img/cmdp-vertical-select-no-mouse.gif)
-
-- Переименование. Выделите слово, например переменную, и нажмите <kbd>F2</kbd>. Все упоминания сменятся на новое имя.
-  
-  ![Переименование переменной](/img/cmdp-rename-f2.gif)
-
-- Перемещение строки. Установите курсор в любое место строки. Зажмите <kbd>Alt</kbd> и нажимайте стрелку вверх или вниз. Аналогично для выделения.
-  
-  ![Перемещение строки](/img/cmdp-move-code.gif)
-
-- Действие с комментарием. Установите курсор в любом месте строки, нажмите <kbd>Ctrl</kbd><kbd>/</kbd>, строка будет закомментирована. Повторное нажатие уберет комментарий. Аналогично для выделенного фрагмента.
-  
-  Для многострочного комментария используется комбинация <kbd>Shift</kbd><kbd>Alt</kbd><kbd>A</kbd>
-  
-  ![Многострочный комментарий](img/cmdp-fast-comment.gif)
-
-- Комбинация для быстрого форматирования <kbd>Shift</kbd><kbd>Alt</kbd><kbd>F</kbd>
-- Также может стать полезным сворачивание и разворачивание всего кода. Комбинации нет, ищите в палитре.
-
-## Поиск значения
-
-Существует несколько способов найти значение элемента. Например, жанры исполнителя или минимальную границу энергичности трека.
-
-### Консоль Spotify
-
-Наиболее простой способ это консоль Spotify. Надстройка, которая вызывает методы API с заданными параметрами. 
-
-1. Зайдите в [консоль](https://developer.spotify.com/console/) и найдите необходимый метод API. Например, [исполнитель по _id_](https://developer.spotify.com/console/get-artist/).
-2. Нужен токен для совершения запроса. Нажмите кнопку `get token`. В открывшемся списке, обратите внимание на примечание `not require a specific scope`. Если оно есть, просто нажмите кнопку `request token`. В противном случае, ниже примечания будет перечень чекбоксов, которые нужно прокликать. Нижний большой список не трогайте.
-3. Добавьте _id_ исполнителя в поле и нажмите кнопку `try it`.
-
-В правой части появится ответ, который дает все доступные атрибуты исполнителя. К примеру, жанры. Именно их следует использовать в [rangeTracks](/reference/filter?id=rangetracks) для `genres` или `ban_genres`
 ```js
-"genres": [
-    "candy pop",
-    "emo",
-    "pixie",
-    "pop emo",
-    "pop punk"
-]
-```
+// copy project
+function saveWithReplace(data) {
+  return Playlist.saveWithReplace(data)
+}
 
-### Пошаговая отладка
+function getFollowedTracks(params) {
+  return Source.getFollowedTracks(params)
+}
 
-Менее удобный способ. Во многом зависит от того, какие данные необходимо найти. 
+function getSavedTracks(limit) {
+  return Source.getSavedTracks(limit)
+}
 
-[Выполняя отладку](/best-practices?id=Выполнение-отладки), установите точку остановки после интересуемой строки. Например, после получения списка исполнителей. Отладчик покажет массив элементов. В нем неудобно искать значение конкретного исполнителя.
-
-![Найти жанры исполнителя](/img/find-genres.png)
-
-### Вывод в лог
-
-Элементы перебираются в цикле, нужная информация выводится в лог. Не подойдет для поиска данных, скрытых внутри библиотеки. Например, [особенности трека](/reference/desc?id=Особенности-трека-features) напрямую не отдаются и функции для их получения недокументированны. Естественно допускается модификация кода библиотеки, но данный способ здесь не отражен.
-
-```js
-// Исполнитель и его жанры
-artists.forEach(a => console.log(a.name, a.genres));
-
-// Список вида: исполнитель - трек
-console.log(tracks.map(t => `${t.artists[0].name} - ${t.name}`).join('\n'));
-```
-
-## Продвинутый триггер
-
-В пункте [экономика триггеров](/best-practices?id=Экономика-триггеров) описан способ сокращения триггеров за счет объединения функций со **схожим расписанием**. Например, обновление ежедневных плейлистов. То есть вместо схемы "1 триггер = 1 функция" перейти к "1 триггер = 2+ функции". В этом пункте описывается способ "1 триггер = все функции", не зависимо от схожести расписания.
-
-В качестве иллюстрации, функция `runTasks_`. Она активируется одним триггером каждые 15 минут, но выполняет три функции (задачи) в разное время благодаря Клерку: обновление истории прослушиваний каждые 15 минут, добавление новых лайков в кэш каждый день и перезапись кэша лайков, на случай удаления треков, каждую неделю.
-
-Клерк это программный модуль `Clerk` с двумя функциями:
-- `runOnceAfter` - выполнять задачу каждый день один раз после заданного времени суток.
-- `runOnceAWeek` - выполнять задачу в определенный день недели после заданного времени суток.
-
-Описание функций в [документации](/reference/clerk)
-
-### Разбор примера {docsify-ignore}
-
-Согласно пометкам в комментариях
-
-1. Установлен триггер каждые 15 минут на функцию `runTasks_`.
-2. Функция `RecentTracks.update()` запускается каждые 15 минут без дополнительных условий и проверок.
-3. Проверка временного условия. Если функция `updateSavedTracks` запускалась, то `isUpdatedSavedTracks` содеражит `true`, иначе не запускалась и `false`.
-4. Если функция `updateSavedTracks` не запускалась - запустить `appendSavedTracks` при условии заданного времени. Иначе не запускать.
-
-```js
-// Триггер: каждые 15 минут (1)
-function runTasks_() {
-    RecentTracks.update() // запускается каждые 15 минут (2)
-    let isUpdatedSavedTracks = Clerk.runOnceAWeek('monday', '01:00', updateSavedTracks) // (3)
-    !isUpdatedSavedTracks && Clerk.runOnceAfter('01:00', appendSavedTracks) // (4)
-
-    function updateSavedTracks(tracks) {
-      // запускается каждый понедельник после часа ночи
-    }
-
-    function appendSavedTracks() {
-      // запускается каждый день после часа ночи
-    }
+function getUserId() {
+  return User.id
 }
 ```
 
-## Скрытие функции
+Now you can call `CopyGoofy` to invoke functions.
 
-Существует два способа для скрытия функций. Такую функцию нельзя запустить напрямую в редакторе кода и она не доступна для триггера.
+```js
+// main project
+function example() {
+  // Tracks from the main account
+  let followedTracksFirstAccount = Source.getFollowedTracks({ type: 'followed' })
+  // Tracks from the copy account
+  let followedTracksSecondAccount = CopyGoofy.getFollowedTracks({ type: 'followed' })
 
-Первый способ. Полезно для сокращения списка выбираемых функций при создании триггера. Кроме того, пример использования в [экономике триггера](/best-practices?id=Экономика-триггеров).
+  // Create a playlist under the main account
+  Playlist.saveWithReplace({
+    // ...
+  })
 
-Добавить в конец имени нижнее подчеркивание. В примере, функция `create` доступна к запуску, а `update_` нет. 
+  // Create a playlist under the copy account
+  CopyGoofy.saveWithReplace({
+    // ...    
+  })
+
+  // Due to Apps Script limitations, the following syntax is not possible. Hence, wrapper functions are created.
+  // Error: CopyGoofy.Playlist.saveWithReplace()
+}
+```
+
+The main account can also read files directly from the copy's folder.
+```js
+// main project
+Cache.read(`root/${CopyGoofy.getUserId()}/filename.json`)
+```
+## Command Palette
+
+The command palette is a list of actions available to the code editor. Here are some useful ones.
+
+Place the cursor on any line of code and press <kbd>F1</kbd> or right-click to open the context menu and select the palette. At the top, there is a search field for quick command lookup. Hotkeys, if available, are shown to the right of the command name. For example, type `font`.
+
+![Command Palette - Font](/img/cmdp-font.gif)
+
+- Quick Copy. Place the cursor anywhere in the line. Hold down <kbd>Shift</kbd><kbd>Alt</kbd> and press <kbd>↓</kbd>. The same effect occurs with a selected code fragment.
+  
+  ![Quick Copy](/img/cmdp-fast-copy.gif)
+
+- Vertical Selection. Place the cursor in the desired location. Hold down <kbd>Shift</kbd><kbd>Alt</kbd> and drag the mouse to the opposite corner.
+  
+  ![Vertical Selection](/img/cmdp-vertical-select.gif)
+
+- Vertical Selection without Mouse. Use the arrow keys to reach the desired position. Hold down <kbd>Ctrl</kbd><kbd>Alt</kbd> and press the up or down arrow. Then hold down <kbd>Ctrl</kbd><kbd>Shift</kbd> and press the left or right arrow.
+  
+  ![Vertical Selection without Mouse](/img/cmdp-vertical-select-no-mouse.gif)
+
+- Rename. Select a word, such as a variable, and press <kbd>F2</kbd>. All mentions will change to the new name.
+  
+  ![Rename Variable](/img/cmdp-rename-f2.gif)
+
+- Move Line. Place the cursor anywhere in the line. Hold down <kbd>Alt</kbd> and press the up or down arrow. Similarly for selection.
+  
+  ![Move Line](/img/cmdp-move-code.gif)
+
+- Comment Action. Place the cursor anywhere in the line and press <kbd>Ctrl</kbd><kbd>/</kbd>, the line will be commented. Pressing again will remove the comment. Similarly for a selected fragment.
+  
+  For multi-line comments, use the combination <kbd>Shift</kbd><kbd>Alt</kbd><kbd>A</kbd>
+  
+  ![Multi-line Comment](img/cmdp-fast-comment.gif)
+
+- The combination for quick formatting is <kbd>Shift</kbd><kbd>Alt</kbd><kbd>F</kbd>
+- Collapsing and expanding all code can also be useful. There is no combination, look for it in the palette.
+
+## Finding Values
+
+There are several ways to find the value of an element. For example, the genres of an artist or the minimum energy threshold of a track.
+
+### Spotify Console
+
+The simplest way is the Spotify console. An add-on that calls API methods with specified parameters.
+
+1. Go to the [console](https://developer.spotify.com/console/) and find the necessary API method. For example, [artist by _id_](https://developer.spotify.com/console/get-artist/).
+2. A token is needed to make a request. Click the `get token` button. In the opened list, pay attention to the note `not require a specific scope`. If it is there, just click the `request token` button. Otherwise, check the checkboxes below the note. Do not touch the large list at the bottom.
+3. Add the artist's _id_ in the field and click the `try it` button.
+
+The response on the right will show all available attributes of the artist. For example, genres. Use them in [rangeTracks](/reference/filter?id=rangetracks) for `genres` or `ban_genres`
+```js
+"genres": [
+  "candy pop",
+  "emo",
+  "pixie",
+  "pop emo",
+  "pop punk"
+]
+```
+
+### Step-by-Step Debugging
+
+A less convenient way. It largely depends on what data needs to be found.
+
+[While debugging](/best-practices?id=Выполнение-отладки), set a breakpoint after the line of interest. For example, after getting the list of artists. The debugger will show an array of elements. It is inconvenient to search for a specific artist's value there.
+
+![Find Artist Genres](/img/find-genres.png)
+
+### Logging
+
+Elements are iterated in a loop, and the necessary information is logged. Not suitable for finding data hidden inside the library. For example, [track features](/reference/desc?id=Особенности-трека-features) are not directly returned, and functions to get them are undocumented. Naturally, modifying the library code is allowed, but this method is not reflected here.
+
+```js
+// Artist and their genres
+artists.forEach(a => console.log(a.name, a.genres));
+
+// List of: artist - track
+console.log(tracks.map(t => `${t.artists[0].name} - ${t.name}`).join('\n'));
+```
+
+## Advanced Trigger
+
+In the [trigger economy](/best-practices?id=Экономика-триггеров) section, a method of reducing triggers by combining functions with **similar schedules** is described. For example, updating daily playlists. Instead of the "1 trigger = 1 function" scheme, switch to "1 trigger = 2+ functions". This section describes the "1 trigger = all functions" method, regardless of schedule similarity.
+
+As an illustration, the `runTasks_` function. It is activated by one trigger every 15 minutes but performs three functions (tasks) at different times thanks to the Clerk: updating the listening history every 15 minutes, adding new likes to the cache daily, and rewriting the likes cache weekly in case tracks are deleted.
+
+The Clerk is a software module `Clerk` with two functions:
+- `runOnceAfter` - perform a task once a day after a specified time of day.
+- `runOnceAWeek` - perform a task on a specific day of the week after a specified time of day.
+
+Function descriptions in the [documentation](/reference/clerk)
+
+### Example Analysis {docsify-ignore}
+
+According to the comments:
+
+1. A trigger is set to run every 15 minutes for the `runTasks_` function.
+2. The `RecentTracks.update()` function runs every 15 minutes without additional conditions or checks.
+3. Time condition check. If the `updateSavedTracks` function has run, `isUpdatedSavedTracks` contains `true`; otherwise, it has not run and contains `false`.
+4. If the `updateSavedTracks` function has not run, the `appendSavedTracks` function runs at the specified time; otherwise, it does not run.
+
+```js
+// Trigger: every 15 minutes (1)
+function runTasks_() {
+  RecentTracks.update() // runs every 15 minutes (2)
+  let isUpdatedSavedTracks = Clerk.runOnceAWeek('monday', '01:00', updateSavedTracks) // (3)
+  !isUpdatedSavedTracks && Clerk.runOnceAfter('01:00', appendSavedTracks) // (4)
+
+  function updateSavedTracks(tracks) {
+    // runs every Monday after 1 AM
+  }
+
+  function appendSavedTracks() {
+    // runs every day after 1 AM
+  }
+}
+```
+
+## Hiding Functions
+
+There are two ways to hide functions. Such a function cannot be run directly in the code editor and is not available for triggers.
+
+The first way is useful for reducing the list of selectable functions when creating a trigger. Additionally, an example of its use is in the [trigger economy](/best-practices?id=Экономика-триггеров).
+
+Add an underscore at the end of the name. In the example, the `create` function is available to run, but `update_` is not.
 
 ```js
 function create(){}
@@ -290,34 +335,33 @@ function create(){}
 function update_(){}
 ```
 
-- Таким способом сокрыта функция `runTasks_` (триггер для нее создан программно). 
-- Функцию `doGet` скрывать не рекомендуется. Она нужна для авторизации и [управления с телефона](/addon?id=Управление-с-телефона).
-- Функцию `setProperties` можно скрыть таким образом. Но при необходимости обновления параметров нужно вернуть обычное имя, чтобы получить возможность запуска в редакторе.
+- This way, the `runTasks_` function is hidden (the trigger for it is created programmatically).
+- It is not recommended to hide the `doGet` function. It is needed for authorization and [mobile management](/addon?id=Управление-с-телефона).
+- The `setProperties` function can be hidden this way. But if you need to update the parameters, you should revert to the regular name to enable running it in the editor.
 
-Второй способ. Полезно для выделения повторяющихся блоков. Например, когда разные источники требуют одинаковый набор фильтров.  
+The second way is useful for isolating repetitive blocks. For example, when different sources require the same set of filters.
 
-JavaScript позволяет определять функцию внутри другой. Тем самым сокращая область видимости. В примере, функция `get` доступна для вызова внутри `append`, но не видна внутри `update`. 
+JavaScript allows defining a function inside another function, thereby reducing its scope. In the example, the `get` function is available for calls inside `append` but not visible inside `update`.
 
 ```js
 function update(){}
 
 function append(){
 
-    function get(){}
+  function get(){}
 }
 ```
+## Request Economy
 
-## Экономика запросов
+Apps Script provides a daily quota of 20,000 requests. When this limit is reached, it becomes impossible to fetch tracks or modify playlists. The exact time of quota reset is unknown.
 
-Apps Script ежедневно выдает квоту на отправку запросов - 20 тысяч. При достижении предела, невозможно получать треки, изменять плейлисты. Точное время обновления квоты неизвестно.
+Functions that make many requests in a single call have a corresponding note in [their description](/reference/index). Simpler functions can also consume more than expected. The main reason is the number of tracks. For example, fetching 1,000 favorite tracks requires 10 requests, while 10,000 tracks require 100 requests. This is a small amount for one day, so implementing a caching mechanism via `Cache` is unnecessary. However, logical errors can easily occur.
 
-У функций, совершающих много запросов за один вызов, есть соответствующее примечание в [их описании](/reference/index). Более простые функции тоже могут забрать лишнего. Основная причина в количестве треков. Например, для 1 тысячи любимых треков понадобится 10 запросов. Для 10 тысяч уже 100 запросов. Проецируя на квоту, это незначительное количество для одного дня. Поэтому бессмысленно реализовывать механизм накопления через `Cache`. Но легко совершить логические ошибки.
+?> Reducing the number of requests saves quota and execution time.
 
-?> Сокращение количества запросов экономит квоту и время исполнения.
-
-Допустим, нужно удалить любимые треки из источника и случайно отобрать десяток любимых треков для плейлиста.
+Suppose you need to remove favorite tracks from the source and randomly select ten favorite tracks for a playlist.
 ```js
-// Правильный вариант
+// Correct version
 let topTracks = Source.getTopTracks('long');
 let savedTracks = Source.getSavedTracks();
 
@@ -325,37 +369,37 @@ Filter.removeTracks(topTracks, savedTracks);
 Selector.keepRandom(savedTracks, 10);
 ```
 
-Возможно совершить несколько ошибок. Примеры не выдуманы, они встречались в алгоритмах от пользователей goofy.
+Several mistakes can be made. These examples are not fictional; they have been found in user algorithms.
 ```js
-// Не создавать переменную для savedTracks
-// Ошибка: дважды запрос одних и тех же треков
+// Not creating a variable for savedTracks
+// Error: fetching the same tracks twice
 Filter.removeTracks(topTracks, Source.getSavedTracks());
 let tracks = Selector.sliceRandom(Source.getSavedTracks(), 10);
 
-// Вызвать Selector раньше Filter
-// Ошибка: из topTracks удалится не все (если конечно это не нужно специально)
+// Calling Selector before Filter
+// Error: not all tracks will be removed from topTracks (unless this is intentional)
 Selector.keepRandom(savedTracks, 10);
 Filter.removeTracks(topTracks, savedTracks);
 
-// Пытаться исправить предыдущую ошибку
-// Ошибка: снова лишние запросы
+// Trying to fix the previous error
+// Error: extra requests again
 Selector.keepRandom(savedTracks, 10);
 Filter.removeTracks(topTracks, Source.getSavedTracks());
 ```
 
-1. Когда алгоритм требует участия одного и того же набора элементов, попробуйте изменить порядок. Как это сделано в _правильном варианте_ выше. То есть использовать полный набор везде где нужно и только потом его модифицировать.
-2. Если так поступить нельзя, создайте копию вместо новых запросов. 
+1. When the algorithm requires the same set of elements, try changing the order. As shown in the _correct version_ above, use the full set wherever needed and only then modify it.
+2. If this is not possible, create a copy instead of making new requests.
 ```js
 let savedTracks = Source.getSavedTracks();
 let copySavedTracks = Selector.sliceCopy(savedTracks);
 ```
 
-Функция `getCountRequest` вернет значение, соответствующее тому числу запросов, которые были совершены от начала запуска до вызова функции. Значение не кэшируется. При каждом запуске отсчет начинается с нуля. Добавьте следующую строку кода в конец своей функции. Так вы сможете сравнить качество проведенной оптимизации. 
+The `getCountRequest` function returns the number of requests made from the start of execution to the function call. The value is not cached and resets to zero with each run. Add the following line of code at the end of your function to compare the quality of your optimization.
 ```js
-console.log('Число запросов', CustomUrlFetchApp.getCountRequest());
+console.log('Number of requests', CustomUrlFetchApp.getCountRequest());
 ```
 
-При этом учитывайте влияние функций, которые способны отбирать _случайное_ количество элементов. Например, у каждого исполнителя свое количество альбомов. Поэтому в дальнейшем это повлияет на число совершенных запросов при каждом новом запуске.
+Consider the impact of functions that can select a _random_ number of elements. For example, each artist has a different number of albums, which will affect the number of requests made with each new run.
 
 ## Экономика триггеров
 
