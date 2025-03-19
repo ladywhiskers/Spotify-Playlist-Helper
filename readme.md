@@ -3,6 +3,7 @@
 <p align="center">Выполните <a target="_blank" href="https://chimildic.github.io/goofy/#/install">установку</a> и создайте свой <a target="_blank" href="https://chimildic.github.io/goofy/#/first-playlist">первый плейлист</a>.</p>
 
 ## Возможности
+This is my version of <a target="_blank" href="https://github.com/Chimildic/goofy">Goofy, written by Chimildic</a>. Detail about how to use and install is best found there, and I'm sure my changes can be reverse engineered. 
 
 - отслеживает историю прослушиваний
 - повторяет функции <a target="_blank" href="http://smarterplaylists.playlistmachinery.com/about.html">Smarter Playlists</a> и <a target="_blank" href="http://playlistminer.playlistmachinery.com/">Playlist Miner</a></li>
