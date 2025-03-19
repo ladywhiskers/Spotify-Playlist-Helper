@@ -1,41 +1,42 @@
-# Аддоны
+# Add-ons
 
-Полезные расширения основных функций
+Useful extensions of the main functions
 
-### Управление с телефона
+### Mobile Control
 
-Позволяет запускать функции вручную, без триггеров и редактора. В том числе с передачей аргументов.
+Allows you to manually run functions without triggers and editor. Including passing arguments.
 
-Все подробности [в теме](https://github.com/Chimildic/goofy/discussions/9).
+All details [in the topic](https://github.com/Chimildic/goofy/discussions/9).
 
-![Управлять с телефона](img/remote-control.png ':size=50%')
+![Control from mobile](img/remote-control.png ":size=50%")
 
-### Импорт треков с радио
+### Import Tracks from Radio
 
-Позволяет импортировать треки с FM и интернет-радио.
+Allows you to import tracks from FM and internet radio.
 
-Несколько вариантов. Выбор зависит от того какая станция вам нужна:
+Several options. The choice depends on which station you need:
+
 - [the-radio](https://github.com/Chimildic/goofy/discussions/35)
 - [pcradio](https://github.com/Chimildic/goofy/discussions/60)
-- [AudioAddict](https://github.com/Chimildic/goofy/discussions/57) (di.fm и прочее)
+- [AudioAddict](https://github.com/Chimildic/goofy/discussions/57) (di.fm and others)
 - [Radio Paradise](https://4pda.to/forum/index.php?s=&showtopic=715234&view=findpost&p=105313450)
 
-?> Если не нашли желаемую станцию или хотите другой источник, напишите [на форум](https://github.com/Chimildic/goofy/discussions)
+?> If you can't find the desired station or want another source, write [on the forum](https://github.com/Chimildic/goofy/discussions)
 
-### Рекомендации из прошлого
+### Recommendations from the Past
 
-Для пользователей Last.fm. [Тема](https://github.com/Chimildic/goofy/discussions/91) описывает пример использования функции [getCustomTop](/reference/lastfm?id=getcustomtop), с помощью которой создается плейлист `Омут памяти`, состоящий из хороших, но забытых треков.
+For Last.fm users. [The topic](https://github.com/Chimildic/goofy/discussions/91) describes an example of using the [getCustomTop](/reference/lastfm?id=getcustomtop) function, which creates the `Memory Pool` playlist consisting of good but forgotten tracks.
 
-### Скипы прослушиваний
+### Listening Skips
 
-[Данный способ](https://github.com/Chimildic/goofy/discussions/53) основан на чтении файлов, которые Spotify создает локально на устройстве. Тем самым давая доступ к трекам, которые быстро пропущены и не попали в зону видимости [основного механизма сбора истории](/details?id=История-прослушиваний). 
+[This method](https://github.com/Chimildic/goofy/discussions/53) is based on reading files that Spotify creates locally on the device. Thus giving access to tracks that were quickly skipped and did not fall into the visibility zone of the [main history collection mechanism](/details?id=История-прослушиваний).
 
-### Новые релизы
+### New Releases
 
-Импортирует треки выбранного жанра с сайта [Every Noise](https://everynoise.com/new_releases_by_genre.cgi). Описание [в теме](https://github.com/Chimildic/goofy/discussions/36).
+Imports tracks of the selected genre from the [Every Noise](https://everynoise.com/new_releases_by_genre.cgi) website. Description [in the topic](https://github.com/Chimildic/goofy/discussions/36).
 
-?> Для получения релизов отслеживаемых исполнителей, воспользуйтесь функцией [getArtistsTracks](/reference/source?id=getartiststracks) с параметром `release_date`
+?> To get releases of tracked artists, use the [getArtistsTracks](/reference/source?id=getartiststracks) function with the `release_date` parameter
 
-### Прочее
+### Other
 
-Ещё больше примеров описано [на форуме](https://github.com/Chimildic/goofy/discussions) под категорией _личный опыт_.
+Even more examples are described [on the forum](https://github.com/Chimildic/goofy/discussions) under the _personal experience_ category.
