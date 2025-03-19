@@ -1,104 +1,104 @@
 # Audiolist
 
-Начиная с версии `2.1` goofy умеет принимать запросы от [андроид приложения Audiolist](https://play.google.com/store/apps/details?id=ru.chimildic.audiolist) и возвращать ответ при необходимости.
+Starting from version `2.1`, goofy can accept requests from the [Audiolist Android app](https://play.google.com/store/apps/details?id=ru.chimildic.audiolist) and return a response if necessary.
 
-## Настройка
+## Setup
 
 ### goofy
 
-1. Обновите goofy до последней версии ([файл library](https://github.com/Chimildic/goofy/blob/main/library.js)). Для перехода с версии `1.x` на `2.x` воспользуйтесь [миграцией](/migrate2).
-2. В редакторе кода нажмите _начать развертывание_ > _новое развертывание_. Убедитесь, что выбрана конфигурация с веб-приложением и доступом для всех. Нажмите _начать развертывание_.
+1. Update goofy to the latest version ([library file](https://github.com/Chimildic/goofy/blob/main/library.js)). To migrate from version `1.x` to `2.x`, use the [migration guide](/migrate2).
+2. In the code editor, click _start deployment_ > _new deployment_. Make sure the configuration with the web application and access for everyone is selected. Click _start deployment_.
 
-   ![Новое развертывание](/img/new-deploy-audiolist.png ':size=60%')
+    ![New Deployment](/img/new-deploy-audiolist.png ':size=60%')
 
-3. Скопируйте `идентификатор развертывания` и удобным вам способом перенесите на устройство где установлен Audiolist.
+3. Copy the `deployment identifier` and transfer it to the device with Audiolist installed in a convenient way.
 
-   !> Не передавайте идентификатор другим пользователям. Они смогут запускать ваши функции.
+    !> Do not share the identifier with other users. They will be able to run your functions.
 
 ### Audiolist
 
-1. Создайте программу в Audiolist и добавьте из общего списка команду `функция goofy`. 
-2. При заполнении формы команды оставьте поля с переменными пустыми. Укажите `идентификатор развертывания`, полученный при настройке goofy. В качестве _имени функции_ для примера используем `Audiolist.hello`
+1. Create a program in Audiolist and add the `goofy function` command from the general list.
+2. When filling out the command form, leave the fields with variables empty. Enter the `deployment identifier` obtained during the goofy setup. For example, use `Audiolist.hello` as the _function name_.
 
-  ![Команда "Функция goofy"](/img/goofy-command-audiolist.jpg ':size=60%')
+  ![Goofy Function Command](/img/goofy-command-audiolist.jpg ':size=60%')
 
-3. Выйдите из редактора программы и запустите выполнение программы. Если все сделано верно, в логах появится сообщение от goofy.
+3. Exit the program editor and run the program. If everything is done correctly, a message from goofy will appear in the logs.
 
-## Использование
+## Usage
 
-Чтобы все прошло гладко важно три вещи:
+To ensure everything runs smoothly, three things are important:
 
-1. Правильное имя функции в настройках команды. Регистр букв имеет значение.
-2. Возврат результата. Audiolist использует типизированный язык программирования и ожидает относительно строгий формат ответа.
-3. Обновление развертывания при любом изменении кода goofy. Развертывание - это изолированная копия. Если добавить/изменить функцию и не обновить развертывание, Audiolist не сможет достучаться до неё.
+1. The correct function name in the command settings. The case of the letters matters.
+2. Returning the result. Audiolist uses a typed programming language and expects a relatively strict response format.
+3. Updating the deployment with any changes to the goofy code. Deployment is an isolated copy. If you add/change a function and do not update the deployment, Audiolist will not be able to access it.
 
-### Пустой ответ
+### Empty Response
 
 ```js
 function doSomething() {
-    // Алгоритм вашей функции
-    // ...
+     // Your function's algorithm
+     // ...
 
-    // Возврат результата
-    return Audiolist.response()
+     // Return the result
+     return Audiolist.response()
 }
 ```
 
-### Возврат текста
+### Returning Text
 
-Помимо текста можно указать тип: обычное, предупреждение, ошибка. От типа зависит цвет сообщения в логах. Прерывания программы не будет.
+In addition to text, you can specify the type: normal, warning, error. The type determines the color of the message in the logs. The program will not be interrupted.
 
 ```js
 function doSomethingMessage() {
-    // Алгоритм вашей функции
-    // ...
+     // Your function's algorithm
+     // ...
 
-    let text = "Этот текст появится в логах Audiolist"
-    return Audiolist.responseMessage(text, Audiolist.MESSAGE_TYPES.WARNINNG)
+     let text = "This text will appear in the Audiolist logs"
+     return Audiolist.responseMessage(text, Audiolist.MESSAGE_TYPES.WARNING)
 }
 ```
 
-### Возврат треков
+### Returning Tracks
 
-Чтобы Audiolist смог преобразовать массив элементов от goofy в понятный для себя формат, необходимо указать один из типов `Audiolist.VARIABLE_TYPES`. Пример кода ниже возвращает 20 любимых Spotify треков. Однако на практике в такой функции нет смысла. Audiolist имеет свои команды для сбора треков. Проще получить те же любимые треки не прибегая к goofy. Но будет полезно для импорта других источников (кэш, радио и прочее).
+For Audiolist to convert an array of elements from goofy into a format it understands, you need to specify one of the `Audiolist.VARIABLE_TYPES`. The code example below returns 20 favorite Spotify tracks. However, in practice, such a function is pointless. Audiolist has its own commands for collecting tracks. It's easier to get the same favorite tracks without using goofy. But it will be useful for importing other sources (cache, radio, etc.).
 
 ```js
 function doSomethingItems() {
-    let tracks = Source.getSavedTracks(20)
-    // ...
+     let tracks = Source.getSavedTracks(20)
+     // ...
 
-    return Audiolist.responseItems(tracks, Audiolist.VARIABLE_TYPES.SPOTIFY_TRACK)
+     return Audiolist.responseItems(tracks, Audiolist.VARIABLE_TYPES.SPOTIFY_TRACK)
 }
 ```
 
-### Комплексный пример
+### Complex Example
 
-Если указать источник данных для команды "Функция goofy", Audiolist отправит его в указанную функцию. При этом одновременно можно ответить текстом и треками.
+If you specify a data source for the "Goofy Function" command, Audiolist will send it to the specified function. At the same time, you can respond with both text and tracks.
 
 ```js
 function complexExample(data) {
-    let tracksFromAudiolist = data.items
-    // ...
+     let tracksFromAudiolist = data.items
+     // ...
 
-    let tracks = // ...
+     let tracks = // ...
 
-    return Audiolist.response({
-        message: 'Сообщение для логов',
-        messageType: Audiolist.MESSAGE_TYPES.DEFAULT,
-        variableType: Audiolist.VARIABLE_TYPES.SPOTIFY_TRACK,
-        items: tracks,
-    })
+     return Audiolist.response({
+          message: 'Message for logs',
+          messageType: Audiolist.MESSAGE_TYPES.DEFAULT,
+          variableType: Audiolist.VARIABLE_TYPES.SPOTIFY_TRACK,
+          items: tracks,
+     })
 }
 ```
 
-## Обновление развертывания
+## Updating Deployment
 
-Нажмите _начать развертывание_ > _управление развертываниями_. В левом списке выберите Audiolist, нажмите кнопку редактирования. Выберите _новую версию_ в списке и нажмите _начать развертывание_.
+Click _start deployment_ > _manage deployments_. In the left list, select Audiolist, click the edit button. Select _new version_ from the list and click _start deployment_.
 
-Иногда Apps Script сбрасывает названия развертываний (похоже на баг). Вам нужно обновлять то развертывание, идентификатор которого указан в команде "Функция goofy".
+Sometimes Apps Script resets deployment names (seems like a bug). You need to update the deployment whose identifier is specified in the "Goofy Function" command.
 
-   ![Новое развертывание](/img/update-deploy-audiolist.png ':size=60%')
+    ![New Deployment](/img/update-deploy-audiolist.png ':size=60%')
 
-### Архив развертываний
+### Deployment Archive
 
-Старые версии развертываний попадают в архив. Apps Script устанавливает лимит на количество развертываний (~200). Если вам укажут на лимит или просто накопилось много ненужных версий, в левом меню Apps Script выберите _история версий_. Справа появится список _история проекта_. Внизу списка есть кнопка _массового удаления версий_. Актуальную версию не удалит.
+Old deployment versions go to the archive. Apps Script sets a limit on the number of deployments (~200). If you reach the limit or just have many unnecessary versions, select _version history_ in the left menu of Apps Script. A _project history_ list will appear on the right. At the bottom of the list, there is a _bulk delete versions_ button. The current version will not be deleted.
