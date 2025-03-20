@@ -270,7 +270,7 @@ let tracks = Source.getArtistsTracks({
 
 ### getCategoryTracks
 
-Returns an array of tracks from playlists of the specified category. Playlists are sorted by popularity. [List of categories](/reference/desc?id=Категории-плейлистов).
+Returns an array of tracks from playlists of the specified category. Playlists are sorted by popularity. [List of categories](/reference/desc?id=Playlist-categories).
 
 Arguments
 
@@ -312,7 +312,7 @@ Arguments
 Description of keys
 
 - (string) `type` - type of selected playlists. Default is `followed`.
-- (string) `userId` - [user identifier](#идентификатор). If not specified, the `userId` of the authorized user is set, i.e., yours.
+- (string) `userId` - [user identifier](#User). If not specified, the `userId` of the authorized user is set, i.e., yours.
 - (number) `limit` - if used, playlists are selected randomly.
 - (array) `exclude` - list of playlists to exclude. Only `id` is significant. The `name` value is optional, only needed for understanding which playlist it is. A comment can be used instead.
 - (boolean) `isFlat` - if `false`, the result is grouped by artists. If `true`, all tracks are in one array (each contains the `origin` key with playlist data). Default is `true`.
@@ -397,8 +397,8 @@ Returns an array of tracks from one playlist. Similar to [getTracks](/reference/
 Arguments
 
 - (string) `name` - playlist name.
-- (string) `id` - [playlist identifier](/reference/desc?id=Плейлист).
-- (string) `user` - [user identifier](/reference/desc?id=Пользователь). Default is yours.
+- (string) `id` - [playlist identifier](/reference/desc?id=Playlist).
+- (string) `user` - [user identifier](/reference/desc?id=User). Default is yours.
 - (number) `count` - number of selected tracks.
 - (boolean) `inRow` - selection mode. If no key or `true`, select the first `count` elements, otherwise random selection.
 
