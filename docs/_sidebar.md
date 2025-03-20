@@ -12,5 +12,5 @@
 - [Troubleshooting](/errors.md)
 - [Configuration](/config.md)
 - [Migration](/migrate.md)
-- [Advanced Tuning](/tuning.md)
+- [Advanced Settings](/advanced.md)
 - **Support**
