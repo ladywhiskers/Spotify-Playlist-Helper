@@ -6,7 +6,7 @@ To use Spotify-Playlist-Helper, you need to create your own copy of the library.
 
 2. Click the `create app` button and fill out the form as in the screenshot:
 
-   ![Create an app](docs/img/install-step-create-app.png ':size=40%')
+   ![Create an app](img/install-step-create-app.png ':size=40%')
 
 3. Go to the [library in Apps Script](https://script.google.com/d/1DnC4H7yjqPV2unMZ_nmB-1bDSJT9wQUJ7Wq-ijF4Nc7Fl3qnbT0FkPSr/edit?usp=sharing). Sign in to your Google account if prompted.
 
