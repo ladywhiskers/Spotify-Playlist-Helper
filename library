@@ -1,8 +1,8 @@
 /* exported Config */
 /* global PLAYLIST_IDS */
-// Documentation: https://chimildic.github.io/goofy
-// Telegram: https://t.me/forum_goofy
-// Forum: https://github.com/Chimildic/goofy/discussions
+// Documentation: https://ladywhiskers.github.io/Spotify-Playlist-Helper
+// Forum - Original: https://github.com/Chimildic/goofy/discussions
+// Forum: https://github.com/ladywhiskers/Spotify-Playlist-Helper/discussions
 const VERSION = "2.1.0";
 const UserProperties = PropertiesService.getUserProperties();
 const KeyValue = UserProperties.getProperties();
