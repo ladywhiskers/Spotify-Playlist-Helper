@@ -1,86 +1,86 @@
-# Список шаблонов
+# Templates
 
-Перед использованием шаблонов рекомендуется ознакомиться с обучением по созданию [первого плейлиста](/first-playlist). Значительно упростит работу с шаблонами, ответит на частые вопросы. Дополнительные шаблоны найдете на [форуме GitHub](https://github.com/Chimildic/goofy/discussions) и [4PDA](https://4pda.to/forum/index.php?s=&showtopic=715234&view=findpost&p=101196000).
+Before using the templates, it is recommended to familiarize yourself by creating [your first playlist](/first-playlist). It will significantly simplify working with templates and answer common questions. Additional templates can be found on the [GitHub forum](https://github.com/Chimildic/goofy/discussions).
 
-## Незнакомый сет
+## Unknown Set
 ```js
 /**
- * Объединить треки из личных миксов в один плейлист
- * Удалить дубликаты, историю прослушиваний, лайки
+ * Combine tracks from personal mixes into one playlist
+ * Remove duplicates, listening history, likes
  */
 function updateUnknownSet() {
-    let banTracks = [];
-    let savedTracks = Source.getSavedTracks();
-    let recentTracks = RecentTracks.get(1000);
-    Combiner.push(banTracks, savedTracks, recentTracks);
+  let banTracks = [];
+  let savedTracks = Source.getSavedTracks();
+  let recentTracks = RecentTracks.get(1000);
+  Combiner.push(banTracks, savedTracks, recentTracks);
 
-    // Вставьте id плейлистов, которые берутся из ссылки или URI
-    // Пример: https://chimildic.github.io/goofy/#/reference/desc?id=Идентификатор
-    let onlyForYouTracks = Source.getTracks([
-        { name: 'Микс дня 1', id: 'вашеId' },
-        { name: 'Микс дня 2', id: 'вашеId' },
-        { name: 'Микс дня 3', id: 'вашеId' },
-        { name: 'Микс дня 4', id: 'вашеId' },
-        { name: 'Микс дня 5', id: 'вашеId' },
-        { name: 'Микс дня 6', id: 'вашеId' },
-        { name: 'Радар новинок', id: 'вашеId' },
-        { name: 'Открытия недели', id: 'вашеId' },
-    ]);
-    
-    Filter.dedupTracks(onlyForYouTracks);
-    Filter.dedupArtists(onlyForYouTracks);
-    Filter.removeTracks(onlyForYouTracks, banTracks);
-    Filter.matchOriginalOnly(onlyForYouTracks);
-    Filter.matchExceptRu(onlyForYouTracks);
+  // Insert the playlist IDs, which can be taken from the link or URI
+  // Example: https://ladywhiskers.github.io/Spotify-Playlist-Helper/#/reference/desc?id=Identifier
+  let onlyForYouTracks = Source.getTracks([
+    { name: 'Daily Mix 1', id: 'yourId' },
+    { name: 'Daily Mix 2', id: 'yourId' },
+    { name: 'Daily Mix 3', id: 'yourId' },
+    { name: 'Daily Mix 4', id: 'yourId' },
+    { name: 'Daily Mix 5', id: 'yourId' },
+    { name: 'Daily Mix 6', id: 'yourId' },
+    { name: 'Release Radar', id: 'yourId' },
+    { name: 'Discover Weekly', id: 'yourId' },
+  ]);
+  
+  Filter.dedupTracks(onlyForYouTracks);
+  Filter.dedupArtists(onlyForYouTracks);
+  Filter.removeTracks(onlyForYouTracks, banTracks);
+  Filter.matchOriginalOnly(onlyForYouTracks);
+  Filter.matchExceptRu(onlyForYouTracks);
 
-    // Пример удаления исполнителей, если ведете бан-плейлист
-    // let banArtists = Source.getPlaylistTracks('', 'вашеId');
-    // Filter.removeArtists(onlyForYouTracks, banArtists);
-    
-    Filter.rangeTracks(onlyForYouTracks, {
-        artist: {
-            ban_genres: ['rap', 'r&b', 'metal', 'anime', 'soul', 'blues', 'punk'],
-        },
-    });
-    
-    // Подставьте id созданного плейлиста, после первого запуска кода, удалите комментарий
-    Playlist.saveWithReplace({
-        // id: 'вашеId',
-        name: 'Незнакомый сет',
-        tracks: Selector.sliceRandom(onlyForYouTracks, 60),
-        description: Playlist.getDescription(onlyForYouTracks),
-        randomCover: 'update',
-    });
+  // Example of removing artists if you maintain a ban playlist
+  // let banArtists = Source.getPlaylistTracks('', 'yourId');
+  // Filter.removeArtists(onlyForYouTracks, banArtists);
+  
+  Filter.rangeTracks(onlyForYouTracks, {
+    artist: {
+      ban_genres: ['rap', 'r&b', 'metal', 'anime', 'soul', 'blues', 'punk'],
+    },
+  });
+  
+  // Substitute the ID of the created playlist, after the first run of the code, remove the comment
+  Playlist.saveWithReplace({
+    // id: 'yourId',
+    name: 'Unknown Set',
+    tracks: Selector.sliceRandom(onlyForYouTracks, 60),
+    description: Playlist.getDescription(onlyForYouTracks),
+    randomCover: 'update',
+  });
 }
 ```
 
-## Новые релизы
+## New Releases
 ```js
 /**
- * Сбор новых релизов от отслеживаемых исполнителей
+ * Collect new releases from followed artists
  */
 function updateNewReleases() {
   let newReleases = Source.getRecentReleasesByArtists({
     artists: Source.getArtists({ followed_include: true, }),
-    date: { sinceDays: 7, beforeDays: 0 }, // за неделю, измените по необходимости
+    date: { sinceDays: 7, beforeDays: 0 }, // for a week, change as needed
     type: ['album', 'single'],
   });
   Playlist.saveWithReplace({
-    name: 'Новые релизы',
+    name: 'New Releases',
     tracks: newReleases,
   })
 }
 ```
 
-## Новые релизы по частям
+## New Releases in Parts
 ```js
 /**
- * Когда отслеживаемых исполнителей очень много, есть шанс достигнуть лимита на время выполнения или получить паузу от Spotify на сутки.
- * Можно разделить исполнителей на чанки. Например, установив триггер "каждый час" при размере чанка 100 за сутки проверится 2400 исполнителей.
- * Функция накапливает релизы в кэш. При желании можно подмешивать их в другие плейлисты. 
+ * When there are too many followed artists, there is a chance to reach the execution time limit or get a pause from Spotify for a day.
+ * You can split the artists into chunks. For example, setting a trigger "every hour" with a chunk size of 100 will check 2400 artists per day.
+ * The function accumulates releases in the cache. If desired, you can mix them into other playlists.
  */
 function chunkDiscoverRecentReleases() {
-  const CHUNK_SIZE = 100 // Количество проверяемых исполнителей за один запуск
+  const CHUNK_SIZE = 100 // Number of artists checked per run
   const FA_FILENAME = 'ChunkFollowedArtists.json'
   const RR_FILENAME = 'ChunkDiscoverRecentReleases.json'
 
@@ -91,7 +91,7 @@ function chunkDiscoverRecentReleases() {
   }
   if (followedArtists.length > 0) {
     discover()
-    saveWithReplace() // опциальное сохранение релизов в плейлист
+    saveWithReplace() // optional saving of releases to playlist
   }
 
   function discover() {
@@ -116,7 +116,7 @@ function chunkDiscoverRecentReleases() {
 
   function saveWithReplace() {
     Playlist.saveWithReplace({
-      name: 'Новые релизы',
+      name: 'New Releases',
       tracks: Cache.read(RR_FILENAME),
       randomCover: 'update',
     })
@@ -124,10 +124,10 @@ function chunkDiscoverRecentReleases() {
 }
 ```
 
-## Открытия с альбомов
+## Discoveries from Albums
 ```js
 /**
- * Популярные треки с альбомов, в которых уже есть известные вам любимые треки
+ * Popular tracks from albums that already have known favorite tracks
  */
 function updateDiscoveryAlbums() {
   const LIMIT_TRACKS = 20;
@@ -167,19 +167,19 @@ function updateDiscoveryAlbums() {
   }
 
   Playlist.saveWithReplace({
-    name: 'Открытия с альбомов',
-    description: 'Эти треки должны тебе понравится!',
+    name: 'Discoveries from Albums',
+    description: 'These tracks should please you!',
     tracks: Selector.sliceFirst(recomTracks, LIMIT_TRACKS),
     randomCover: 'update',
   });
 }
 ```
 
-## Любимо и забыто
+## Loved and Forgotten
 ```js
 /**
- * Собрать любимые треки, которые давно не прослушивались и добавлены больше месяца назад
- * Рекомендуется использовать после накопления хотя бы небольшой истории прослушиваний
+ * Collect favorite tracks that haven't been listened to for a long time and were added more than a month ago
+ * It is recommended to use after accumulating at least a small listening history
  */
 function updateSavedAndForgot(){
     let recentTracks = RecentTracks.get(3000);
@@ -194,46 +194,46 @@ function updateSavedAndForgot(){
     Order.sort(savedTracks, 'meta.added_at', 'asc');
     
     Playlist.saveWithReplace({
-        // id: 'вашеId',
-        name: 'Любимо и забыто',
+        // id: 'yourId',
+        name: 'Loved and Forgotten',
         tracks: savedTracks,
         randomCover: 'update',
     });
 }
 ```
 
-## Отслеживание обновлений
+## Update Tracking
 ```js
 /**
- * Собрать из отслеживаемых плейлистов треки, которые были добавлены за неделю
+ * Collect tracks from followed playlists that were added over the week
  */
 function updateFollowedTracks(){
     let followedTracks = Source.getFollowedTracks({
         type: 'followed',
     });
-    // При необходимости измените период
+    // Change the period if necessary
     Filter.rangeDateRel(followedTracks, 7, 1);
 
-    // Добавьте Order и Selector для ограничения количества
+    // Add Order and Selector to limit the number
 
     Playlist.saveWithReplace({
-        // id: 'вашеId',
-        name: 'Отслеживание обновлений',
+        // id: 'yourId',
+        name: 'Update Tracking',
         tracks: followedTracks,
         randomCover: 'update',
     });
 }
 ```
 
-## Новинки редакций
+## Editorial New Releases
 ```js
 /**
- * Собрать новые релизы из подборок разных редакций (кураторов) за неделю
+ * Collect new releases from various editorial (curator) selections over the week
  */
 function updateNewRelease(){
     let recentTracks = RecentTracks.get(2000);
     let newReleaseTracks = Source.getTracks([
-        // Популярные редакции
+        // Popular editorials
         { name: 'All New Indie', id: '37i9dQZF1DXdbXrPNafg9d' },
         { name: 'New music friday', id: '37i9dQZF1DX4JAvHpjipBk' },
         { name: 'NMEs Best New Tracks', id: '4NzWle6sDBwHLQ1tuqLKhp' },
@@ -244,7 +244,7 @@ function updateNewRelease(){
         { name: 'New This Week by Topsify', id: '4f0IMCLd3iciiLR4V6qXcp' },
         { name: 'Pop Rising by Topsify', id: '37i9dQZF1DWUa8ZRTfalHk' },
         
-        // Менее популярные редакции
+        // Less popular editorials
         { name: 'Disco Naivete', id: '4c6G93bHqsUbwqlqRDND9k' },
         { name: 'The Line Of Best Fit', id: '5359l8Co8qztllR0Mxk4Zv' },
         { name: 'Going Solo', id: '1ozCM0k4h6vrMlAzNaJCyy' },
@@ -273,26 +273,26 @@ function updateNewRelease(){
     Selector.keepFirst(newReleaseTracks, 60);
         
     Playlist.saveWithReplace({
-        // id: 'вашеId',
-        name: 'Новинки редакций',
+        // id: 'yourId',
+        name: 'Editorial New Releases',
         tracks: newReleaseTracks,
         randomCover: 'update',
     });
 }
 ```
 
-## Копилка
+## Collector
 ```js
 /**
- * Накапливать треки из "Радара новинок", прослушанные треки удаляются
+ * Accumulate tracks from "Release Radar", listened tracks are removed
  */
 function updateCollectorPlaylist(){
-    // После первого создания плейлиста добавьте id копилки и удалите комментарии
+    // After the first creation of the playlist, add the collector ID and remove the comments
     // const COLLECTOR_PLAYLIST_ID = '';
     let recentTracks = RecentTracks.get(1000);
-    let newTracks = Source.getPlaylistTracks('Радар новинок', 'вашеId');
+    let newTracks = Source.getPlaylistTracks('Release Radar', 'yourId');
 
-    // let currentTracks = Source.getPlaylistTracks('Копилка: Радар новинок', COLLECTOR_PLAYLIST_ID);
+    // let currentTracks = Source.getPlaylistTracks('Collector: Release Radar', COLLECTOR_PLAYLIST_ID);
     // Combiner.push(newTracks, currentTracks);
     
     Filter.dedupTracks(newTracks);
@@ -300,7 +300,7 @@ function updateCollectorPlaylist(){
     
     Playlist.saveWithReplace({
       // id: COLLECTOR_PLAYLIST_ID,
-      name: 'Копилка: Радар новинок',
+      name: 'Collector: Release Radar',
       tracks: newTracks,
       randomCover: 'update',
     });

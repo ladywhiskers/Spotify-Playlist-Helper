@@ -1,105 +1,102 @@
-# Принцип работы
+# How it works
+The main principle of operation is based on the use of JavaScript functions to create an algorithm that automates various tasks. For example, finding favorite tracks that haven't been listened to for a long time.
 
-goofy это конструктор с набором функций на JavaScript. С их помощью составляется алгоритм, который автоматизирует различные задачи. К примеру, найти любимые треки, которые давно не прослушивались.
+The algorithm runs on the Google Apps Script platform, meaning tasks are executed on a schedule without your intervention.
 
-Выполнение алгоритма происходит на стороне платформы Google Apps Script. То есть задачи выполняются по расписанию без вашего участия.
+?> When installing or changing the version, a single request is sent to Google Forms to get an idea of how many users are actively using goofy.
 
-?> При установке или изменении версии, отправляется единичный запрос в Google Формы. Чтобы иметь представление сколько пользователей активно используют goofy.
+## Differences from Smarter Playlists
 
-## Отличия от Smarter Playlists
+The main difference lies in the way the algorithm is constructed. Smarter Playlists uses a visual language, a diagram. In the case of goofy, a programming language is used.
 
-Главное отличие заключается в способе составления алгоритма. В Smarter Playlists визуальный язык, диаграмма. В случае goofy используется язык программирования.
+An example of the following algorithm in Smarter Playlists: take tracks from two playlists, perform a random sort, save the first 50 tracks in a new playlist.
 
-Пример следующего алгоритма в Smarter Playlists: взять треки из двух плейлистов, выполнить случайную сортировку, сохранить первые 50 треков в новый плейлист.
+![Example of creating a playlist in Smarter Playlists](/img/SmarterPlaylistsExample1.png)
 
-![Пример создания плейлиста в Smarter Playlists](/img/SmarterPlaylistsExample1.png)
-
-Теперь тоже самое с помощью goofy
+Now the same with goofy:
 ```js
 let tracks = Source.getTracks([
-  { name: 'Микс дня 1', id: '123' },
-  { name: 'Микс дня 2', id: '456' },
+  { name: 'Mix of the Day 1', id: '123' },
+  { name: 'Mix of the Day 2', id: '456' },
 ]);
 
 Order.shuffle(tracks);
 
 Playlist.saveAsNew({
-  name: 'Личный микс дня',
+  name: 'Personal Mix of the Day',
   tracks: Selector.sliceFirst(tracks, 50),
 });
 ```
 
-## История прослушиваний
+## Listening History
 
-goofy автоматически отслеживает историю прослушиваний. При достижении предела (60 тысяч), новые прослушивая по-прежнему сохраняются за счет удаления самых старых. Процесс отслеживания начинается сразу после завершения настройки. Прослушивания, произошедшие до настройки не попадут в список. Однако есть способ добавить их вручную, при наличии last.fm.
+goofy automatically tracks your listening history. When the limit (60,000) is reached, new listens are still saved by deleting the oldest ones. The tracking process starts immediately after setup is complete. Listens that occurred before setup will not be included in the list. However, there is a way to add them manually if you have last.fm.
 
-?> В новый аккаунт last.fm можно [добавить](https://support.last.fm/t/how-to-add-scrobbles-history-from-spotify-to-last-fm/40038) историю прослушиваний, которая была до создания аккаунта.
+?> You can [add](https://support.last.fm/t/how-to-add-scrobbles-history-from-spotify-to-last-fm/40038) listening history to a new last.fm account that existed before the account was created.
 
-У Spotify API есть функция для получения истории прослушиваний. Но *максимум* 50 последних треков, которые прослушаны более чем 30 секунд. В историю не попадают подкасты и треки, прослушанные в приватном режиме.
+Spotify API has a function to get listening history. But *a maximum* of the last 50 tracks that have been listened to for more than 30 seconds. Podcasts and tracks listened to in private mode are not included in the history.
 
-Возможность goofy отслеживать историю появляется за счет платформы Apps Script и её доступа к Google Drive. Каждые 15 минут goofy обращается к Spotify и обновляет содержимое файла на диске новыми данными.
+goofy can track history thanks to the Apps Script platform and its access to Google Drive. Every 15 minutes, goofy contacts Spotify and updates the file on the drive with new data.
 
-Теоретически, лимит истории можно увеличить до 100 тысяч. Но возникает вопрос производительности в рамках лимитов платформы Apps Script, доступности дискового пространства и в целом целесообразности такого массива. Поскольку в большинстве случаев такая история нужна для удаления треков из вновь создаваемых плейлистов. Задачи по составлению топа легко решаются другими средствами при наличии Last.fm.
+Theoretically, the history limit can be increased to 100,000. But there is a question of performance within the limits of the Apps Script platform, disk space availability, and overall feasibility of such an array. Since in most cases, such a history is needed to remove tracks from newly created playlists. Tasks for compiling a top list are easily solved by other means if you have Last.fm.
 
-Last.fm способен сам отслеживать прослушивания Spotify (подключение в [профиле](https://www.last.fm/settings/applications)). Но все перечисленное не позволяет перехватить быстрые пропуски треков. Для этого есть два решения: 
+Last.fm can track Spotify listens itself (connect in [profile](https://www.last.fm/settings/applications)). But all of the above does not allow you to intercept quick skips of tracks. There are two solutions for this:
 
-- Первое подробно [описано на форуме](https://github.com/Chimildic/goofy/discussions/53).
-- Второе заключается в том, чтобы отключить отслеживание Last.fm и использовать сторонние программы для ПК и смартфона, которые позволяют задать промежуток в несколько секунд, после которых трек сохраняется в историю. Например, [Pano Scrobbler](https://4pda.to/forum/index.php?showtopic=887068). 
+- The first is detailed [on the forum](https://github.com/Chimildic/goofy/discussions/53).
+- The second is to disable Last.fm tracking and use third-party programs for PC and smartphone that allow you to set an interval of a few seconds after which the track is saved to the history. For example, [Pano Scrobbler](https://4pda.to/forum/index.php?showtopic=887068).
 
-На практике Spotify API работает нестабильно. Трек после 30 секунд может вернуться с задержкой или совсем потеряться. Проблема со стороны Spotify, которая никак не решается. Однако вместе с Last.fm это становится совсем незначительным. 
+In practice, the Spotify API works inconsistently. A track after 30 seconds may return with a delay or be lost altogether. The problem is on Spotify's side and is not resolved. However, together with Last.fm, this becomes quite insignificant.
 
-Если вы часто слушаете скачанные треки без подключения к интернету, используйте сторонние скробблеры, как в примере выше. Они позволяют сохранять прослушивания локально и убрать зависимость от офлайна и сбоев Spotify. Если офлайн прослушивания это редкий сценарий, достаточно подключения через профиль.
+If you often listen to downloaded tracks without an internet connection, use third-party scrobblers as in the example above. They allow you to save listens locally and remove the dependency on offline and Spotify failures. If offline listening is a rare scenario, connecting through the profile is sufficient.
 
-## Ограничения
+## Restrictions 
 
-?> При первом знакомстве некоторые детали могут быть непонятны
+?> Some details may be unclear at first glance
 
-Библиотека подчиняется ограничениям со стороны платформ. Ниже описание конкретных показателей и на что они влияют на основе справочной информации, предлагаемой платформами.
+The library is subject to platform limitations. Below is a description of specific metrics and their impact based on reference information provided by the platforms.
 
 ### Apps Script {docsify-ignore}
-- Выполнение скрипта (6 минут / одно выполнение)
+- Script execution (6 minutes / one execution)
 
-  - Общая максимальная продолжительность *одного* запуска скрипта. Как правило, легкие шаблоны завершаются за считанные секунды. Приблизиться к минуте или нескольким можно в случае большого объема входных и/или выходных данных.
-  - Например, функция [getFollowedTracks](/reference/source?id=getfollowedtracks) для пользователя [spotify](https://open.spotify.com/user/spotify) и аргументу `owned` в среднем отрабатывает за 4 минуты. При этом получая 1.4 тысячи плейлистов и 102 тысяч треков. После удаления дубликатов остается 78 тысяч. 
-  - Если для 78 тысяч вызвать [rangeTracks](/reference/filter?id=rangetracks) лимит 6 минут будет превышен. Но предварительно отбросив заранее неподходящие треки, например, с помощью [rangeDateRel](/reference/filter?id=rangedaterel), [match](/reference/filter?id=match) и прочего, можно существенно и быстро снизить количество треков.
+  - The total maximum duration of *one* script run. Generally, lightweight templates complete in a matter of seconds. Approaching a minute or more is possible in the case of a large volume of input and/or output data.
+  - For example, the [getFollowedTracks](/reference/source?id=getfollowedtracks) function for the user [spotify](https://open.spotify.com/user/spotify) and the `owned` argument typically runs for 4 minutes. During this time, it retrieves 1.4 thousand playlists and 102 thousand tracks. After removing duplicates, 78 thousand remain.
+  - If you call [rangeTracks](/reference/filter?id=rangetracks) for 78 thousand tracks, the 6-minute limit will be exceeded. However, by discarding unsuitable tracks in advance, for example, using [rangeDateRel](/reference/filter?id=rangedaterel), [match](/reference/filter?id=match), and others, you can significantly and quickly reduce the number of tracks.
 
-- Количество запросов (20 тысяч / день)
+- Number of requests (20 thousand / day)
 
-  - Как правило, 1 запрос к Spotify это получение 50 плейлистов или 50 треков. В некоторых случаях 100.
-  - Пример выше получил 1.4 тысяч плейлистов и 102 тысячи треков за 1 735 запросов.
-  - На получение 11 тысяч треков плейлиста 110 запросов и 25 секунд. Примерно столько же на создание плейлиста с таким количеством треков.
-  - На получение 10 тысяч любимых треков уйдет 200 запросов.
-  - В целом, сложно представить функцию на 20 тысяч запросов из-за ограничения 6 минут на выполнение. По этой причине можно сказать, что нельзя обойти все плейлисты роботов-пользователей с тысячами плейлистов. Но личный профиль или средних авторов можно.
+  - Typically, 1 request to Spotify retrieves 50 playlists or 50 tracks. In some cases, 100.
+  - The example above retrieved 1.4 thousand playlists and 102 thousand tracks with 1,735 requests.
+  - Retrieving 11 thousand tracks from a playlist takes 110 requests and 25 seconds. Approximately the same amount of time is needed to create a playlist with that many tracks.
+  - Retrieving 10 thousand favorite tracks takes 200 requests.
+  - Overall, it is difficult to imagine a function requiring 20 thousand requests due to the 6-minute execution limit. For this reason, it is not possible to bypass all playlists of robot-users with thousands of playlists. But a personal profile or medium-sized authors can be handled.
 
-- Выполнение триггеров (90 минут / день)
+- Trigger execution (90 minutes / day)
 
-   - Общая максимальная продолжительность выполнения триггеров. Единственный способ достичь предела это вызвать 15 раз функцию на 6 минут за один день. Сложно представить задачу, которая потребует этого и оправдает себя. 
+  - The total maximum duration of trigger execution. The only way to reach the limit is to call a 6-minute function 15 times in one day. It is hard to imagine a task that would require this and justify itself.
 
-- Количество триггеров (20 / пользователь / скрипт)
+- Number of triggers (20 / user / script)
   
-   - При грубом описании это 20 плейлистов, которые создаются по совершенно *разному* расписанию. 
-   - На практике, несколько функций можно вызывать из одной другой функции, что позволяет создать N плейлистов за один триггер. Подробнее [здесь](/best-practices?id=Экономика-триггеровв).
-   - Кроме того, можно создать еще одну копию библиотеки и также получить квоту на 20 триггеров.
+  - Roughly speaking, this is 20 playlists created on completely *different* schedules.
+  - In practice, several functions can be called from one other function, allowing the creation of N playlists with one trigger. More details [here](/best-practices?id=Trigger-Economy).
+  - Additionally, you can create another copy of the library and also get a quota for 20 triggers.
   
-     > Если вам потребовалось создать еще одну копию, можете повторно использовать значения CLIENT_ID и CLIENT_SECRET и не создавать новое приложение на стороне Spotify.
+    > If you need to create another copy, you can reuse the CLIENT_ID and CLIENT_SECRET values and not create a new application on the Spotify side.
 
-Остальные ограничения Apps Script не относятся к библиотеке. Они связаны с почтой, таблицами и прочими сервисами. Или недостижимы из-за ограничений Web API Spotify. Подробнее [здесь](https://developers.google.com/apps-script/guides/services/quotas).
+Other Apps Script limitations do not apply to the library. They are related to mail, spreadsheets, and other services. Or they are unattainable due to Spotify Web API limitations. More details [here](https://developers.google.com/apps-script/guides/services/quotas).
 
 ### Web API Spotify {docsify-ignore}
-- Локальные файлы игнорируются. [API не позволяет](https://developer.spotify.com/documentation/general/guides/local-files-spotify-playlists/) добавлять такие треки в новые плейлисты и практически не несут в себе данных для фильтрации, сортировки.
+- Local files are ignored. [The API does not allow](https://developer.spotify.com/documentation/general/guides/local-files-spotify-playlists/) adding such tracks to new playlists and they practically do not contain data for filtering or sorting.
   
-  > It is not currently possible to add local files to playlists using the Web API, but they can be reordered or removed.
 
-- Количество треков 
-  - При добавлении в плейлист до 11 тысяч треков.
-  - При получении с одного плейлиста также 11 тысяч.
-  - Любимые треки до 20 тысяч.
-  - При фильтрации, сортировке, выборе количество неограниченно. Но в пределах квоты Apps Script.
-- Количество плейлистов
-  - Теоретически до 11 тысяч, но не хватит квоты Apps Script на получение треков с них. Реальное значение в пределах 2 тысяч. Зависит от общего количества треков.
-- Количество запросов
-  - Точного числа нет. При слишком большом объеме запросов за короткий промежуток времени могут появиться ошибки 500, 503 и подобное. Проходят после паузы. 
+- Number of tracks 
+  - Up to 11,000  tracks can be added to a playlist.
+  - Up to 11,000 tracks can be retrieved from a single playlist.
+  - Up to 20,000 favorite tracks.
+  - The number of tracks for filtering, sorting, and selection is unlimited. But within the Apps Script quota.
+- Number of playlists
+  - Theoretically up to 11,000, but the Apps Script quota will not be enough to retrieve tracks from them. The real value is within 2,0000. It depends on the total number of tracks.
+- Number of requests
+  - There is no exact number. With too many requests in a short period, errors 500, 503, and similar may appear. They pass after a pause.
   
-### Google Диск {docsify-ignore}
-- Размер одного текстового файла ограничен - 50 мб. Для сокращения объема можно использовать функцию [Cache.compressTracks](/reference/cache?id=compresstracks). Экспериментально удалось создать файл со 100 тысячами **сжатых** треков и уложиться в 50 мб.
-
+### Google Drive {docsify-ignore}
+- The size of one text file is limited to 50 MB. To reduce the volume, you can use the [Cache.compressTracks](/reference/cache?id=compresstracks) function. Experimentally, it was possible to create a file with 100 thousand **compressed** tracks and fit within 50 MB.

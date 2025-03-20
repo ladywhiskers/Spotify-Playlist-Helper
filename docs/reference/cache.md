@@ -1,73 +1,73 @@
 # Cache {docsify-ignore}
 
-Методы управления данными Google Диска.
+Methods for managing Google Drive data.
 
-По умолчанию, без указания расширения файла, подразумевается `json`. При явном указании поддерживается текстовый формат `txt`.
+By default, `json` is assumed without specifying a file extension. `txt` text format is supported when specified explicitly.
 
-| Метод | Тип результата | Краткое описание |
-|-------|----------------|------------------|
-| [append](/reference/cache?id=append) | Число | Присоединить данные к массиву из файла. |
-| [compressArtists](/reference/cache?id=compressartists) | - | Удалить незначимые данные о исполнителях. |
-| [compressTracks](/reference/cache?id=compresstracks) | - | Удалить незначимые данные о треках. |
-| [copy](/reference/cache?id=copy) | Строка | Создать копию файла в папке исходного файла. |
-| [read](/reference/cache?id=read) | Массив/Объект/Строка | Прочитать данные из файла. |
-| [remove](/reference/cache?id=remove) | - | Переместить файл в корзину Google Диска. |
-| [rename](/reference/cache?id=rename) | - | Переименовать файл. |
-| [write](/reference/cache?id=write) | - | Записать данные в файл. |
+| Method                                                 | Result type         | Short description                                                  |
+| ------------------------------------------------------ | ------------------- | ------------------------------------------------------------------ |
+| [append](/reference/cache?id=append)                   | Number              | Append data to an array from a file.                               |
+| [compressArtists](/reference/cache?id=compressartists) | -                   | Remove irrelevant artist data.                                     |
+| [compressTracks](/reference/cache?id=compresstracks)   | -                   | Remove irrelevant track data.                                      |
+| [copy](/reference/cache?id=copy)                       | String              | Create a copy of the file in the same folder as the original file. |
+| [read](/reference/cache?id=read)                       | Array/Object/String | Read data from a file.                                             |
+| [remove](/reference/cache?id=remove)                   | -                   | Move a file to the Google Drive trash.                             |
+| [rename](/reference/cache?id=rename)                   | -                   | Rename a file.                                                     |
+| [write](/reference/cache?id=write)                     | -                   | Write data to a file.                                              |
 
 ## append
 
-Присоединить данные к массиву из файла. Создает файл, если его не существует.
+Append data to an array from a file. Creates the file if it does not exist.
 
-### Аргументы :id=append-arguments {docsify-ignore}
+### Arguments :id=append-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `filepath` | Строка | [Путь до файла](/best-practices?id=Путь-до-файла). |
-| `content` | Массив | Данные для добавления. |
-| `place` | Строка | Место соединения: `begin` - начало, `end` - конец. По умолчанию `end`. |
-| `limit` | Число | Ограничить число элементов массива после присоединения новых данных. </br> По умолчанию 200 тысяч элементов. |
+| Name       | Type   | Description                                                                                      |
+| ---------- | ------ | ------------------------------------------------------------------------------------------------ |
+| `filepath` | String | [Path to file](/best-practices?id=Path-to-file).                                                 |
+| `content`  | Array  | Data to append.                                                                                  |
+| `place`    | String | Place to join: `begin` - start, `end` - end. Defaults to `end`.                                  |
+| `limit`    | Number | Limit the number of array elements after appending new data. </br> Defaults to 200,000 elements. |
 
-### Возврат :id=append-return {docsify-ignore}
+### Return :id=append-return {docsify-ignore}
 
-`contentLength` (число) - количество элементов после добавления.
+`contentLength` (number) - number of elements after appending.
 
-### Примеры :id=append-examples {docsify-ignore}
+### Examples :id=append-examples {docsify-ignore}
 
-1. Присоединить треки плейлиста в начало файла. Ограничить массив 5 тысячами треков после присоединения.
+1. Append playlist tracks to the beginning of the file. Limit the array to 5 thousand tracks after appending.
 
 ```js
-let tracks = Source.getPlaylistTracks('playlist name', 'id');
-Cache.append('filename.json', tracks, 'begin', 5000);
+let tracks = Source.getPlaylistTracks("playlist name", "id");
+Cache.append("filename.json", tracks, "begin", 5000);
 ```
 
-2. Присоединить треки плейлиста в конец файла.
+2. Append playlist tracks to the end of the file.
 
 ```js
-let tracks = Source.getPlaylistTracks('playlist name', 'id');
-Cache.append('filename.json', tracks);
+let tracks = Source.getPlaylistTracks("playlist name", "id");
+Cache.append("filename.json", tracks);
 ```
 
 ## compressArtists
 
-Удалить незначимые данные о исполнителях. Использовать до сохранения в файл для уменьшения его размера.
+Remove irrelevant data about artists. Use before saving to file to reduce its size.
 
-### Аргументы :id=compressartists-arguments {docsify-ignore}
+### Arguments :id=compressartists-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `artists` | Массив | Исполнители, к которых требуется удалить незначимые данные. |
+| Name      | Type  | Description                             |
+| --------- | ----- | --------------------------------------- |
+| `artists` | Array | Artists to remove irrelevant data from. |
 
-### Возврат :id=compressartists-return {docsify-ignore}
+### Return :id=compressartists-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=compressartists-examples {docsify-ignore}
+### Examples :id=compressartists-examples {docsify-ignore}
 
-1. Уменьшить размер файла с массивом исполнителей.
+1. Reduce the size of the file with the artists array.
 
 ```js
-let filename = 'artists.json';
+let filename = "artists.json";
 let artists = Cache.read(filename);
 Cache.compressArtists(artists);
 Cache.write(filename, artists);
@@ -75,24 +75,24 @@ Cache.write(filename, artists);
 
 ## compressTracks
 
-Удалить незначимые данные о треках. Использовать до сохранения в файл для уменьшения его размера. Включает вызов [compressArtists](/reference/cache?id=compressartists)
+Remove irrelevant track data. Use before saving to file to reduce its size. Enables calling [compressArtists](/reference/cache?id=compressartists)
 
-### Аргументы :id=compresstracks-arguments {docsify-ignore}
+### Arguments :id=compresstracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tracks` | Массив | Треки, в которых требуется удалить незначимые данные. |
+| Name     | Type  | Description                            |
+| -------- | ----- | -------------------------------------- |
+| `tracks` | Array | Tracks to remove irrelevant data from. |
 
-### Возврат :id=compresstracks-return {docsify-ignore}
+### Return :id=compresstracks-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=compresstracks-examples {docsify-ignore}
+### Examples :id=compresstracks-examples {docsify-ignore}
 
-1. Уменьшить размер файла с массивом треков.
+1. Reduce the size of a file with an array of tracks.
 
 ```js
-let filename = 'tracks.json';
+let filename = "tracks.json";
 let tracks = Cache.read(filename);
 Cache.compressTracks(tracks);
 Cache.write(filename, tracks);
@@ -100,123 +100,123 @@ Cache.write(filename, tracks);
 
 ## copy
 
-Создать копию файла в папке исходного файла.
+Create a copy of the file in the same folder as the original file.
 
-### Аргументы :id=copy-arguments {docsify-ignore}
+### Arguments :id=copy-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `filepath` | Строка | [Путь до файла](/best-practices?id=Путь-до-файла). |
+| Name       | Type   | Description                                      |
+| ---------- | ------ | ------------------------------------------------ |
+| `filepath` | String | [Path to file](/best-practices?id=Path-to-file). |
 
-### Возврат :id=copy-return {docsify-ignore}
+### Return :id=copy-return {docsify-ignore}
 
-`filecopypath` (строка) - путь до созданной копии.
+`filecopypath` (string) - path to the created copy.
 
-### Примеры :id=copy-examples {docsify-ignore}
+### Examples :id=copy-examples {docsify-ignore}
 
-1. Создать копию файла и прочитать ее данные.
+1. Create a copy of the file and read its data.
 
 ```js
-let filename = 'tracks.json';
+let filename = "tracks.json";
 let filecopyname = Cache.copy(filename);
 let tracks = Cache.read(filecopyname);
 ```
 
 ## read
 
-Прочитать данные из файла.
+Read data from the file.
 
-### Аргументы :id=read-arguments {docsify-ignore}
+### Arguments :id=read-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `filepath` | Строка | [Путь до файла](/best-practices?id=Путь-до-файла). |
+| Name       | Type   | Description                                      |
+| ---------- | ------ | ------------------------------------------------ |
+| `filepath` | String | [Path to file](/best-practices?id=Path-to-file). |
 
-### Возврат :id=read-return {docsify-ignore}
+### Return :id=read-return {docsify-ignore}
 
-`content` (массив/объект/строка) - данные из файла.
+`content` (array/object/string) - data from the file.
 
-Если файла не существует, проверяется расширение в строке `filepath`. При отсутствии или равенстве _json_ - вернет пустой массив. В остальных случаях - пустую строку.
+If the file does not exist, the extension in the `filepath` string is checked. If _json_ is absent or equal, it will return an empty array. In other cases, an empty string.
 
-### Примеры :id=read-examples {docsify-ignore}
+### Examples :id=read-examples {docsify-ignore}
 
-1. Прочитать данные из файла и добавить в плейлист.
+1. Read data from the file and add to the playlist.
 
 ```js
-let tracks = Cache.read('tracks.json');
+let tracks = Cache.read("tracks.json");
 Playlist.saveAsNew({
-    name: 'Треки из файла',
-    tracks: tracks,
+  name: "Tracks from file",
+  tracks: tracks,
 });
 ```
 
 ## remove
 
-Переместить файл в корзину Google Диска. Данные из корзины удаляются через 30 дней.
+Move a file to the Google Drive trash. The trash is deleted after 30 days.
 
-### Аргументы :id=remove-arguments {docsify-ignore}
+### Arguments :id=remove-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `filepath` | Строка | [Путь до файла](/best-practices?id=Путь-до-файла). |
+| Name       | Type   | Description                                      |
+| ---------- | ------ | ------------------------------------------------ |
+| `filepath` | String | [Path to file](/best-practices?id=Path-to-file). |
 
-### Возврат :id=remove-return {docsify-ignore}
+### Return :id=remove-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.
 
-### Примеры :id=remove-examples {docsify-ignore}
+### Examples :id=remove-examples {docsify-ignore}
 
-1. Переместить файл в корзину
+1. Move a file to the trash
 
 ```js
-Cache.remove('filepath.json');
+Cache.remove("filepath.json");
 ```
 
 ## rename
 
-Переименовать файл.
+Rename a file.
 
-!> Не используйте имена `SpotifyRecentTracks`, `LastfmRecentTracks`, `BothRecentTracks`. Они нужны в механизме накопления [истории прослушиваний](/details?id=История-прослушиваний).
+!> Do not use the names `SpotifyRecentTracks`, `LastfmRecentTracks`, `BothRecentTracks`. They are needed in the [listening history](/details?id=Listening-history) accumulation mechanism.
 
-### Аргументы :id=rename-arguments {docsify-ignore}
+### Arguments :id=rename-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `filepath` | Строка | [Путь до файла](/best-practices?id=Путь-до-файла). |
-| `newFilename` | Строка | Новое имя файла (не путь) |
+| Name          | Type   | Description                                      |
+| ------------- | ------ | ------------------------------------------------ |
+| `filepath`    | String | [Path to file](/best-practices?id=Path-to-file). |
+| `newFilename` | String | New file name (not path)                         |
 
-### Возврат :id=rename-return {docsify-ignore}
+### Return :id=rename-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.
 
-### Примеры :id=rename-examples {docsify-ignore}
+### Examples :id=rename-examples {docsify-ignore}
 
-1. Переименовать файл.
+1. Rename a file.
 
 ```js
-Cache.rename('filename.json', 'newname.json');
+Cache.rename("filename.json", "newname.json");
 ```
 
 ## write
 
-Записать данные в файл. Создает файл, если его не существует. Перезаписывает файл, если он существует.
+Write data to a file. Creates a file if it does not exist. Overwrites a file if it exists.
 
-### Аргументы :id=write-arguments {docsify-ignore}
+### Arguments :id=write-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `filepath` | Строка | [Путь до файла](/best-practices?id=Путь-до-файла). |
-| `content`  | Массив | Данные для записи.                                 |
+| Name       | Type   | Description                                      |
+| ---------- | ------ | ------------------------------------------------ |
+| `filepath` | String | [Path to file](/best-practices?id=Path-to-file). |
+| `content`  | Array  | Data to write.                                   |
 
-### Возврат :id=write-return {docsify-ignore}
+### Return :id=write-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.
 
-### Примеры :id=write-examples {docsify-ignore}
+### Examples :id=write-examples {docsify-ignore}
 
-1. Записать любимые треки в файл.
+1. Write favorite tracks to a file.
 
 ```js
 let tracks = Sourct.getSavedTracks();
-Cache.write('liked.json', tracks);
+Cache.write("liked.json", tracks);
 ```

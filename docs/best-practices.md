@@ -86,9 +86,9 @@ Additionally, [hotkeys](https://github.com/Chimildic/goofy/discussions/112) for 
 
 One Google account (Apps Script) can manage multiple Spotify accounts (starting from goofy version 1.6.1).
 
-To set up goofy for an additional Spotify account, repeat the [installation](https://chimildic.github.io/goofy/#/install) steps, but:
+To set up goofy for an additional Spotify account, repeat the [installation](https://ladywhiskers.github.io/Spotify-Playlist-Helper/#/install) steps, but:
 
-1. Copy the goofy project as you did in [step 4 of the installation](https://chimildic.github.io/goofy/#/install).
+1. Copy the goofy project as you did in [step 4 of the installation](https://ladywhiskers.github.io/Spotify-Playlist-Helper/#/install).
 2. Use the same `CLIENT_ID`, `CLIENT_SECRET`, `PRIVATE_CLIENT_ID`, `PRIVATE_CLIENT_SECRET` values in the _config_ file (i.e., skip steps 1-2).
 3. When granting access rights in step 10, log in through the new Spotify account.
 

@@ -1,71 +1,76 @@
 # Combiner {docsify-ignore}
 
-Методы комбинирования элементов.
+Methods for combining elements.
 
-| Метод | Тип результата | Краткое описание |
-|-------|----------------|------------------|
-| [alternate](/reference/combiner?id=alternate) | Массив | Чередовать элементы массивов. Один шаг - один элемент массива. |
-| [mixin](/reference/combiner?id=mixin) | Массив | Чередовать элементы двух массивов. Один шаг - один и больше элементов от одного массива. |
-| [mixinMulti](/reference/combiner?id=mixinmulti) | Массив | Чередовать элементы неограниченного количества массивов. Один шаг - один и больше элементов от одного массива. |
-| [push](/reference/combiner?id=push) | Массив | Добавить в конец первого массива элементы второго массива и так далее. |
+| Method                                          | Result type | Brief description                                                                                    |
+| ----------------------------------------------- | ----------- | ---------------------------------------------------------------------------------------------------- |
+| [alternate](/reference/combiner?id=alternate)   | Array       | Alternate elements of arrays. One step - one element of the array.                                   |
+| [mixin](/reference/combiner?id=mixin)           | Array       | Alternate elements of two arrays. One step - one or more elements from one array.                    |
+| [mixinMulti](/reference/combiner?id=mixinmulti) | Array       | Alternate elements of an unlimited number of arrays. One step - one or more elements from one array. |
+| [push](/reference/combiner?id=push)             | Array       | Add elements of the second array to the end of the first array, and so on.                           |
 
 ## alternate
 
-Чередовать элементы массивов. Один шаг - один элемент массива.
+Alternate array elements. One step is one array element.
 
-### Аргументы :id=alternate-arguments {docsify-ignore}
+### Arguments :id=alternate-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `bound` | Строка | Граница чередования. При `min` чередование заканчивается, когда один из источников закончится. При `max` чередование продолжается до тех пор, пока есть незатронутые элементы. |
-| ``...arrays`` | Массивы | Источники элементов для чередования. |
+| Name        | Type   | Description                                                                                                                                                     |
+| ----------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `bound`     | String | The boundary of alternation. If `min`, alternation ends when one of the sources ends. If `max`, alternation continues as long as there are unaffected elements. |
+| `...arrays` | Arrays | Sources of elements to alternate.                                                                                                                               |
 
-### Возврат :id=alternate-return {docsify-ignore}
+### Return :id=alternate-return {docsify-ignore}
 
-`resultArray` (массив) - новый массив, в котором чередуются элементы источников.
+`resultArray` (array) - a new array in which the elements of the sources are alternated.
 
-### Примеры :id=alternate-examples {docsify-ignore}
+### Examples :id=alternate-examples {docsify-ignore}
 
-1. Чередовать элементы трех массивов.
+1. Alternate elements of three arrays.
 
 ```js
 let firstArray = [1, 3, 5];
 let secondeArray = [2, 4, 6, 8, 10];
 let thirdArray = [100, 200, 300];
-let resultArray = Combiner.alternate('max', firstArray, secondeArray, thirdArray);
-// результат 1, 2, 100, 3, 4, 200, 5, 6, 300, 8, 10
+let resultArray = Combiner.alternate(
+  "max",
+  firstArray,
+  secondeArray,
+  thirdArray
+);
+// result 1, 2, 100, 3, 4, 200, 5, 6, 300, 8, 10
 ```
 
-2. Чередовать топ прослушиваний за месяц и любимые треки.
+2. Alternate top monthly plays and favorite tracks.
 
 ```js
-let topTracks = Source.getTopTracks('short'); // допустим, 50 треков
-let savedTracks = Source.getSavedTracks(20); //допустим, 20 треков
-let resultArray = Combiner.alternate('min', topTracks, savedTracks);
-// результат содержит 40 треков
+let topTracks = Source.getTopTracks("short"); // say 50 tracks
+let savedTracks = Source.getSavedTracks(20); //say 20 tracks
+let resultArray = Combiner.alternate("min", topTracks, savedTracks);
+// result contains 40 tracks
 ```
 
 ## mixin
 
-Чередовать элементы двух массивов. Один шаг - один и больше элементов от одного массива. Включает вызов [mixinMulti](/reference/combiner?id=mixinmulti).
+Alternate elements of two arrays. One step - one or more elements from one array. Includes calling [mixinMulti](/reference/combiner?id=mixinmulti).
 
-### Аргументы :id=mixin-arguments {docsify-ignore}
+### Arguments :id=mixin-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `xArray` | Массив | Первый источник. |
-| `yArray` | Массив | Второй источник. |
-| `xRow` | Число | Количество элементов подряд от первого источника. |
-| `yRow` | Число | Количество элементов подряд от второго источника. |
-| `toLimitOn` | Булево | Элементы чередуются до тех пор, пока пропорцию можно сохранить. Если `true` лишние элементы не включаются в результат. Если `false` добавляются в конец результата. По умолчанию `false`. |
+| Name        | Type    | Description                                                                                                                                                                                  |
+| ----------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `xArray`    | Array   | First source.                                                                                                                                                                                |
+| `yArray`    | Array   | Second source.                                                                                                                                                                               |
+| `xRow`      | Count   | Number of elements in a row from the first source.                                                                                                                                           |
+| `yRow`      | Number  | Number of consecutive elements from the second source.                                                                                                                                       |
+| `toLimitOn` | Boolean | Elements are alternated as long as the ratio can be maintained. If `true`, excess elements are not included in the result. If `false`, they are appended to the result. Defaults to `false`. |
 
-### Возврат :id=mixin-return {docsify-ignore}
+### Return :id=mixin-return {docsify-ignore}
 
-`resultArray` (массив) - новый массив, в котором чередуются элементы двух источников в заданной пропорции.
+`resultArray` (array) - a new array in which elements of the two sources are alternated in the given ratio.
 
-### Примеры :id=mixin-examples {docsify-ignore}
+### Examples :id=mixin-examples {docsify-ignore}
 
-1. Чередовать треки плейлистов и любимые треки в соотношении 5 к 1. Отбросить лишнее.
+1. Alternate playlist tracks and favorites in a ratio of 5 to 1. Discard excess.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
@@ -75,100 +80,100 @@ let resultArray = Combiner.mixin(tracks, savedTracks, 5, 1, true);
 
 ## mixinMulti
 
-Чередовать элементы неограниченного количества массивов. Один шаг - один и больше элементов от одного массива.
+Alternate elements of an unlimited number of arrays. One step - one or more elements from one array.
 
-### Аргументы :id=mixinmulti-arguments {docsify-ignore}
+### Arguments :id=mixinmulti-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `params` | Объект | Параметры чередования. |
+| Name     | Type   | Description                 |
+| -------- | ------ | --------------------------- |
+| `params` | Object | Parameters for alternation. |
 
-#### Параметры чередования :id=mixinmulti-params {docsify-ignore}
+#### Parameters for alternation :id=mixinmulti-params {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `source` | Массив | Массивы источников. |
-| `inRow` | Массив | Элементы, которые устанавливают количество подряд идущих элементов для каждого источника. |
-| `toLimitOn` | Булево | Элементы чередуются до тех пор, пока пропорцию можно сохранить. Если `true` лишние элементы не включаются в результат. Если `false` добавляются в конец результата. По умолчанию `false`. При `toLimitOn = true`, первая итерация проверяет количество элементов. Если элементов меньше, чем задано соотношением, вернется пустой массив. |
+| Name        | Type    | Description                                                                                                                                                                                                                                                                                                                                   |
+| ----------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `source`    | Array   | Arrays of sources.                                                                                                                                                                                                                                                                                                                            |
+| `inRow`     | Array   | Elements that set the number of consecutive elements for each source.                                                                                                                                                                                                                                                                         |
+| `toLimitOn` | Boolean | Elements are alternated as long as the ratio can be preserved. If `true`, excess elements are not included in the result. If `false`, they are appended to the result. Defaults to `false`. If `toLimitOn = true`, the first iteration checks the number of elements. If there are fewer elements than the ratio, an empty array is returned. |
 
-### Возврат :id=mixinmulti-return {docsify-ignore}
+### Return :id=mixinmulti-return {docsify-ignore}
 
-`resultArray` (массив) - новый массив, в котором чередуются элементы источников в заданной пропорции.
+`resultArray` (array) - a new array in which the elements of the sources are alternated in the given ratio.
 
-### Примеры :id=mixinmulti-examples {docsify-ignore}
+### Examples :id=mixinmulti-examples {docsify-ignore}
 
-1. Чередовать элементы в соотношении 1:1:1. Сохранить все элементы.
+1. Alternate elements in a 1:1:1 ratio. Keep all elements.
 
 ```js
 let x = [1, 2, 3, 4, 5];
 let y = [10, 20, 30, 40];
 let z = [100, 200, 300];
 let result = Combiner.mixinMulti({
-    source: [x, y, z],
-    inRow: [1, 1, 1],
+  source: [x, y, z],
+  inRow: [1, 1, 1],
 });
 // 1, 10, 100, 2, 20, 200, 3, 30, 300, 4, 40, 5
 ```
 
-2. Чередовать элементы в соотношении 2:4:2 до тех пор, пока можно сохранить последовательность.
+2. Alternate elements in a 2:4:2 ratio until the sequence can be preserved.
 
 ```js
 let x = [1, 2, 3, 4, 5];
 let y = [10, 20, 30, 40];
 let z = [100, 200, 300];
 let result = Combiner.mixinMulti({
-    toLimitOn: true,
-    source: [x, y, z],
-    inRow: [2, 4, 2],
+  toLimitOn: true,
+  source: [x, y, z],
+  inRow: [2, 4, 2],
 });
 // 1, 2, 10, 20, 30, 40, 100, 200
 ```
 
-3. Чередовать рекомендации, любимые треки и историю прослушиваний в соотношении 4:1:1 до тех пор, пока можно сохранить последовательность.
+3. Alternate recommendations, favorites, and listening history in a 4:1:1 ratio until consistency can be maintained.
 
 ```js
 let recom = Source.getRecomTracks();
 let saved = Source.getSavedTracks();
 let recent = RecentTracks.get();
 let tracks = Combiner.mixinMulti({
-    toLimitOn: true,
-    source: [recom, saved, recent],
-    inRow: [4, 1, 1],
+  toLimitOn: true,
+  source: [recom, saved, recent],
+  inRow: [4, 1, 1],
 });
 ```
 
 ## push
 
-Добавить в конец первого массива элементы второго массива и так далее.
+Add elements of the second array to the end of the first array, and so on.
 
-### Аргументы :id=push-arguments {docsify-ignore}
+### Arguments :id=push-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `sourceArray` | Массив | Первый массив. К нему добавляются элементы последующих массивов. |
-| `...additionalArray` | Массивы | Последующие массивы для добавления к предыдущему. |
+| Name                 | Type   | Description                                                     |
+| -------------------- | ------ | --------------------------------------------------------------- |
+| `sourceArray`        | Array  | The first array. Elements of subsequent arrays are added to it. |
+| `...additionalArray` | Arrays | Subsequent arrays to add to the previous one.                   |
 
-### Возврат :id=push-return {docsify-ignore}
+### Return :id=push-return {docsify-ignore}
 
-`sourceArray` (массив) - оригинальный первый массив после добавления элементов из других массивов.
+`sourceArray` (array) - the original first array after adding elements from other arrays.
 
-### Примеры :id=push-examples {docsify-ignore}
+### Examples :id=push-examples {docsify-ignore}
 
-1. Добавить элементы второго массива в конец первого массива.
+1. Append elements of the second array to the end of the first array.
 
 ```js
-let firstArray = Source.getTracks(playlistArray); // допустим, 20 треков
-let secondeArray = Source.getSavedTracks(); // допустим, 40 треков
+let firstArray = Source.getTracks(playlistArray); // say 20 tracks
+let secondeArray = Source.getSavedTracks(); // say 40 tracks
 Combiner.push(firstArray, secondeArray);
-// теперь в firstArray 60 треков
+// now there are 60 tracks in firstArray
 ```
 
-2. Добавить к первому массиву элементы двух других.
+2. Append elements of the other two arrays to the first array.
 
 ```js
-let firstArray = Source.getTracks(playlistArray); // допустим, 25 треков
-let secondeArray = Source.getSavedTracks(); // допустим, 100 треков
-let thirdArray = Source.getPlaylistTracks(); // допустим, 20 треков
+let firstArray = Source.getTracks(playlistArray); // say 25 tracks
+let secondeArray = Source.getSavedTracks(); // let's say 100 tracks
+let thirdArray = Source.getPlaylistTracks(); // let's say 20 tracks
 Combiner.push(firstArray, secondeArray, thirdArray);
-// теперь в firstArray 145 треков
+// now there are 145 tracks in firstArray
 ```

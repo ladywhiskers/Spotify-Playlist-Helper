@@ -664,7 +664,17 @@ async function updateFocusedWork() {
         limit: 100,
       },
       { name: "happy", id: "04z4EQ0AC9a7cjtdcKnDpn", limit: 100 },
-      { name: "gay", id: "4CHdd4KMQABX3inKKEiDMV", limit: 50 },
+      { name: "gay", id: "4CHdd4KMQABX3inKKEiDMV", limit: 100 },
+      {
+        name: "Spotify All-Time Top 100",
+        id: "5AFTprIryCRYJeR4TUFNAM",
+        limit: 100,
+      },
+      {
+        name: "Absolute Bangers Collection",
+        id: "08ZBip1gxb97iNoHjFEBYh",
+        limit: 100,
+      },
       {
         name: "Top Tracks (All Time)",
         id: "4YWHWAECe9R5nIxIUDlkAj",

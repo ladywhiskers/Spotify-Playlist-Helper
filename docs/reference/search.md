@@ -1,18 +1,18 @@
 # Search
 
-Методы поиска. Используются другими функциями. Понадобится только для индивидуальных решений.
+Search methods. Used by other functions. Needed only for individual solutions.
 
 ### find*
 
-Возвращает массив с результатами поиска по ключевому слову для типов: плейлист, трек, альбом, исполнитель.
+Returns an array with search results by keyword for types: playlist, track, album, artist.
 
-Аргументы
-- (массив) `keywords` - перечень ключевых слов, только строки. На каждое в результатах будет свой массив.
-- (число) `requestCount` - количество запросов на **одно** ключевое слово. На один запрос 50 объектов, если они есть. Максимум 40 запросов. По умолчанию 1.
+Arguments
+- (array) `keywords` - list of keywords, strings only. Each keyword will have its own array in the results.
+- (number) `requestCount` - number of requests per **one** keyword. Each request returns 50 objects if available. Maximum 40 requests. Default is 1.
 
-Пример 1 - Найти 100 плейлистов по слову `rain`
+Example 1 - Find 100 playlists by the keyword `rain`
 
-?> Лучшим способом будет функция [mineTracks](/reference/source?id=minetracks). Прямое использование модуля Search нужно для решений, которые не реализованы по умолчанию. Например, при [импорте треков с FM-радио](https://github.com/Chimildic/goofy/discussions/35).
+?> The best way would be the function [mineTracks](/reference/source?id=minetracks). Direct use of the Search module is needed for solutions not implemented by default. For example, when [importing tracks from FM radio](https://github.com/Chimildic/goofy/discussions/35).
 
 ```js
 let keywords = ['rain'];
@@ -21,30 +21,30 @@ let playlists = Search.findPlaylists(keywords, 2);
 
 ### getNoFound
 
-Возвращает массив с ключевыми словами и типом поиска, для которых не нашлось результатов за текущее выполнение скрипта. 
+Returns an array with keywords and search type for which no results were found during the current script execution.
 
-Аргументов нет.
+No arguments.
 
 ```js
 let noFound = Search.getNoFound();
-// структура: { type: '', keyword: '', item: {} }
+// structure: { type: '', keyword: '', item: {} }
 ```
 
 ### multisearch*
 
-Возвращается лучшее совпадение по ключевому словаму трека/исполнителя/альбома
+Returns the best match by keyword for track/artist/album.
 
-Аргументы
-- (массив) `items` - перебираемые элементы
-- (функция) `parseNameMethod` - коллбэк, вызываемый для каждого элемента. Должен вернуть строку, являющуюся ключевым словом для поиска.
+Arguments
+- (array) `items` - items to iterate over
+- (function) `parseNameMethod` - callback called for each item. Should return a string that is the keyword for the search.
 
-Пример 1 - Когда массив элементов с простым текстом
+Example 1 - When the array of items is simple text
 ```js
 let keywords = ['skillet', 'skydive'];
 let artists = Search.multisearchArtists(keywords, (i) => i);
 ```
 
-Пример 2 - Когда массив элементов со сложной структурой
+Example 2 - When the array of items has a complex structure
 ```js
 let tracks = Search.multisearchTracks(items, (item) => {
     return `${item.artist} ${item.title}`.formatName();

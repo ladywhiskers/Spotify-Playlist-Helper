@@ -1,21 +1,21 @@
 # Playlist
 
-Методы по созданию и управлению плейлистами.
+Methods for creating and managing playlists.
 
 ### getDescription
 
-Возвращает строку вида: `Исполнитель 1, Исполнитель 2... и не только`.
+Returns a string like: `Artist 1, Artist 2... and more`.
 
-Аргументы
-- (массив) `tracks` - треки, из которых случайно выбираются исполнители.
-- (число) `limit` - количество случайно выбираемых исполнителей. По умолчанию 5.
+Arguments
+- (array) `tracks` - tracks from which artists are randomly selected.
+- (number) `limit` - number of randomly selected artists. Default is 5.
 
-Пример 1 - Создать плейлист с описанием
+Example 1 - Create a playlist with a description
 ```js
 let tracks = Source.getTracks(playlistArray);
 Playlist.saveWithReplace({
     id: 'abcd',
-    name: 'Большой микс дня',
+    name: 'Big Mix of the Day',
     tracks: tracks,
     description: Playlist.getDescription(tracks),
 });
@@ -23,13 +23,13 @@ Playlist.saveWithReplace({
 
 ### removeTracks
 
-Удаляет треки из плейлиста.
+Removes tracks from a playlist.
 
-Аргументы
-- (строка) `id` - id плейлиста.
-- (массив) `tracks` - массив треков.
+Arguments
+- (string) `id` - playlist id.
+- (array) `tracks` - array of tracks.
 
-Пример 1 - Удалить лайки из плейлиста
+Example 1 - Remove likes from a playlist
 ```js
 let savedTracks = Source.getSavedTracks();
 Playlist.removeTracks('id', savedTracks);
@@ -37,36 +37,36 @@ Playlist.removeTracks('id', savedTracks);
 
 ### saveAsNew
 
-Создает плейлист. Каждый раз новый. Возвращает `id` созданного плейлиста.
+Creates a playlist. Each time a new one. Returns the `id` of the created playlist.
 
-Аргументы
-- (объект) `data` - данные для создания плейлиста.
+Arguments
+- (object) `data` - data for creating a playlist.
 
-Формат данных для создания плейлиста
-- (строка) `name` - название плейлиста, обязательно.
-- (массив) `tracks` - массив треков, обязательно.
-- (строка) `description` - описание плейлиста. До 300 символов.
-- (булево) `public` - если `false` плейлист будет приватным. По умолчанию `true`.
-- (строка) `sourceCover` - прямая ссылка на обложку (до 256 кб). Если указано, `randomCover` игнорируется. 
-- (строка) `randomCover` - добавить случайную обложку при значении `once`. Без использования, стандартная мозайка от Spotify.
+Data format for creating a playlist
+- (string) `name` - playlist name, required.
+- (array) `tracks` - array of tracks, required.
+- (string) `description` - playlist description. Up to 300 characters.
+- (boolean) `public` - if `false` the playlist will be private. Default is `true`.
+- (string) `sourceCover` - direct link to the cover (up to 256 kb). If specified, `randomCover` is ignored.
+- (string) `randomCover` - add a random cover with the value `once`. Without use, the standard mosaic from Spotify.
 
-Пример 1 - Создать публичный плейлист с любимыми треками без описания со случайной обложкой
+Example 1 - Create a public playlist with favorite tracks without description with a random cover
 ```js
 let tracks = Source.getSavedTracks();
 Playlist.saveAsNew({
-  name: 'Копия любимых треков',
+  name: 'Copy of Favorite Tracks',
   tracks: tracks,
   randomCover: 'once',
   // sourceCover: tracks[0].album.images[0].url,
 });
 ```
 
-Пример 2 - Создать приватный плейлист с недавней историей прослушиваний и описанием без обложки.
+Example 2 - Create a private playlist with recent listening history and description without a cover.
 ```js
 let tracks = RecentTracks.get(200);
 Playlist.saveAsNew({
-  name: 'История прослушиваний',
-  description: '200 недавно прослушанных треков'
+  name: 'Listening History',
+  description: '200 recently listened tracks',
   public: false,
   tracks: tracks,
 });
@@ -74,72 +74,72 @@ Playlist.saveAsNew({
 
 ### saveWithAppend
 
-Добавляет треки к уже имеющимся в плейлисте. Обновляет остальные данные (название, описание). Если плейлиста еще нет, создает новый. Возвращает `id` плейлиста, в который добавлялись треки.
+Adds tracks to an existing playlist. Updates other data (name, description). If the playlist does not exist, creates a new one. Returns the `id` of the playlist to which the tracks were added.
 
-Аргументы
-- (объект) `data` - данные о плейлисте. Формат данных о плейлисте согласно описанию [saveWithReplace](/reference/playlist?id=savewithreplace).
-- (строка) `position` - место добавления треков: начало `begin` или конец `end`. По умолчанию `end`.
+Arguments
+- (object) `data` - playlist data. Playlist data format according to the description [saveWithReplace](/reference/playlist?id=savewithreplace).
+- (string) `position` - place to add tracks: beginning `begin` or end `end`. Default is `end`.
 
-Пример 1 - Добавить треки в начало плейлиста.
+Example 1 - Add tracks to the beginning of the playlist.
 ```js
 let tracks = Source.getTracks(playlistArray);
 Playlist.saveWithAppend({
     id: 'fewf4t34tfwf4',
-    name: 'Микс дня',
+    name: 'Mix of the Day',
     tracks: tracks
 });
 ```
 
-Пример 2 - Добавить треки в конец плейлиста, обновить название и описание.
+Example 2 - Add tracks to the end of the playlist, update the name and description.
 ```js
 let tracks = Source.getTracks(playlistArray);
 Playlist.saveWithAppend({
     id: 'fewf4t34tfwf4',
-    name: 'Новое название',
-    description: 'Новое описание',
+    name: 'New Name',
+    description: 'New Description',
     tracks: tracks,
 });
 ```
 
-!> Если обновить название плейлиста без указания `id` будет создан новый плейлист. Потому что поиск не найден плейлист с новым названием.
+!> If you update the playlist name without specifying `id`, a new playlist will be created. Because the search did not find a playlist with the new name.
 
 ### saveWithReplace
 
-Заменяет треки плейлиста. Обновляет остальные данные (название, описание). Если плейлиста еще нет, создает новый. Возвращает `id` плейлиста, в который добавлялись треки.
+Replaces the tracks of the playlist. Updates other data (name, description). If the playlist does not exist, creates a new one. Returns the `id` of the playlist to which the tracks were added.
 
-Аргументы
-- (объект) `data` - данные о плейлисте.
+Arguments
+- (object) `data` - playlist data.
 
-Формат данных о плейлисте
-- (строка) `id` - [идентификационный номер плейлиста](#идентификатор).
-- (строка) `name` - название плейлиста, обязательно.
-- (массив) `tracks` - массив треков, обязательно.
-- (строка) `description` - описание плейлиста. До 300 символов.
-- (булево) `public` - если `false` плейлист будет приватным. По умолчанию `true`.
-- (строка) `sourceCover` - прямая ссылка на обложку (до 256 кб). Если указано, `randomCover` игнорируется. 
-- (строка) `randomCover` - если `once` добавит случайную обложку. При `update` каждый раз обновляет обложку. Без использования, стандартная мозайка от Spotify.
+Playlist data format
+- (string) `id` - [playlist identifier](#identifier).
+- (string) `name` - playlist name, required.
+- (array) `tracks` - array of tracks, required.
+- (string) `description` - playlist description. Up to 300 characters.
+- (boolean) `public` - if `false` the playlist will be private. Default is `true`.
+- (string) `sourceCover` - direct link to the cover (up to 256 kb). If specified, `randomCover` is ignored.
+- (string) `randomCover` - if `once` adds a random cover. With `update` updates the cover each time. Without use, the standard mosaic from Spotify.
 
-?> Рекомендуется всегда указывать `id`. Если `id` не указано, поиск по названию. Если такого плейлиста нет, создается новый.
+?> It is recommended to always specify `id`. If `id` is not specified, search by name. If such a playlist does not exist, a new one is created.
 
-Пример 1 - Обновить содержимое плейлиста и обложку
+Example 1 - Update the playlist content and cover
 ```js
 let tracks = Source.getTracks(playlistArray);
 Playlist.saveWithReplace({
     id: 'fewf4t34tfwf4',
-    name: 'Микс дня',
-    description: 'Описание плейлиста',
+    name: 'Mix of the Day',
+    description: 'Playlist Description',
     tracks: tracks,
     randomCover: 'update',
     // sourceCover: tracks[0].album.images[0].url,
 });
 ```
 
-Пример 2 - Обновить содержимое плейлиста из примера 1. Поиск по названию.
+Example 2 - Update the content of the playlist from example 1. Search by name.
 ```js
 let tracks = RecentTracks.get();
 Playlist.saveWithReplace({
-    name: 'История',
-    description: 'Новое описание плейлиста',
+    name: 'History',
+    description: 'New Playlist Description',
     tracks: tracks,
     randomCover: 'update',
 });
@@ -147,10 +147,10 @@ Playlist.saveWithReplace({
 
 ### saveWithUpdate
 
-Обновляет плейлист или создает новый. Треки, которые есть в массиве, но нет в плейлисте - добавляются. Треки, которых нет в массиве, но есть в плейлисте - удаляются. То что есть и там, и там - сохраняется. Не затрагивается дата добавления треков. Невозможно применить сортировку, где перемешаны старые и новые треки (действует как `saveWithAppend`). Возвращает `id` плейлиста, в который добавлялись треки.
+Updates the playlist or creates a new one. Tracks that are in the array but not in the playlist are added. Tracks that are not in the array but are in the playlist are removed. What is in both is saved. The date of adding tracks is not affected. It is impossible to apply sorting where old and new tracks are mixed (acts like `saveWithAppend`). Returns the `id` of the playlist to which the tracks were added.
 
-Аргументы
-- (объект) `data` - данные о плейлисте, соответствует [saveWithReplace](/reference/playlist?id=savewithreplace).
+Arguments
+- (object) `data` - playlist data, corresponds to [saveWithReplace](/reference/playlist?id=savewithreplace).
 
-Дополнительный режим для `data`
-- (строка) `position` - место добавления треков: начало `begin` или конец `end`. По умолчанию `end`.
+Additional mode for `data`
+- (string) `position` - place to add tracks: beginning `begin` or end `end`. Default is `end`.

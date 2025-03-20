@@ -1,52 +1,51 @@
 # Filter
 
-Методы отсеивания элементов.
+Methods for filtering elements.
 
-| Метод | Тип результата | Краткое описание |
+| Method | Result type | Brief description |
 |-------|----------------|------------------|
-| [dedupArtists](/reference/filter?id=dedupartists) | - | Удалить дубликаты исполнителей. |
-| [dedupTracks](/reference/filter?id=deduptracks) | - | Удалить дубликаты треков. |
-| [getDateRel](/reference/filter?id=getdaterel) | Дата | Вычислить дату по смещению в днях относительно сегодня. |
-| [detectLanguage](/reference/filter?id=detectlanguage) | - | Определить по тексту основной язык исполнения треков. |
-| [getLastOutRange](/reference/filter?id=getlastoutrange) | Массив | Узнать треки, которые не прошли последнюю фильтрацию [rangeTracks](/reference/filter?id=rangetracks) |
-| [match](/reference/filter?id=match) | - | Удалить треки, которые не удовлетворяют регулярному выражению. |
-| [matchExcept](/reference/filter?id=matchexcept) | - | Оболочка для [match](/reference/filter?id=match) с инверсией. |
-| [matchExceptMix](/reference/filter?id=matchexceptmix) | - | Удалить треки, содержащие слова _mix_ и _club_. |
-| [matchExceptRu](/reference/filter?id=matchexceptru) | - | Удалить треки, содержащие кириллицу в названии. |
-| [matchLatinOnly](/reference/filter?id=matchlatinonly) | - | Удалить все треки, кроме содержащих латиницу в названии. |
-| [matchOriginalOnly](/reference/filter?id=matchoriginalonly) | - | Удалить неоригинальные версии треков. |
-| [rangeDateAbs](/reference/filter?id=rangedateabs) | - | Отобрать элементы, которые входят в период по абсолютным датам добавления или прослушивания. |
-| [rangeDateRel](/reference/filter?id=rangedaterel) | - | Отобрать элементы, которые входят в период по относительным датам добавления или прослушивания. |
-| [rangeTracks](/reference/filter?id=rangetracks) | - | Отобрать треки, которые входят в диапазон метаданных. |
-| [removeArtists](/reference/filter?id=removeartists) | - | Исключить исполнителей из массива. |
-| [removeTracks](/reference/filter?id=removetracks) | - | Исключить треки из массива. |
-| [removeUnavailable](/reference/filter?id=removeunavailable) | - | Исключить треки, которые нельзя прослушать. |
-| [replaceWithSimilar](/reference/filter?id=replacewithsimilar) | - | Заменить треки на похожие. |
+| [dedupArtists](/reference/filter?id=dedupartists) | - | Remove duplicate artists. |
+| [dedupTracks](/reference/filter?id=deduptracks) | - | Remove duplicate tracks. |
+| [getDateRel](/reference/filter?id=getdaterel) | Date | Calculate the date by the offset in days relative to today. |
+| [detectLanguage](/reference/filter?id=detectlanguage) | - | Determine the primary language of the tracks by the text. |
+| [getLastOutRange](/reference/filter?id=getlastoutrange) | Array | Find tracks that failed the last filter [rangeTracks](/reference/filter?id=rangetracks) |
+| [match](/reference/filter?id=match) | - | Remove tracks that do not match the regular expression. |
+| [matchExcept](/reference/filter?id=matchexcept) | - | Wrapper for [match](/reference/filter?id=match) with inversion. |
+| [matchExceptMix](/reference/filter?id=matchexceptmix) | - | Remove tracks containing the words _mix_ and _club_. |
+| [matchExceptRu](/reference/filter?id=matchexceptru) | - | Remove tracks containing Cyrillic in the title. |
+| [matchLatinOnly](/reference/filter?id=matchlatinonly) | - | Remove all tracks except those containing Latin in the title. |
+| [matchOriginalOnly](/reference/filter?id=matchoriginalonly) | - | Remove non-original versions of tracks. |
+| [rangeDateAbs](/reference/filter?id=rangedateabs) | - | Filter items that fall within the period by absolute dates of addition or listening. |
+| [rangeDateRel](/reference/filter?id=rangedaterel) | - | Filter items that fall within the period by relative dates of addition or listening. |
+| [rangeTracks](/reference/filter?id=rangetracks) | - | Filter tracks that fall within the metadata range. |
+| [removeArtists](/reference/filter?id=removeartists) | - | Exclude artists from the array. |
+| [removeTracks](/reference/filter?id=removetracks) | - | Exclude tracks from the array. |
+| [removeUnavailable](/reference/filter?id=removeunavailable) | - | Exclude tracks that cannot be listened to. |
+| [replaceWithSimilar](/reference/filter?id=replacewithsimilar) | - | Replace tracks with similar ones. |
 
 ## dedupArtists
+Remove duplicate artists by _id_. Only one element per artist will remain.
 
-Удалить дубликаты исполнителей по _id_. Останется один элемент от одного исполнителя.
+### Arguments :id=dedupartists-arguments {docsify-ignore}
 
-### Аргументы :id=dedupartists-arguments {docsify-ignore}
+| Name | Type | Description |
+|------|------|-------------|
+| `items` | Array | Tracks or artists from which duplicate artists need to be removed. |
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `items` | Массив | Треки или исполнители, в которых требуется удалить дубликаты исполнителей. |
+### Return :id=dedupartists-return {docsify-ignore}
 
-### Возврат :id=dedupartists-return {docsify-ignore}
+No return value. Modifies the input array.
 
-Нет возвращаемого значения. Изменяет входной массив.
+### Examples :id=dedupartists-examples {docsify-ignore}
 
-### Примеры :id=dedupartists-examples {docsify-ignore}
-
-1. Удалить дубликаты исполнителей в треках.
+1. Remove duplicate artists in tracks.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
 Filter.dedupArtists(tracks);
 ```
 
-1. Удалить дубликаты исполнителей из массива исполнителей.
+2. Remove duplicate artists from an array of artists.
 
 ```js
 let relatedArtists = Source.getRelatedArtists(artists);
@@ -55,22 +54,22 @@ Filter.dedupArtists(relatedArtists);
 
 ## dedupTracks
 
-Удалить дубликаты треков по _id_ и _name_.
+Remove duplicate tracks by _id_ and _name_.
 
-### Аргументы :id=deduptracks-arguments {docsify-ignore}
+### Arguments :id=deduptracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tracks` | Массив | Треки, в которых требуется удалить дубликаты. |
-| `offsetDurationMs` | Число | Отклонение в миллисекундах, при котором идентичные по названию треки считаются одинаковыми. По умолчанию 2000 миллисекунд (2 секунды). [Подробнее](https://github.com/Chimildic/goofy/discussions/116). |
+| Name | Type | Description |
+|------|------|-------------|
+| `tracks` | Array | Tracks from which duplicates need to be removed. |
+| `offsetDurationMs` | Number | Deviation in milliseconds within which tracks with the same name are considered identical. Default is 2000 milliseconds (2 seconds). [More details](https://github.com/Chimildic/goofy/discussions/116). |
 
-### Возврат :id=deduptracks-return {docsify-ignore}
+### Return :id=deduptracks-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=deduptracks-examples {docsify-ignore}
+### Examples :id=deduptracks-examples {docsify-ignore}
 
-1. Удалить дубликаты. Отклонение указывать необязательно.
+1. Remove duplicates. Specifying the deviation is optional.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
@@ -79,55 +78,54 @@ Filter.dedupTracks(tracks);
 
 ## getDateRel
 
-Вычислить дату по смещению в днях относительно сегодня.
+Calculate the date by the offset in days relative to today.
 
-### Аргументы :id=getdaterel-arguments {docsify-ignore}
+### Arguments :id=getdaterel-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `days` | Число | Смещение в днях относительно сегодня. |
-| `bound` | Строка | Граница времени. При `startDay` 00:00, при `endDay` 23:59. Если не указать, останется значение от момента выполнения метода. |
+| Name | Type | Description |
+|------|------|-------------|
+| `days` | Number | Offset in days relative to today. |
+| `bound` | String | Time boundary. `startDay` for 00:00, `endDay` for 23:59. If not specified, the value will be from the moment of method execution. |
 
-### Возврат :id=getdaterel-return {docsify-ignore}
+### Return :id=getdaterel-return {docsify-ignore}
 
-`date` (дата) - искомая дата после смещения.
+`date` (Date) - the calculated date after the offset.
 
-### Примеры :id=getdaterel-examples {docsify-ignore}
+### Examples :id=getdaterel-examples {docsify-ignore}
 
-Пример в шаблоне [любимо и забыто](/template?id=Любимо-и-забыто).
+Example in the [favorite and forgotten](/template?id=Любимо-и-забыто) template.
 
 ## detectLanguage
 
-Определить по тексту основной язык исполнения треков.
+Determine the primary language of the tracks by the text.
 
-!> Требуется указать параметр `MUSIXMATCH_API_KEY`, [подробнее](/config). Сервис ограничивает количество запросов в день. Используйте функцию только после сокращения массива треков другими фильтрами.
+!> The `MUSIXMATCH_API_KEY` parameter is required, [more details](/config). The service limits the number of requests per day. Use the function only after reducing the array of tracks with other filters.
 
-### Аргументы :id=detectlanguage-arguments {docsify-ignore}
+### Arguments :id=detectlanguage-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tracks` | Массив | Треки, для которых требуется определить основной язык исполнения. |
-| `params` | Объект | Параметры фильтрации. |
+| Name | Type | Description |
+|------|------|-------------|
+| `tracks` | Array | Tracks for which the primary language needs to be determined. |
+| `params` | Object | Filtering parameters. |
 
-#### Параметры фильтрации :id=detectlanguage-params {docsify-ignore}
+#### Filtering Parameters :id=detectlanguage-params {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `isRemoveUnknown` | Булево | Действие при неизвестном языке (когда нет в базе `musixmatch` или он танцевальный). При `true` удаляет такие треки, при `false` оставляет. По умолчанию `false`. |
-| `include` | Массив | Языки, которые нужно оставить. |
-| `exclude` | Массив | Языки, которые нужно удалить. |
+| Name | Type | Description |
+|------|------|-------------|
+| `isRemoveUnknown` | Boolean | Action for unknown languages (when not in the `musixmatch` database or it is dance music). `true` removes such tracks, `false` keeps them. Default is `false`. |
+| `include` | Array | Languages to keep. |
+| `exclude` | Array | Languages to remove. |
 
-?> Принимаются двухбуквенные обозначения языка в нижнем регистре. [Список языков](https://ru.wikipedia.org/wiki/Коды_языков).
+?> Two-letter language codes in lowercase are accepted. [List of languages](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
 
-### Возврат :id=detectlanguage-return {docsify-ignore}
+### Return :id=detectlanguage-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив при указании параметров фильтрации.
+No return value. Modifies the input array when filtering parameters are specified.
 
-К трекам добавляется объект `lyrics`, который содержит обозначение языка `lang` и краткий отрывок текста `text`.
+Tracks are augmented with a `lyrics` object containing the language code `lang` and a short text excerpt `text`.
+### Examples :id=detectlanguage-examples {docsify-ignore}
 
-### Примеры :id=detectlanguage-examples {docsify-ignore}
-
-1. Берем [топ Германии](https://open.spotify.com/playlist/37i9dQZEVXbJiZcmkrIHGU?si=33fdf90a2b854fc8) и оставляем только немецкий.
+1. Take the [Germany Top 50](https://open.spotify.com/playlist/37i9dQZEVXbJiZcmkrIHGU?si=33fdf90a2b854fc8) and keep only German tracks.
 
 ```js
 let tracks = Source.getPlaylistTracks('', '37i9dQZEVXbJiZcmkrIHGU');
@@ -137,7 +135,7 @@ Filter.detectLanguage(tracks, {
 });
 ```
 
-2. Схожая ситуация, исключаем русский.
+2. Similar situation, exclude Russian tracks.
 
 ```js
 let tracks = Source.getPlaylistTracks('', '37i9dQZEVXbL8l7ra5vVdB');
@@ -147,7 +145,7 @@ Filter.detectLanguage(tracks, {
 });
 ```
 
-3. Узнать какие языки есть в массиве.
+3. Find out which languages are in the array.
 
 ```js
 let tracks = Source.getPlaylistTracks('', '37i9dQZEVXbL8l7ra5vVdB');
@@ -155,146 +153,26 @@ Filter.detectLanguage(tracks, { isRemoveUnknown: true });
 console.log(Array.from(new Set(tracks.map(t => t.lyrics.lang))).join('\n'));
 ```
 
-?> Для набора треков на разных языках подойдет функция поиска [mineTracks](/reference/source?id=minetracks).
-
-## getLastOutRange
-
-Узнать треки, которые не прошли последнюю фильтрацию [rangeTracks](/reference/filter?id=rangetracks).
-
-### Аргументы :id=getlastoutrange-arguments {docsify-ignore}
-
-Нет аргументов.
-
-### Возврат :id=getlastoutrange-return {docsify-ignore}
-
-`outRangeTracks` (массив) - треки, непрошедшие фильтрацию.
-
-### Примеры :id=getlastoutrange-examples {docsify-ignore}
-
-1. Получить треки непрошедшие фильтрацию.
-
-```js
-let tracks = Source.getTracks(playlistArray);
-Filter.rangeTracks(tracks, args);
-let outRangeTracks = Filter.getLastOutRange();
-```
-
-## match
-
-Удалить треки, которые не удовлетворяют регулярному выражению по названию трека, альбома и исполнителя.
-
-### Аргументы :id=match-arguments {docsify-ignore}
-
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `items` | Массив | Треки или исполнители для проверки регулярным выражением. |
-| `strRegex` | Строка | Значение регулярного выражения |
-| `invert` | Булево | Если `true` инвертирует результат. По умолчанию `false`. |
-
-### Возврат :id=match-return {docsify-ignore}
-
-Нет возвращаемого значения. Изменяет входной массив.
-
-### Примеры :id=match-examples {docsify-ignore}
-
-1. Удалить треки, содержащие в своем названии слова _cover_ или _live_.
-
-```js
-let tracks = Source.getTracks(playlistArray);
-Filter.match(tracks, 'cover|live', true);
-```
-
-## matchExcept
-
-Оболочка для [match](/reference/filter) с `invert = true`.
-
-### Аргументы :id=matchexcept-arguments {docsify-ignore}
-
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `items` | Массив | Треки или исполнители для проверки регулярным выражением. |
-| `strRegex` | Строка | Значение регулярного выражения |
-
-### Возврат :id=matchexcept-return {docsify-ignore}
-
-Нет возвращаемого значения. Изменяет входной массив.
-
-### Примеры :id=matchexcept-examples {docsify-ignore}
-
-1. Удалить треки, содержащие в своем названии слова _cover_ или _live_.
-
-```js
-let tracks = Source.getTracks(playlistArray);
-Filter.matchExcept(tracks, 'cover|live');
-```
-
-## matchExceptMix
-
-Удалить треки, содержащие слова _mix_ и _club_. Оболочка для [matchExcept](/reference/filter?id=matchexcept) с аргументом `strRegex = 'mix|club'`.
-
-### Аргументы :id=matchexceptmix-arguments {docsify-ignore}
-
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tracks` | Массив | Треки для проверки регулярным выражением. |
-
-### Возврат :id=matchexceptmix-return {docsify-ignore}
-
-Нет возвращаемого значения. Изменяет входной массив.
-
-### Примеры :id=matchexceptmix-examples {docsify-ignore}
-
-1. Удалить треки, содержащие в своем названии слова _mix_ или _club_.
-
-```js
-let tracks = Source.getTracks(playlistArray);
-Filter.matchExceptMix(tracks);
-```
-
-## matchExceptRu
-
-Удалить треки, содержащие кириллицу в названии. Оболочка для [matchExcept](/reference/filter?id=matchexcept) с аргументом `strRegex = '[а-яА-ЯёЁ]+'`.
-
-?> Для фильтра по языку трека используйте [detectLanguage](/reference/filter?id=detectlanguage).
-
-### Аргументы :id=matchexceptru-arguments {docsify-ignore}
-
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tracks` | Массив | Треки для проверки регулярным выражением. |
-
-### Возврат :id=matchexceptru-return {docsify-ignore}
-
-Нет возвращаемого значения. Изменяет входной массив.
-
-### Примеры :id=matchexceptru-examples {docsify-ignore}
-
-1. Удалить треки c кириллицей в названии.
-
-```js
-let tracks = Source.getTracks(playlistArray);
-Filter.matchExceptRu(tracks);
-```
-
+?> For a set of tracks in different languages, the [mineTracks](/reference/source?id=minetracks) function is suitable.
 ## matchLatinOnly
 
-Удалить все треки, кроме содержащих латиницу в названии. Оболочка для [match](/reference/filter?id=match) с аргументом `strRegex = '^[a-zA-Z0-9 ]+$'`.
+Remove all tracks except those containing Latin characters in the title. Wrapper for [match](/reference/filter?id=match) with the argument `strRegex = '^[a-zA-Z0-9 ]+$'`.
 
-?> Для фильтра по языку трека используйте [detectLanguage](/reference/filter?id=detectlanguage).
+?> For filtering by track language, use [detectLanguage](/reference/filter?id=detectlanguage).
 
-### Аргументы :id=matchlatinonly-arguments {docsify-ignore}
+### Arguments :id=matchlatinonly-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tracks` | Массив | Треки для проверки регулярным выражением. |
+| Name | Type | Description |
+|------|------|-------------|
+| `tracks` | Array | Tracks to be checked with the regular expression. |
 
-### Возврат :id=matchlatinonly-return {docsify-ignore}
+### Return :id=matchlatinonly-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=matchlatinonly-examples {docsify-ignore}
+### Examples :id=matchlatinonly-examples {docsify-ignore}
 
-1. Оставить только треки с латиницей в названии.
+1. Keep only tracks with Latin characters in the title.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
@@ -303,21 +181,21 @@ Filter.matchLatinOnly(tracks);
 
 ## matchOriginalOnly
 
-Удалить неоригинальные версии треков. Оболочка для [matchExcept](/reference/filter?id=matchexcept) с аргументом `strRegex = 'mix|club|radio|piano|acoustic|edit|live|version|cover|karaoke'`.
+Remove non-original versions of tracks. Wrapper for [matchExcept](/reference/filter?id=matchexcept) with the argument `strRegex = 'mix|club|radio|piano|acoustic|edit|live|version|cover|karaoke'`.
 
-### Аргументы :id=matchoriginalonly-arguments {docsify-ignore}
+### Arguments :id=matchoriginalonly-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tracks` | Массив | Треки для проверки регулярным выражением. |
+| Name | Type | Description |
+|------|------|-------------|
+| `tracks` | Array | Tracks to be checked with the regular expression. |
 
-### Возврат :id=matchoriginalonly-return {docsify-ignore}
+### Return :id=matchoriginalonly-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=matchoriginalonly-examples {docsify-ignore}
+### Examples :id=matchoriginalonly-examples {docsify-ignore}
 
-1. Оставить оригинальные версии треков.
+1. Keep only original versions of tracks.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
@@ -326,30 +204,30 @@ Filter.matchOriginalOnly(tracks);
 
 ## rangeDateAbs
 
-Отобрать элементы, которые входят в период по абсолютным датам. Проверяется дата добавления или прослушивания.
+Filter items that fall within the period by absolute dates of addition or listening.
 
-?> Для фильтра по дате релиза альбома используйте [rangeTracks](/reference/filter?id=rangetracks).
+?> For filtering by album release date, use [rangeTracks](/reference/filter?id=rangetracks).
 
-### Аргументы :id=rangedateabs-arguments {docsify-ignore}
+### Arguments :id=rangedateabs-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `items` | Массив | Проверяемые элементы. |
-| `startDate` | Дата | Начало абсолютного периода. |
-| `endDate` | Дата | Конец абсолютного периода. |
+| Name | Type | Description |
+|------|------|-------------|
+| `items` | Array | Items to be checked. |
+| `startDate` | Date | Start of the absolute period. |
+| `endDate` | Date | End of the absolute period. |
 
-Формат даты `YYYY-MM-DDTHH:mm:ss.sss`, где
-- `YYYY-MM-DD` - год, месяц, день
-- `T` - разделитель для указания времени. Указать, если добавляется время.
-- `HH:mm:ss.sss` - часы, минуты, секунды, миллисекунды
+Date format `YYYY-MM-DDTHH:mm:ss.sss`, where
+- `YYYY-MM-DD` - year, month, day
+- `T` - separator for specifying time. Include if adding time.
+- `HH:mm:ss.sss` - hours, minutes, seconds, milliseconds
 
-### Возврат :id=rangedateabs-return {docsify-ignore}
+### Return :id=rangedateabs-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=rangedateabs-examples {docsify-ignore}
+### Examples :id=rangedateabs-examples {docsify-ignore}
 
-1. Треки, добавленные между 1 и 3 сентября.
+1. Tracks added between September 1 and September 3.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
@@ -358,7 +236,7 @@ let endDate = new Date('2020-09-03');
 Filter.rangeDateAbs(tracks, startDate, endDate);
 ```
 
-2. Треки, добавленные с 1 августа 15:00 по 20 августа 10:00.
+2. Tracks added from August 1, 15:00 to August 20, 10:00.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
@@ -367,7 +245,7 @@ let endDate = new Date('2020-08-20T10:00');
 Filter.rangeDateAbs(tracks, startDate, endDate);
 ```
 
-3. Треки, добавленные с 1 сентября по текущую дату и время.
+3. Tracks added from September 1 to the current date and time.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
@@ -378,183 +256,184 @@ Filter.rangeDateAbs(tracks, startDate, endDate);
 
 ## rangeDateRel
 
-Отобрать элементы, которые входят в период по относительным датам. Проверяется дата добавления или прослушивания.
+Filter items that fall within the period by relative dates. Checks the date of addition or listening.
 
-!> Если элемент не содержит даты, устанавливается 01.01.2000. Такое возможно, например, если трек добавлен в Spotify очень давно, источником является [getTopTracks](/reference/source?id=gettoptracks), это плейлисты "Мой микс дня #N" или ряд других источников.
+!> If an item does not contain a date, it is set to 01.01.2000. This can happen, for example, if a track was added to Spotify a long time ago, the source is [getTopTracks](/reference/source?id=gettoptracks), or it is from playlists like "My Daily Mix #N" or other sources.
 
-### Аргументы :id=rangedaterel-arguments {docsify-ignore}
+### Arguments :id=rangedaterel-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `items` | Массив | Проверяемые элементы. |
-| `sinceDays` | Число | Начало относительного периода. |
-| `beforeDays` | Число | Конец относительного периода. |
+| Name | Type | Description |
+|------|------|-------------|
+| `items` | Array | Items to be checked. |
+| `sinceDays` | Number | Start of the relative period. |
+| `beforeDays` | Number | End of the relative period. |
 
-На схеме пример для `sinceDays = 7` и `beforeDays = 2`. То есть получить элементы, добавленные в плейлист с 3 сентября 00:00 по 8 сентября 23:59 относительно сегодня, 10 сентября.
+The diagram shows an example for `sinceDays = 7` and `beforeDays = 2`. This means getting items added to the playlist from September 3rd 00:00 to September 8th 23:59 relative to today, September 10th.
 
-![Пример использования sinceDays и beforeDays](../img/DaysRel.png ':size=60%')
+![Example usage of sinceDays and beforeDays](../img/DaysRel.png ':size=60%')
 
-?> Механизм получения даты начала отслеживания исполнителя описан [на форуме](https://github.com/Chimildic/goofy/discussions/98)
+?> The mechanism for obtaining the start date of tracking an artist is described [on the forum](https://github.com/Chimildic/goofy/discussions/98)
 
-### Возврат :id=rangedaterel-return {docsify-ignore}
+### Return :id=rangedaterel-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=rangedaterel-examples {docsify-ignore}
+### Examples :id=rangedaterel-examples {docsify-ignore}
 
-1. Треки, добавленные за последние 5 дней и сегодня.
+1. Tracks added in the last 5 days and today.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
 Filter.rangeDateRel(tracks, 5);
-// аналогично Filter.rangeDateRel(tracks, 5, 0);
+// equivalent to Filter.rangeDateRel(tracks, 5, 0);
 ```
 
-2. Треки за последние 7 дней исключая сегодня.
+2. Tracks from the last 7 days excluding today.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
 Filter.rangeDateRel(tracks, 7, 1);
 ```
 
-3. Треки за один день, который был 14 дней назад.
+3. Tracks from one day, 14 days ago.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
 Filter.rangeDateRel(tracks, 14, 14);
 ```
 
-4. Треки только за сегодня.
+4. Tracks only from today.
+
 ```js
 let tracks = Source.getTracks(playlistArray);
 Filter.rangeDateRel(tracks);
-// аналогично Filter.rangeDateRel(tracks, 0, 0);
+// equivalent to Filter.rangeDateRel(tracks, 0, 0);
 ```
 
 ## rangeTracks
 
-Отобрать треки, которые входят в диапазон метаданных.
+Filter tracks that fall within the metadata range.
 
-### Аргументы :id=rangetracks-arguments {docsify-ignore}
+### Arguments :id=rangetracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tracks` | Массив | Проверяемые треки. |
-| `params` | Объект | Параметры отбора. |
+| Name | Type | Description |
+|------|------|-------------|
+| `tracks` | Array | Tracks to be checked. |
+| `params` | Object | Filtering parameters. |
 
-!> Функция запрашивает дополнительные данные. Чтобы сократить число запросов, используйте ее после сокращения массива треков другими способами (например, [rangeDateRel](/reference/filter?id=rangedaterel), [match](/reference/filter?id=match) и другие). Полученные данные кэшируются для **текущего** выполнения. Повторный вызов функции или сортировка [sort](/reference/order?id=sort) с теми же категориями не отправляют новых запросов.
+!> The function requests additional data. To reduce the number of requests, use it after reducing the array of tracks by other methods (e.g., [rangeDateRel](/reference/filter?id=rangedaterel), [match](/reference/filter?id=match), and others). The obtained data is cached for the **current** execution. Repeated function calls or sorting [sort](/reference/order?id=sort) with the same categories do not send new requests.
 
-#### Параметры отбора :id=rangetracks-params {docsify-ignore}
+#### Filtering Parameters :id=rangetracks-params {docsify-ignore}
 
-Ниже пример объекта `params` со всеми допустимыми условиями проверки. [Описание параметров](/reference/desc?id=Описание-параметров-объектов).
+Below is an example of a `params` object with all possible conditions.
 
 ```js
 let params = {
-    meta: {
-        popularity: { min: 0, max: 100 },
-        duration_ms: { min: 0, max: 10000 },
-        explicit: false,
-    },
-    artist: {
-        popularity: { min: 0, max: 100 },
-        followers: { min: 0, max: 100000 },
-        genres: ['indie'],
-        ban_genres: ['rap', 'pop'],
-        isRemoveUnknownGenre: false,
-    },
-    features: {
-        acousticness: { min: 0.0, max: 1.0 },
-        danceability: { min: 0.0, max: 1.0 },
-        energy: { min: 0.0, max: 1.0 },
-        instrumentalness: { min: 0.0, max: 1.0 },
-        liveness: { min: 0.0, max: 1.0 },
-        loudness: { min: -60, max: 0 },
-        speechiness: { min: 0.0, max: 1.0 },
-        valence: { min: 0.0, max: 1.0 },
-        tempo: { min: 30, max: 210 },
-        key: 0,
-        mode: 0,
-        time_signature: 1,
+  meta: {
+    popularity: { min: 0, max: 100 },
+    duration_ms: { min: 0, max: 10000 },
+    explicit: false,
+  },
+  artist: {
+    popularity: { min: 0, max: 100 },
+    followers: { min: 0, max: 100000 },
+    genres: ['indie'],
+    ban_genres: ['rap', 'pop'],
+    isRemoveUnknownGenre: false,
+  },
+  features: {
+    acousticness: { min: 0.0, max: 1.0 },
+    danceability: { min: 0.0, max: 1.0 },
+    energy: { min: 0.0, max: 1.0 },
+    instrumentalness: { min: 0.0, max: 1.0 },
+    liveness: { min: 0.0, max: 1.0 },
+    loudness: { min: -60, max: 0 },
+    speechiness: { min: 0.0, max: 1.0 },
+    valence: { min: 0.0, max: 1.0 },
+    tempo: { min: 30, max: 210 },
+    key: 0,
+    mode: 0,
+    time_signature: 1,
 
-        // вычисляемые https://github.com/Chimildic/goofy/discussions/87
-        anger: { min: 0.0, max: 1.0 },
-        happiness: { min: 0.0, max: 1.0 },
-        sadness: { min: 0.0, max: 1.0 }, 
-        
-        // дублирует args.meta.duration_ms, достаточно одного (выбор зависит от категории)
-        duration_ms: { min: 0, max: 10000 },
-    },
-    album: {
-        popularity: { min: 30, max: 70 },
-        album_type: ['single', 'album'],
-        release_date: { sinceDays: 6, beforeDays: 0 },
-        // или release_date: { startDate: new Date('2020.11.30'), endDate: new Date('2020.12.30') },
-    },
+    // calculated https://github.com/Chimildic/goofy/discussions/87
+    anger: { min: 0.0, max: 1.0 },
+    happiness: { min: 0.0, max: 1.0 },
+    sadness: { min: 0.0, max: 1.0 }, 
+    
+    // duplicates args.meta.duration_ms, only one is needed (choice depends on category)
+    duration_ms: { min: 0, max: 10000 },
+  },
+  album: {
+    popularity: { min: 30, max: 70 },
+    album_type: ['single', 'album'],
+    release_date: { sinceDays: 6, beforeDays: 0 },
+    // or release_date: { startDate: new Date('2020.11.30'), endDate: new Date('2020.12.30') },
+  },
 };
 ```
 
-### Возврат :id=rangetracks-return {docsify-ignore}
+### Return :id=rangetracks-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=rangetracks-examples {docsify-ignore}
+### Examples :id=rangetracks-examples {docsify-ignore}
 
-1. Удалить треки жанра рэп.
+1. Remove rap genre tracks.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
 Filter.rangeTracks(tracks, {
-    artist: {
-      ban_genres: ['rap'],
-    }
+  artist: {
+    ban_genres: ['rap'],
+  }
 });
 ```
 
-2. Отобрать треки в жанре инди и альтернативы.
+2. Select tracks in indie and alternative genres.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
 Filter.rangeTracks(tracks, {
-    artist: {
-        genres: ['indie', 'alternative'],
-    },
+  artist: {
+    genres: ['indie', 'alternative'],
+  },
 });
 ```
 
-3. Отобрать малопопулярные треки от малоизвестных исполнителей.
+3. Select less popular tracks from less known artists.
 
 ```js
 let tracks = Source.getTracks(playlistArray);
 Filter.rangeTracks(tracks, {
-    meta: {
-      popularity: { min: 0, max: 49 },
-    },
-    artist: {
-      followers: { min: 0, max: 9999 },
-    },
+  meta: {
+    popularity: { min: 0, max: 49 },
+  },
+  artist: {
+    followers: { min: 0, max: 9999 },
+  },
 });
 ```
 
 ## removeArtists
 
-Исключить исполнителей из массива. Совпадение определяется по _id_ исполнителя трека.
+Exclude artists from the array. Matching is determined by the track artist's _id_.
 
-### Аргументы :id=removeartists-arguments {docsify-ignore}
+### Arguments :id=removeartists-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
+| Name | Type | Description |
 |-----|-----|----------|
-| `original` | Массив | Проверяемые треки или исполнители. |
-| `removable` | Массив | Треки или исполнители, которые нужно исключить. |
-| `invert` | Булево | Инверсия результата. Если `true` удалять все, кроме `removable`. По умолчанию `false`. |
-| `mode` | Строка | Режим выбора исполнителей. При `every` проверка каждого, при `first` только первого (как правило основной). По умолчанию `every`. |
+| `original` | Array | Tracks or artists to be checked. |
+| `removable` | Array | Tracks or artists to be excluded. |
+| `invert` | Boolean | Invert the result. If `true`, remove everything except `removable`. Default is `false`. |
+| `mode` | String | Artist selection mode. `every` checks each, `first` checks only the first (usually the main one). Default is `every`. |
 
-### Возврат :id=removeartists-return {docsify-ignore}
+### Return :id=removeartists-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=removeartists-examples {docsify-ignore}
+### Examples :id=removeartists-examples {docsify-ignore}
 
-1. Получить треки плейлистов и исключить исполнителей любимых треков.
+1. Get playlist tracks and exclude favorite track artists.
 
 ```js
 let sourceArray = Source.getTracks(playlistArray);
@@ -564,26 +443,26 @@ Filter.removeArtists(sourceArray, removedArray);
 
 ## removeTracks
 
-Исключить треки из массива. Совпадение определяется по _id_ трека и по названию трека вместе с исполнителем.
+Exclude tracks from the array. Matching is determined by the track's _id_ and by the track name along with the artist.
 
-?> Существует вероятность столкнуться с [проблемой релинка](https://github.com/Chimildic/goofy/discussions/99) при удалении истории прослушиваний.
+?> There is a chance of encountering a [relink issue](https://github.com/Chimildic/goofy/discussions/99) when deleting listening history.
 
-### Аргументы :id=removetracks-arguments {docsify-ignore}
+### Arguments :id=removetracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
+| Name | Type | Description |
 |-----|-----|----------|
-| `original` | Массив | Проверяемые треки. |
-| `removable` | Массив | Треки, которые нужно исключить. |
-| `invert` | Булево | Инверсия результата. Если `true` удалять все, кроме `removable`. По умолчанию `false`. |
-| `mode` | Строка | Режим выбора исполнителей. При `every` проверка каждого, при `first` только первого (как правило основной). По умолчанию `every`. |
+| `original` | Array | Tracks to be checked. |
+| `removable` | Array | Tracks to be excluded. |
+| `invert` | Boolean | Invert the result. If `true`, remove everything except `removable`. Default is `false`. |
+| `mode` | String | Artist selection mode. `every` checks each, `first` checks only the first (usually the main one). Default is `every`. |
 
-### Возврат :id=removetracks-return {docsify-ignore}
+### Return :id=removetracks-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=removetracks-examples {docsify-ignore}
+### Examples :id=removetracks-examples {docsify-ignore}
 
-1. Получить треки плейлистов и исключить любимые треки.
+1. Get playlist tracks and exclude favorite tracks.
 
 ```js
 let sourceArray = Source.getTracks(playlistArray);
@@ -593,24 +472,24 @@ Filter.removeTracks(sourceArray, removedArray);
 
 ## removeUnavailable
 
-Исключить треки, которые нельзя прослушать. Не заменяет оригинал на аналог. То есть нет переадресации на другой трек, подробнее в [проблеме релинка](https://github.com/Chimildic/goofy/discussions/99). Совершает дополнительные запросы (1 на 50 треков) в случае, если трек находится в неопределенном состоянии.
+Exclude tracks that cannot be listened to. Does not replace the original with a similar one. That is, there is no redirection to another track, more details in the [relink issue](https://github.com/Chimildic/goofy/discussions/99). Makes additional requests (1 per 50 tracks) if the track is in an undefined state.
 
-?> Допустимо применять фильтр для треков из `Cache`, прошедших метод [compressTracks](/reference/cache?id=compresstracks). Если метод не применялся, состояние определяется по значению в кэшированном треке.
+?> It is acceptable to apply the filter to tracks from `Cache` that have passed the [compressTracks](/reference/cache?id=compresstracks) method. If the method was not applied, the state is determined by the value in the cached track.
 
-### Аргументы :id=removeunavailable-arguments {docsify-ignore}
+### Arguments :id=removeunavailable-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
+| Name | Type | Description |
 |-----|-----|----------|
-| `tracks` | Массив | Проверяемые треки. |
-| `market` | Строка | Страна, в которой проверяется доступность треков. По умолчанию страна аккаунта. |
+| `tracks` | Array | Tracks to be checked. |
+| `market` | String | Country where track availability is checked. Default is the account country. |
 
-### Возврат :id=removeunavailable-return {docsify-ignore}
+### Return :id=removeunavailable-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=removeunavailable-examples {docsify-ignore}
+### Examples :id=removeunavailable-examples {docsify-ignore}
 
-1. Удалить недоступные в России треки плейлиста.
+1. Remove tracks unavailable in Russia from the playlist.
 
 ```js
 let tracks = Source.getPlaylistTracks('', 'id');
@@ -619,41 +498,41 @@ Filter.removeUnavailable(tracks, 'RU');
 
 ## replaceWithSimilar
 
-Заменить треки на похожие. На одну замену N случайных треков из результатов [getRecomTracks](/reference/source?id=getrecomtracks). Рекомендации запрашиваются с параметрами `target_*` от исходного трека. Когда замены нет, трек удаляется.
+Replace tracks with similar ones. For one replacement, N random tracks from the results of [getRecomTracks](/reference/source?id=getrecomtracks) are used. Recommendations are requested with `target_*` parameters from the original track. When there is no replacement, the track is removed.
 
-### Аргументы :id=replacewithsimilar-arguments {docsify-ignore}
+### Arguments :id=replacewithsimilar-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
+| Name | Type | Description |
 |-----|-----|----------|
-| `params` | Объект | Параметры замены. |
+| `params` | Object | Replacement parameters. |
 
-### Параметры замены :id=replacewithsimilar-params {docsify-ignore}
+### Replacement Parameters :id=replacewithsimilar-params {docsify-ignore}
 
-| Имя | Тип | Описание |
+| Name | Type | Description |
 |-----|-----|----------|
-| `origin` | Массив | Проверяемые треки. |
-| `replace` | Массив | Треки, которые нужно заменить. |
-| `count` | Число | Количество рекомендованных треков на место оригинала. По умолчанию 1, максимум 100. Выходное количество может быть меньше из-за отсутствия рекомендаций или фильтрации. |
-| `isRemoveOriginArtists` | Булево | При `true` удаляет из рекомендаций исполнителей, встречающихся в `origin`. При `false` оставляет. По умолчанию `false`. |
+| `origin` | Array | Tracks to be checked. |
+| `replace` | Array | Tracks to be replaced. |
+| `count` | Number | Number of recommended tracks per original. Default is 1, maximum is 100. The output quantity may be less due to lack of recommendations or filtering. |
+| `isRemoveOriginArtists` | Boolean | If `true`, removes artists from recommendations that appear in `origin`. If `false`, keeps them. Default is `false`. |
 
-### Возврат :id=replacewithsimilar-return {docsify-ignore}
+### Return :id=replacewithsimilar-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=replacewithsimilar-examples {docsify-ignore}
+### Examples :id=replacewithsimilar-examples {docsify-ignore}
 
-1. Заменить недавно игравшие треки и лайки плейлиста на близкие аналоги.
+1. Replace recently played tracks and playlist likes with close analogs.
 
 ```js
 let tracks = Source.getPlaylistTracks('', 'id');
 Filter.replaceWithSimilar({
-    origin: tracks,
-    replace: [RecentTracks.get(2000), Source.getSavedTracks()],
-    count: 3
+  origin: tracks,
+  replace: [RecentTracks.get(2000), Source.getSavedTracks()],
+  count: 3
 });
 ```
 
-2. Получить рекомендации по любимым трекам без участия исходных исполнителей.
+2. Get recommendations for favorite tracks without the participation of original artists.
 
 ```js
 let tracks = Source.getSavedTracks();

@@ -1,38 +1,38 @@
 # Library
 
-Методы по управлению лайками и подписками.
+Methods for managing likes and subscriptions.
 
-| Метод | Тип результата | Краткое описание |
-|-------|----------------|------------------|
-| [checkFavoriteTracks](/reference/library?id=checkfavoritetracks) | - | Проверить каждый трек на наличие в любимых (лайках). |
-| [deleteAlbums](/reference/library?id=deletealbums) | - | Удалить альбомы из библиотеки (лайки на альбомах). |
-| [deleteFavoriteTracks](/reference/library?id=deletefavoritetracks) | - | Удалить треки из любимых (убрать лайки). |
-| [followArtists](/reference/library?id=followartists) | - | Подписаться на исполнителей. |
-| [followPlaylists](/reference/library?id=followplaylists) | - | Подписаться на плейлисты. |
-| [saveAlbums](/reference/library?id=savealbums) | - | Сохранить альбомы в библиотеку. |
-| [saveFavoriteTracks](/reference/library?id=savefavoritetracks) | - | Добавить треки в любимые (поставить лайк). |
-| [unfollowArtists](/reference/library?id=unfollowartists) | - | Отписаться от исполнителей. |
-| [unfollowPlaylists](/reference/library?id=unfollowplaylists) | - | Отписаться от плейлистов. |
+| Method | Result Type | Brief Description |
+|--------|-------------|-------------------|
+| [checkFavoriteTracks](/reference/library?id=checkfavoritetracks) | - | Check each track for presence in favorites (likes). |
+| [deleteAlbums](/reference/library?id=deletealbums) | - | Remove albums from the library (likes on albums). |
+| [deleteFavoriteTracks](/reference/library?id=deletefavoritetracks) | - | Remove tracks from favorites (remove likes). |
+| [followArtists](/reference/library?id=followartists) | - | Follow artists. |
+| [followPlaylists](/reference/library?id=followplaylists) | - | Follow playlists. |
+| [saveAlbums](/reference/library?id=savealbums) | - | Save albums to the library. |
+| [saveFavoriteTracks](/reference/library?id=savefavoritetracks) | - | Add tracks to favorites (like). |
+| [unfollowArtists](/reference/library?id=unfollowartists) | - | Unfollow artists. |
+| [unfollowPlaylists](/reference/library?id=unfollowplaylists) | - | Unfollow playlists. |
 
 ## checkFavoriteTracks
 
-Проверить каждый трек на наличие в любимых (лайках).
+Check each track for presence in favorites (likes).
 
-### Аргументы :id=checkfavoritetracks-arguments {docsify-ignore}
+### Arguments :id=checkfavoritetracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tracks` | Массив | Проверяемы треки. Значимо только _id_. |
+| Name | Type | Description |
+|------|------|-------------|
+| `tracks` | Array | Tracks to check. Only _id_ is significant. |
 
-### Возврат :id=checkfavoritetracks-return {docsify-ignore}
+### Return :id=checkfavoritetracks-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.
 
-К трекам добавляется булево значение `isFavorite`, обозначающим наличие или отсутствие трека в любимых.
+Tracks are augmented with a boolean `isFavorite` indicating the presence or absence of the track in favorites.
 
-### Примеры :id=checkfavoritetracks-examples {docsify-ignore}
+### Examples :id=checkfavoritetracks-examples {docsify-ignore}
 
-1. Оставить только треки плейлиста без лайков.
+1. Keep only playlist tracks without likes.
 
 ```js
 let tracks = Source.getPlaylistTracks('', 'id')
@@ -42,35 +42,35 @@ tracks = tracks.filter(t => !t.isFavorite);
 
 ## deleteAlbums
 
-Удалить альбомы из библиотеки (лайки на альбомах).
+Remove albums from the library (likes on albums).
 
-### Аргументы :id=deletealbums-arguments {docsify-ignore}
+### Arguments :id=deletealbums-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `albums` | Массив | Альбомы для удаления. Значимо только _id_. |
+| Name | Type | Description |
+|------|------|-------------|
+| `albums` | Array | Albums to remove. Only _id_ is significant. |
 
-### Возврат :id=deletealbums-return {docsify-ignore}
+### Return :id=deletealbums-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.
 
 ## deleteFavoriteTracks
 
-Удалить треки из любимых (убрать лайки).
+Remove tracks from favorites (remove likes).
 
-### Аргументы :id=deletefavoritetracks-arguments {docsify-ignore}
+### Arguments :id=deletefavoritetracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tracks` | Массив | Треки для удаления. Значимо только _id_. |
+| Name | Type | Description |
+|------|------|-------------|
+| `tracks` | Array | Tracks to remove. Only _id_ is significant. |
 
-### Возврат :id=deletefavoritetracks-return {docsify-ignore}
+### Return :id=deletefavoritetracks-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.
 
-### Примеры :id=deletefavoritetracks-examples {docsify-ignore}
+### Examples :id=deletefavoritetracks-examples {docsify-ignore}
 
-1. Очистить все лайки
+1. Clear all likes
 
 ```js
 let savedTracks = Source.getSavedTracks();
@@ -79,84 +79,84 @@ Library.deleteFavoriteTracks(savedTracks);
 
 ## followArtists
 
-Подписаться на исполнителей.
+Follow artists.
 
-### Аргументы :id=followartists-arguments {docsify-ignore}
+### Arguments :id=followartists-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `artists` | Массив | Исполнители для подписки. Значимо только _id_. |
+| Name | Type | Description |
+|------|------|-------------|
+| `artists` | Array | Artists to follow. Only _id_ is significant. |
 
-### Возврат :id=followartists-return {docsify-ignore}
+### Return :id=followartists-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.
 
 ## followPlaylists
 
-Подписаться на плейлисты.
+Follow playlists.
 
-### Аргументы :id=followplaylists-arguments {docsify-ignore}
+### Arguments :id=followplaylists-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `playlists` | Массив/Строка | Плейлисты (значимо только _id_) или строка с _id_, разделенные запятыми. |
+| Name | Type | Description |
+|------|------|-------------|
+| `playlists` | Array/String | Playlists (only _id_ is significant) or a string with _id_s separated by commas. |
 
-### Возврат :id=followplaylists-return {docsify-ignore}
+### Return :id=followplaylists-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.
 
 ## saveAlbums
 
-Сохранить альбомы в библиотеку.
+Save albums to the library.
 
-### Аргументы :id=savealbums-arguments {docsify-ignore}
+### Arguments :id=savealbums-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `albums` | Массив | Альбомы для добавления. Значимо только _id_. |
+| Name | Type | Description |
+|------|------|-------------|
+| `albums` | Array | Albums to add. Only _id_ is significant. |
 
-### Возврат :id=savealbums-return {docsify-ignore}
+### Return :id=savealbums-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.
 
 ## saveFavoriteTracks
 
-Добавить треки в любимые (поставить лайк).
+Add tracks to favorites (like).
 
-### Аргументы :id=savefavoritetracks-arguments {docsify-ignore}
+### Arguments :id=savefavoritetracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tracks` | Массив | Треки для добавления. Значимо только _id_. |
+| Name | Type | Description |
+|------|------|-------------|
+| `tracks` | Array | Tracks to add. Only _id_ is significant. |
 
-### Возврат :id=savefavoritetracks-return {docsify-ignore}
+### Return :id=savefavoritetracks-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.
 
 ## unfollowArtists
 
-Отписаться от исполнителей.
+Unfollow artists.
 
-### Аргументы :id=unfollowartists-arguments {docsify-ignore}
+### Arguments :id=unfollowartists-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `artists` | Массив | Исполнители для отписки. Значимо только _id_. |
+| Name | Type | Description |
+|------|------|-------------|
+| `artists` | Array | Artists to unfollow. Only _id_ is significant. |
 
-### Возврат :id=unfollowartists-return {docsify-ignore}
+### Return :id=unfollowartists-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.
 
 ## unfollowPlaylists
 
-Отписаться от плейлистов.
+Unfollow playlists.
 
-### Аргументы :id=unfollowplaylists-arguments {docsify-ignore}
+### Arguments :id=unfollowplaylists-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `playlists` | Массив/Строка | Плейлисты (значимо только _id_) или строка с _id_, разделенные запятыми. |
+| Name | Type | Description |
+|------|------|-------------|
+| `playlists` | Array/String | Playlists (only _id_ is significant) or a string with _id_s separated by commas. |
 
-### Возврат :id=unfollowplaylists-return {docsify-ignore}
+### Return :id=unfollowplaylists-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.

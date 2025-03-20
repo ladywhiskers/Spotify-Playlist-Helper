@@ -1,33 +1,33 @@
 # RecentTracks
 
-Методы работы с историей прослушиваний.
+Methods for working with listening history.
 
-| Метод | Тип результата | Краткое описание |
-|-------|----------------|------------------|
-| [appendTracks](/reference/filter?id=appendtracks) | - | Добавить массив треков к файлу истории прослушиваний. |
-| [compress](/reference/filter?id=compress) | - | Удалить незначимые данные о треках в накопительных файлах истории прослушиваний. |
-| [get](/reference/filter?id=get) | Массив | Получить треки истории прослушиваний. |
+| Method | Result Type | Brief Description |
+|--------|-------------|-------------------|
+| [appendTracks](/reference/filter?id=appendtracks) | - | Add an array of tracks to the listening history file. |
+| [compress](/reference/filter?id=compress) | - | Remove insignificant track data in cumulative listening history files. |
+| [get](/reference/filter?id=get) | Array | Retrieve tracks from the listening history. |
 
 ## appendTracks
 
-Добавить массив треков к файлу истории прослушиваний. Дата добавления в плейлист `added_at` становится датой прослушивания `played_at`. Если даты нет, устанавливается дата выполнения функции. Сортируется по дате прослушивания от свежих к более старым.
+Add an array of tracks to the listening history file. The playlist addition date `added_at` becomes the listening date `played_at`. If the date is not available, the function execution date is set. Sorted by listening date from newest to oldest.
 
-!> Обратите внимание на ограничение в 60 тысяч треков для истории прослушиваний. Предел можно увеличить в файле `config`.
+!> Note the limit of 60,000 tracks for the listening history. The limit can be increased in the `config` file.
 
-### Аргументы :id=appendtracks-arguments {docsify-ignore}
+### Arguments :id=appendtracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `filename` | Строка | Имя файла истории прослушиваний: `SpotifyRecentTracks` или `LastfmRecentTracks`. |
-| `tracks` | Массив | Добавляемые треки. |
+| Name | Type | Description |
+|------|------|-------------|
+| `filename` | String | Name of the listening history file: `SpotifyRecentTracks` or `LastfmRecentTracks`. |
+| `tracks` | Array | Tracks to be added. |
 
-### Возврат :id=appendtracks-return {docsify-ignore}
+### Return :id=appendtracks-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.
 
-### Примеры :id=appendtracks-examples {docsify-ignore}
+### Examples :id=appendtracks-examples {docsify-ignore}
 
-1. Добавить в историю прослушиваний все любимые треки
+1. Add all favorite tracks to the listening history
 
 ```js
 let tracks = Source.getSavedTracks();
@@ -36,49 +36,49 @@ RecentTracks.appendTracks('SpotifyRecentTracks', tracks);
 
 ## compress
 
-Удалить незначимые данные о треках в накопительных файлах истории прослушиваний в зависимости от [параметров](/config). Предварительно создается копия файла.
+Remove insignificant track data in cumulative listening history files based on [parameters](/config). A copy of the file is created beforehand.
 
-?> Используется для совместимости с прошлыми версиями библиотеки. Достаточно одного выполнения, чтобы сжать файлы истории прослушиваний. Новые треки истории сжимаются автоматически.
+?> Used for compatibility with previous versions of the library. One execution is enough to compress the listening history files. New tracks in the history are compressed automatically.
 
-### Аргументы :id=compress-arguments {docsify-ignore}
+### Arguments :id=compress-arguments {docsify-ignore}
 
-Аргументов нет.
+No arguments.
 
-### Возврат :id=compress-return {docsify-ignore}
+### Return :id=compress-return {docsify-ignore}
 
-Нет возвращаемого значения.
+No return value.
 
 ## get
 
-Получить треки истории прослушиваний в зависимости от [параметров](/config). Сортировка по дате прослушивания от свежих к более старым.
+Retrieve tracks from the listening history based on [parameters](/config). Sorted by listening date from newest to oldest.
 
-### Аргументы :id=get-arguments {docsify-ignore}
+### Arguments :id=get-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `limit` | Число | Если указано, ограничить количество возвращаемых треков. Если нет, все доступные. |
+| Name | Type | Description |
+|------|------|-------------|
+| `limit` | Number | If specified, limit the number of returned tracks. If not, all available tracks. |
 
-#### Параметры истории прослушиваний
+#### Listening History Parameters
 
-| Включенный параметр | Возвращаемый массив |
-|-|-|
-| `ON_SPOTIFY_RECENT_TRACKS` | История прослушиваний только Spotify. Файл `SpotifyRecentTracks`. Дубли не удаляются. |
-| `ON_LASTFM_RECENT_TRACKS` | История прослушиваний только Lastfm. Файл `LastfmRecentTracks`. Дубли не удаляются.  |
-| `ON_SPOTIFY_RECENT_TRACKS` и `ON_LASTFM_RECENT_TRACKS` | Объединение обоих источников с удалением дубликатов. Файл `BothRecentTracks`. |
+| Enabled Parameter | Returned Array |
+|-------------------|----------------|
+| `ON_SPOTIFY_RECENT_TRACKS` | Listening history only from Spotify. File `SpotifyRecentTracks`. Duplicates are not removed. |
+| `ON_LASTFM_RECENT_TRACKS` | Listening history only from Lastfm. File `LastfmRecentTracks`. Duplicates are not removed. |
+| `ON_SPOTIFY_RECENT_TRACKS` and `ON_LASTFM_RECENT_TRACKS` | Combination of both sources with duplicates removed. File `BothRecentTracks`. |
 
-### Возврат :id=get-return {docsify-ignore}
+### Return :id=get-return {docsify-ignore}
 
-`tracks` (массив) - треки истории прослушиваний.
+`tracks` (array) - tracks from the listening history.
 
-### Примеры :id=get-examples {docsify-ignore}
+### Examples :id=get-examples {docsify-ignore}
 
-1. Получить массив треков истории прослушиваний. Источник треков зависит от параметров.
+1. Retrieve an array of tracks from the listening history. The source of tracks depends on the parameters.
 
 ```js
 let tracks = RecentTracks.get();
 ```
 
-2. Получить 100 треков истории прослушиваний.
+2. Retrieve 100 tracks from the listening history.
 
 ```js
 let tracks = RecentTracks.get(100);

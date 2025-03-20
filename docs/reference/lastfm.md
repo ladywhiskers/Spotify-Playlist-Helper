@@ -1,67 +1,67 @@
 # Lastfm
 
-Методы взаимодействия с Last.fm.
+Methods for interacting with Last.fm.
 
-!> Эквивалент треков находится поиском Spotify по наилучшему совпадению. Если совпадения нет, трек игнорируется. Один трек Last.fm равен одному запросу поиска. Будьте внимательны с [ограничениями](/details?id=Ограничения) по количеству запросов в день и временем выполнения.
+!> The equivalent tracks are found by searching Spotify for the best match. If no match is found, the track is ignored. One Last.fm track equals one search query. Be mindful of the [limitations](/details?id=limitations) on the number of queries per day and execution time.
 
-| Метод | Тип результата | Краткое описание |
-|-------|----------------|------------------|
-| [convertToSpotify](/reference/lastfm?id=converttospotify) | Массив | Найти Spotify элементы по данным из Last.fm. |
-| [getAlbumsByTag](/reference/lastfm?id=getalbumsbytag) | Массив | Получить альбомы по тегу. |
-| [getArtistsByTag](/reference/lastfm?id=getartistsbytag) | Массив | Получить исполнителей по тегу. |
-| [getCustomTop](/reference/lastfm?id=getcustomtop) | Массив | Получить произвольный топ пользователя. |
-| [getLibraryStation](/reference/lastfm?id=getlibrarystation) | Массив | Получить треки с радиостанции _библиотека_. |
-| [getLovedTracks](/reference/lastfm?id=getlovedtracks) | Массив | Получить _лайки_ Last.fm. |
-| [getMixStation](/reference/lastfm?id=getmixstation) | Массив | Получить треки с радиостанции _микс_. |
-| [getNeighboursStation](/reference/lastfm?id=getneighboursstation) | Массив | Получить треки с радиостанции _соседи_. |
-| [getRecentTracks](/reference/lastfm?id=getrecenttracks) | Массив | Получить историю прослушиваний пользователя Last.fm.  |
-| [getRecomStation](/reference/lastfm?id=getrecomstation) | Массив | Получить треки с радиостанции _рекомендации_. |
-| [getSimilarArtists](/reference/lastfm?id=getsimilarartists) | Массив | Получить похожих исполнителей. |
-| [getSimilarTracks](/reference/lastfm?id=getsimilartracks) | Массив | Получить похожие треки. |
-| [getTopAlbums](/reference/lastfm?id=gettopalbums) | Массив | Получить топ альбомов пользователя. |
-| [getTopAlbumsByTag](/reference/lastfm?id=gettopalbumsbytag) | Массив | Получить топ альбомов по тегу. |
-| [getTopArtists](/reference/lastfm?id=gettopartists) | Массив | Получить топ исполнителей пользователя. |
-| [getTopArtistsByTag](/reference/lastfm?id=getTopArtistsByTag) | Массив | Получить топ исполнителей по тегу. |
-| [getTopTracks](/reference/lastfm?id=gettoptracks) | Массив | Получить топ треков пользователя. |
-| [getTopTracksByTag](/reference/lastfm?id=gettoptracksbytag) | Массив | Получить топ треков по тегу. |
-| [getTracksByTag](/reference/lastfm?id=gettracksbytag) | Массив | Получить треки по тегу. |
-| [rangeTags](/reference/lastfm?id=rangetags) | - | Отобрать треки по тегам. |
-| [removeRecentArtists](/reference/lastfm?id=removerecentartists) | - | Удалить исполнителей по данным истории прослушиваний Last.fm. |
-| [removeRecentTracks](/reference/lastfm?id=removerecenttracks) | - | Удалить треки по данным истории прослушиваний Last.fm. |
+| Method | Result Type | Brief Description |
+|--------|-------------|-------------------|
+| [convertToSpotify](/reference/lastfm?id=converttospotify) | Array | Find Spotify items based on Last.fm data. |
+| [getAlbumsByTag](/reference/lastfm?id=getalbumsbytag) | Array | Get albums by tag. |
+| [getArtistsByTag](/reference/lastfm?id=getartistsbytag) | Array | Get artists by tag. |
+| [getCustomTop](/reference/lastfm?id=getcustomtop) | Array | Get a custom top list for a user. |
+| [getLibraryStation](/reference/lastfm?id=getlibrarystation) | Array | Get tracks from the Last.fm _library_ station. |
+| [getLovedTracks](/reference/lastfm?id=getlovedtracks) | Array | Get Last.fm _loved_ tracks. |
+| [getMixStation](/reference/lastfm?id=getmixstation) | Array | Get tracks from the Last.fm _mix_ station. |
+| [getNeighboursStation](/reference/lastfm?id=getneighboursstation) | Array | Get tracks from the Last.fm _neighbours_ station. |
+| [getRecentTracks](/reference/lastfm?id=getrecenttracks) | Array | Get the listening history of a Last.fm user. |
+| [getRecomStation](/reference/lastfm?id=getrecomstation) | Array | Get tracks from the Last.fm _recommendations_ station. |
+| [getSimilarArtists](/reference/lastfm?id=getsimilarartists) | Array | Get similar artists. |
+| [getSimilarTracks](/reference/lastfm?id=getsimilartracks) | Array | Get similar tracks. |
+| [getTopAlbums](/reference/lastfm?id=gettopalbums) | Array | Get the top albums for a user. |
+| [getTopAlbumsByTag](/reference/lastfm?id=gettopalbumsbytag) | Array | Get top albums by tag. |
+| [getTopArtists](/reference/lastfm?id=gettopartists) | Array | Get the top artists for a user. |
+| [getTopArtistsByTag](/reference/lastfm?id=getTopArtistsByTag) | Array | Get top artists by tag. |
+| [getTopTracks](/reference/lastfm?id=gettoptracks) | Array | Get the top tracks for a user. |
+| [getTopTracksByTag](/reference/lastfm?id=gettoptracksbytag) | Array | Get top tracks by tag. |
+| [getTracksByTag](/reference/lastfm?id=gettracksbytag) | Array | Get tracks by tag. |
+| [rangeTags](/reference/lastfm?id=rangetags) | - | Filter tracks by tags. |
+| [removeRecentArtists](/reference/lastfm?id=removerecentartists) | - | Remove artists based on Last.fm listening history. |
+| [removeRecentTracks](/reference/lastfm?id=removerecenttracks) | - | Remove tracks based on Last.fm listening history. |
 
 ## convertToSpotify
 
-Найти Spotify элементы по данным из Last.fm.
+Find Spotify items based on Last.fm data.
 
-### Аргументы :id=converttospotify-arguments {docsify-ignore}
+### Arguments :id=converttospotify-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `items` | Строка | Элементы в lastfm-формате. Например, полученные от [getCustomTop](/reference/lastfm?id=getcustomtop) при `isRawItems = true`. |
-| `type` | Строка | Тип поиска: `track`, `artist` или `album`. По умолчанию `track`. |
+| Name | Type | Description |
+|------|------|-------------|
+| `items` | String | Items in Last.fm format. For example, obtained from [getCustomTop](/reference/lastfm?id=getcustomtop) with `isRawItems = true`. |
+| `type` | String | Search type: `track`, `artist`, or `album`. Default is `track`. |
 
-### Возврат :id=converttospotify-return {docsify-ignore}
+### Return :id=converttospotify-return {docsify-ignore}
 
-`items` (массив) - результат поиска.
+`items` (array) - search results.
 
 ## getAlbumsByTag
 
-Получить альбомы по тегу. Парсит названия со страницы тега, [например](https://www.last.fm/tag/indie/albums).
+Get albums by tag. Parses names from the tag page, [for example](https://www.last.fm/tag/indie/albums).
 
-### Аргументы :id=getalbumsbytag-arguments {docsify-ignore}
+### Arguments :id=getalbumsbytag-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tag` | Строка | Название тега. |
-| `limit` | Число | Предельное количество альбомов. |
+| Name | Type | Description |
+|------|------|-------------|
+| `tag` | String | Tag name. |
+| `limit` | Number | Maximum number of albums. |
 
-### Возврат :id=getalbumsbytag-return {docsify-ignore}
+### Return :id=getalbumsbytag-return {docsify-ignore}
 
-`albums` (массив) - результат поиска альбомов в Spotify.
+`albums` (array) - search results for albums on Spotify.
 
-### Примеры :id=getalbumsbytag-examples {docsify-ignore}
+### Examples :id=getalbumsbytag-examples {docsify-ignore}
 
-1. Получить альбомы по тегу.
+1. Get albums by tag.
 
 ```js
 let albums = Lastfm.getAlbumsByTag('indie', 40);
@@ -69,22 +69,22 @@ let albums = Lastfm.getAlbumsByTag('indie', 40);
 
 ## getArtistsByTag
 
-Получить исполнителей по тегу. Парсит имена со страницы тега, [например](https://www.last.fm/tag/pixie/artists).
+Get artists by tag. Parses names from the tag page, [for example](https://www.last.fm/tag/pixie/artists).
 
-### Аргументы :id=getartistsbytag-arguments {docsify-ignore}
+### Arguments :id=getartistsbytag-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tag` | Строка | Название тега. |
-| `limit` | Число | Предельное количество исполнителей. |
+| Name | Type | Description |
+|------|------|-------------|
+| `tag` | String | Tag name. |
+| `limit` | Number | Maximum number of artists. |
 
-### Возврат :id=getartistsbytag-return {docsify-ignore}
+### Return :id=getartistsbytag-return {docsify-ignore}
 
-`artists` (массив) - результат поиска исполнителей в Spotify.
+`artists` (array) - search results for artists on Spotify.
 
-### Примеры :id=getartistsbytag-examples {docsify-ignore}
+### Examples :id=getartistsbytag-examples {docsify-ignore}
 
-1. Получить исполнителей по тегу.
+1. Get artists by tag.
 
 ```js
 let artists = Lastfm.getArtistsByTag('pixie', 40);
@@ -92,76 +92,76 @@ let artists = Lastfm.getArtistsByTag('pixie', 40);
 
 ## getCustomTop
 
-Получить произвольный топ пользователя.
+Get a custom top list for a user.
 
-?> На форуме есть [подробный пример](https://github.com/Chimildic/goofy/discussions/91) использования, позволяющий получить _рекомендации из прошлого_
+?> There is a [detailed example](https://github.com/Chimildic/goofy/discussions/91) on the forum, allowing you to get _recommendations from the past_.
 
-### Аргументы :id=getcustomtop-arguments {docsify-ignore}
+### Arguments :id=getcustomtop-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `params` | Объект | Параметры отбора. |
+| Name | Type | Description |
+|------|------|-------------|
+| `params` | Object | Selection parameters. |
 
-#### Параметры отбора :id=getcustomtop-params {docsify-ignore}
+#### Selection Parameters :id=getcustomtop-params {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `user` | Объект | Логин пользователя Last.fm. По умолчанию используется значение из `config-файла`. |
-| `from` | Дата/Строка/Число | Начало периода. |
-| `to` | Дата/Строка/Число | Конец периода. |
-| `type` | Строка | Тип: `track`, `artist` или `album`. По умолчанию `track`. |
-| `count` | Число | Количество элементов. По умолчанию 40. |
-| `offset` | Число | Пропуск первых N элементов. По умолчанию 0. |
-| `minPlayed` | Число | Минимальное количество прослушиваний включительно. По умолчанию 0. |
-| `maxPlayed` | Число | Максимальное количество прослушиваний включительно. По умолчанию 100 тысяч. |
-| `isRawItems` | Булево | Когда не указано или `false`, поиск элементом по названию в Spotify. Если `true`, результат из lastfm-элементов. Игнорируются `count` и `offset`. Может понадобится для самостоятельной фильтрации. Затем используйте функцию [convertToSpotify](/reference/lastfm?id=converttospotify). |
+| Name | Type | Description |
+|------|------|-------------|
+| `user` | Object | Last.fm user login. Default is the value from the `config file`. |
+| `from` | Date/String/Number | Start of the period. |
+| `to` | Date/String/Number | End of the period. |
+| `type` | String | Type: `track`, `artist`, or `album`. Default is `track`. |
+| `count` | Number | Number of items. Default is 40. |
+| `offset` | Number | Skip the first N items. Default is 0. |
+| `minPlayed` | Number | Minimum number of plays inclusive. Default is 0. |
+| `maxPlayed` | Number | Maximum number of plays inclusive. Default is 100,000. |
+| `isRawItems` | Boolean | When not specified or `false`, search for items by name on Spotify. If `true`, result from lastfm items. Ignores `count` and `offset`. May be needed for self-filtering. Then use the function [convertToSpotify](/reference/lastfm?id=converttospotify). |
 
-### Возврат :id=getcustomtop-return {docsify-ignore}
+### Return :id=getcustomtop-return {docsify-ignore}
 
-`items` (массив) - результат отбора, отсортированный по количеству прослушиваний (в случае `isRawItems = false`).
+`items` (array) - selection result, sorted by the number of plays (in case of `isRawItems = false`).
 
-К объектам результата добавится ключ `countPlayed` со значением числа прослушиваний.
+The result objects will have a `countPlayed` key with the number of plays.
 
-### Примеры :id=getcustomtop-examples {docsify-ignore}
+### Examples :id=getcustomtop-examples {docsify-ignore}
 
-1. Отобрать топ 40 треков за 2015 год
+1. Select the top 40 tracks for 2015
 
 ```js
 let topTracks = Lastfm.getCustomTop({
-    from: '2015-01-01', // или new Date('2015-01-01'),
-    to: '2015-12-31', // или new Date('2015-12-31').getTime(),
+  from: '2015-01-01', // or new Date('2015-01-01'),
+  to: '2015-12-31', // or new Date('2015-12-31').getTime(),
 });
 ```
 
-2. Отобрать топ 10 исполнителей за первое полугодие 2014 года
+2. Select the top 10 artists for the first half of 2014
 
 ```js
 let topArtists = Lastfm.getCustomTop({
-    type: 'artist',
-    from: '2014-01-01',
-    to: '2014-06-30',
-    count: 10,
+  type: 'artist',
+  from: '2014-01-01',
+  to: '2014-06-30',
+  count: 10,
 });
 ```
 
 ## getLibraryStation
 
-Получить треки с радиостанции _библиотека_ Last.fm. Содержит только заскроббленные треки. Внимание на предупреждение из [getRecentTracks](/reference/lastfm?id=getrecenttracks).
+Get tracks from the Last.fm _library_ station. Contains only scrobbled tracks. Pay attention to the warning from [getRecentTracks](/reference/lastfm?id=getrecenttracks).
 
-### Аргументы :id=getlibrarystation-arguments {docsify-ignore}
+### Arguments :id=getlibrarystation-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `user` | Строка | Логин пользователя Last.fm. По умолчанию используется значение из `config-файла`. |
-| `countRequest` | Число | Количество запросов к Last.fm. Один запрос дает примерно от 20 до 30 треков. |
+| Name | Type | Description |
+|------|------|-------------|
+| `user` | String | Last.fm user login. Default is the value from the `config file`. |
+| `countRequest` | Number | Number of requests to Last.fm. One request gives about 20 to 30 tracks. |
 
-### Возврат :id=getlibrarystation-return {docsify-ignore}
+### Return :id=getlibrarystation-return {docsify-ignore}
 
-`tracks` (массив) - результат поиска треков по названию в Spotify.
+`tracks` (array) - search results for tracks on Spotify.
 
-### Примеры :id=getlibrarystation-examples {docsify-ignore}
+### Examples :id=getlibrarystation-examples {docsify-ignore}
 
-1. Получить треки радиостанции _библиотека_.
+1. Get tracks from the _library_ station.
 
 ```js
 let tracks = Lastfm.getLibraryStation('login', 2);
@@ -169,22 +169,22 @@ let tracks = Lastfm.getLibraryStation('login', 2);
 
 ## getLovedTracks
 
-Получить _лайки_ Last.fm. Внимание на предупреждение из [getRecentTracks](/reference/lastfm?id=getrecenttracks). Включает дату добавления, можно использовать фильтр по дате.
+Get Last.fm _loved_ tracks. Pay attention to the warning from [getRecentTracks](/reference/lastfm?id=getrecenttracks). Includes the date added, can use a date filter.
 
-### Аргументы :id=getlovedtracks-arguments {docsify-ignore}
+### Arguments :id=getlovedtracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `user` | Строка | Логин пользователя Last.fm. По умолчанию используется значение из `config-файла`. |
-| `limit` | Число | Ограничить количество треков. |
+| Name | Type | Description |
+|------|------|-------------|
+| `user` | String | Last.fm user login. Default is the value from the `config file`. |
+| `limit` | Number | Limit the number of tracks. |
 
-### Возврат :id=getlovedtracks-return {docsify-ignore}
+### Return :id=getlovedtracks-return {docsify-ignore}
 
-`tracks` (массив) - результат поиска треков по названию в Spotify.
+`tracks` (array) - search results for tracks on Spotify.
 
-### Примеры :id=getlovedtracks-examples {docsify-ignore}
+### Examples :id=getlovedtracks-examples {docsify-ignore}
 
-1. Получить _лайки_ Last.fm.
+1. Get Last.fm _loved_ tracks.
 
 ```js
 let tracks = Lastfm.getLovedTracks('login', 200);
@@ -192,22 +192,22 @@ let tracks = Lastfm.getLovedTracks('login', 200);
 
 ## getMixStation
 
-Получить треки с радиостанции _микс_ Last.fm. Содержит заскроббленные треки и рекомендации Last.fm. Внимание на предупреждение из [getRecentTracks](/reference/lastfm?id=getrecenttracks).
+Get tracks from the Last.fm _mix_ station. Contains scrobbled tracks and Last.fm recommendations. Pay attention to the warning from [getRecentTracks](/reference/lastfm?id=getrecenttracks).
 
-### Аргументы :id=getmixstation-arguments {docsify-ignore}
+### Arguments :id=getmixstation-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `user` | Строка | Логин пользователя Last.fm. По умолчанию используется значение из `config-файла`. |
-| `countRequest` | Число | Количество запросов к Last.fm. Один запрос дает примерно от 20 до 30 треков. |
+| Name | Type | Description |
+|------|------|-------------|
+| `user` | String | Last.fm user login. Default is the value from the `config file`. |
+| `countRequest` | Number | Number of requests to Last.fm. One request gives about 20 to 30 tracks. |
 
-### Возврат :id=getmixstation-return {docsify-ignore}
+### Return :id=getmixstation-return {docsify-ignore}
 
-`tracks` (массив) - результат поиска треков по названию в Spotify.
+`tracks` (array) - search results for tracks on Spotify.
 
-### Примеры :id=getmixstation-examples {docsify-ignore}
+### Examples :id=getmixstation-examples {docsify-ignore}
 
-1. Получить треки радиостанции _микс_.
+1. Get tracks from the _mix_ station.
 
 ```js
 let tracks = Lastfm.getMixStation('login', 2);
@@ -215,22 +215,22 @@ let tracks = Lastfm.getMixStation('login', 2);
 
 ## getNeighboursStation
 
-Получить треки с радиостанции _соседи_ Last.fm. Содержит треки, которые слушают пользователи Last.fm со схожими музыкальными вкусами. Внимание на предупреждение из [getRecentTracks](/reference/lastfm?id=getrecenttracks).
+Get tracks from the Last.fm _neighbours_ station. Contains tracks that Last.fm users with similar musical tastes listen to. Pay attention to the warning from [getRecentTracks](/reference/lastfm?id=getrecenttracks).
 
-### Аргументы :id=getneighboursstation-arguments {docsify-ignore}
+### Arguments :id=getneighboursstation-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `user` | Строка | Логин пользователя Last.fm. По умолчанию используется значение из `config-файла`. |
-| `countRequest` | Число | Количество запросов к Last.fm. Один запрос дает примерно от 20 до 30 треков. |
+| Name | Type | Description |
+|------|------|-------------|
+| `user` | String | Last.fm user login. Default is the value from the `config file`. |
+| `countRequest` | Number | Number of requests to Last.fm. One request gives about 20 to 30 tracks. |
 
-### Возврат :id=getneighboursstation-return {docsify-ignore}
+### Return :id=getneighboursstation-return {docsify-ignore}
 
-`tracks` (массив) - результат поиска треков по названию в Spotify.
+`tracks` (array) - search results for tracks on Spotify.
 
-### Примеры :id=getneighboursstation-examples {docsify-ignore}
+### Examples :id=getneighboursstation-examples {docsify-ignore}
 
-1. Получить треки радиостанции _соседи_.
+1. Get tracks from the _neighbours_ station.
 
 ```js
 let tracks = Lastfm.getNeighboursStation('login', 2);
@@ -238,22 +238,22 @@ let tracks = Lastfm.getNeighboursStation('login', 2);
 
 ## getRecentTracks
 
-Получить историю прослушиваний пользователя Last.fm. В настройках аккаунта должна быть отключена приватность.
+Get the listening history of a Last.fm user. Account privacy settings must be disabled.
 
-### Аргументы :id=getrecenttracks-arguments {docsify-ignore}
+### Arguments :id=getrecenttracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `user` | Строка | Логин пользователя Last.fm. По умолчанию используется значение из `config-файла`. |
-| `count` | Число | Ограничить количество треков. |
+| Name | Type | Description |
+|------|------|-------------|
+| `user` | String | Last.fm user login. Default is the value from the `config file`. |
+| `count` | Number | Limit the number of tracks. |
 
-### Возврат :id=getrecenttracks-return {docsify-ignore}
+### Return :id=getrecenttracks-return {docsify-ignore}
 
-`tracks` (массив) - результат поиска треков по названию в Spotify.
+`tracks` (array) - search results for tracks on Spotify.
 
-### Примеры :id=getrecenttracks-examples {docsify-ignore}
+### Examples :id=getrecenttracks-examples {docsify-ignore}
 
-1. Получить 200 недавно прослушанных треков.
+1. Get 200 recently played tracks.
 
 ```js
 let tracks = Lastfm.getRecentTracks('login', 200);
@@ -261,22 +261,22 @@ let tracks = Lastfm.getRecentTracks('login', 200);
 
 ## getRecomStation
 
-Получить треки с радиостанции _рекомендации_ Last.fm. Внимание на предупреждение из [getRecentTracks](/reference/lastfm?id=getrecenttracks).
+Get tracks from the Last.fm _recommendations_ station. Pay attention to the warning from [getRecentTracks](/reference/lastfm?id=getrecenttracks).
 
-### Аргументы :id=getrecomstation-arguments {docsify-ignore}
+### Arguments :id=getrecomstation-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `user` | Строка | Логин пользователя Last.fm. По умолчанию используется значение из `config-файла`. |
-| `countRequest` | Число | Количество запросов к Last.fm. Один запрос дает примерно от 20 до 30 треков. |
+| Name | Type | Description |
+|------|------|-------------|
+| `user` | String | Last.fm user login. Default is the value from the `config file`. |
+| `countRequest` | Number | Number of requests to Last.fm. One request gives about 20 to 30 tracks. |
 
-### Возврат :id=getrecomstation-return {docsify-ignore}
+### Return :id=getrecomstation-return {docsify-ignore}
 
-`tracks` (массив) - результат поиска треков по названию в Spotify.
+`tracks` (array) - search results for tracks on Spotify.
 
-### Примеры :id=getrecomstation-examples {docsify-ignore}
+### Examples :id=getrecomstation-examples {docsify-ignore}
 
-1. Получить треки радиостанции _рекомендации_.
+1. Get tracks from the _recommendations_ station.
 
 ```js
 let tracks = Lastfm.getRecomStation('login', 2);
@@ -284,24 +284,24 @@ let tracks = Lastfm.getRecomStation('login', 2);
 
 ## getSimilarArtists
 
-Получить похожих исполнителей.
+Get similar artists.
 
-### Аргументы :id=getsimilarartists-arguments {docsify-ignore}
+### Arguments :id=getsimilarartists-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `items` | Массив | Треки или исполнители. Значимо только `name`. |
-| `match` | Число | Минимальное значение схожести исполнителя в границе от _0.0_ до _1.0_.  |
-| `limit` | Число | Количество похожих исполнителей на одного оригинального. |
-| `isFlat` | Число | Если `false` результат группируется по исполнителям. Если `true` все исполнители в одном массиве. По умолчанию `true`. |
+| Name | Type | Description |
+|------|------|-------------|
+| `items` | Array | Tracks or artists. Only `name` is significant. |
+| `match` | Number | Minimum similarity value of the artist in the range from _0.0_ to _1.0_.  |
+| `limit` | Number | Number of similar artists per original. |
+| `isFlat` | Number | If `false`, the result is grouped by artists. If `true`, all artists are in one array. Default is `true`. |
 
-### Возврат :id=getsimilarartists-return {docsify-ignore}
+### Return :id=getsimilarartists-return {docsify-ignore}
 
-`artists` (массив) - результат поиска исполнителей в Spotify.
+`artists` (array) - search results for artists on Spotify.
 
-### Примеры :id=getsimilarartists-examples {docsify-ignore}
+### Examples :id=getsimilarartists-examples {docsify-ignore}
 
-1. Получить исполнителей похожих на отслеживаемых.
+1. Get artists similar to the followed ones.
 
 ```js
 let artists = Source.getArtists({ followed_include: true, });
@@ -310,24 +310,24 @@ let similarArtists = Lastfm.getSimilarArtists(artists, 0.65, 20);
 
 ## getSimilarTracks
 
-Получить похожие треки.
+Get similar tracks.
 
-### Аргументы :id=getsimilartracks-arguments {docsify-ignore}
+### Arguments :id=getsimilartracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tracks` | Массив | Треки или исполнители. Значимо только `name`. |
-| `match` | Число | Минимальное значение схожести трека в границе от _0.0_ до _1.0_.  |
-| `limit` | Число | Количество похожих треков на один оригинальный. |
-| `isFlat` | Число | Если `false` результат группируется по входным трекам. Если `true` все треки в одном массиве. По умолчанию `true`. |
+| Name | Type | Description |
+|------|------|-------------|
+| `tracks` | Array | Tracks or artists. Only `name` is significant. |
+| `match` | Number | Minimum similarity value of the track in the range from _0.0_ to _1.0_.  |
+| `limit` | Number | Number of similar tracks per original. |
+| `isFlat` | Number | If `false`, the result is grouped by input tracks. If `true`, all tracks are in one array. Default is `true`. |
 
-### Возврат :id=getsimilartracks-return {docsify-ignore}
+### Return :id=getsimilartracks-return {docsify-ignore}
 
-`tracks` (массив) - результат поиска треков в Spotify.
+`tracks` (array) - search results for tracks on Spotify.
 
-### Примеры :id=getsimilartracks-examples {docsify-ignore}
+### Examples :id=getsimilartracks-examples {docsify-ignore}
 
-1. Получить треки похожие на треки плейлиста.
+1. Get tracks similar to the playlist tracks.
 
 ```js
 let playlistTracks = Source.getPlaylistTracks('name', 'id');
@@ -336,21 +336,21 @@ let similarTracks = Lastfm.getSimilarTracks(playlistTracks, 0.65, 30);
 
 ## getTopAlbums
 
-Получить топ альбомов пользователя.
+Get the top albums for a user.
 
-### Аргументы :id=gettopalbums-arguments {docsify-ignore}
+### Arguments :id=gettopalbums-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `params` | Объект | Параметры отбора. Аналогично параметрам [getTopTracks](/reference/lastfm?id=gettoptracks). |
+| Name | Type | Description |
+|------|------|-------------|
+| `params` | Object | Selection parameters. Similar to the parameters of [getTopTracks](/reference/lastfm?id=gettoptracks). |
 
-### Возврат :id=gettopalbums-return {docsify-ignore}
+### Return :id=gettopalbums-return {docsify-ignore}
 
-`albums` (массив) - результат поиска альбомов в Spotify.
+`albums` (array) - search results for albums on Spotify.
 
-### Примеры :id=gettopalbums-examples {docsify-ignore}
+### Examples :id=gettopalbums-examples {docsify-ignore}
 
-1. Получить топ-10 альбомов за полгода.
+1. Get the top 10 albums for six months.
 
 ```js
 let albums = Lastfm.getTopAlbums({
@@ -362,54 +362,54 @@ let albums = Lastfm.getTopAlbums({
 
 ## getTopAlbumsByTag
 
-Получить топ альбомов по тегу.
+Get top albums by tag.
 
-### Аргументы :id=gettopalbumsbytag-arguments {docsify-ignore}
+### Arguments :id=gettopalbumsbytag-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `params` | Объект | Параметры отбора. |
+| Name | Type | Description |
+|------|------|-------------|
+| `params` | Object | Selection parameters. |
 
-#### Параметры отбора :id=gettopalbumsbytag-params {docsify-ignore}
+#### Selection Parameters :id=gettopalbumsbytag-params {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tag` | Строка | Название тега. |
-| `limit` | Число | Количество альбомов на странице. По умолчанию 50. Можно больше, но в этом случае Last.fm иногда дает другое количество. |
-| `page` | Число | Номер страницы, используется для сдвига по результату. По умолчанию 1. |
+| Name | Type | Description |
+|------|------|-------------|
+| `tag` | String | Tag name. |
+| `limit` | Number | Number of albums per page. Default is 50. Can be more, but in this case Last.fm sometimes gives a different number. |
+| `page` | Number | Page number, used for shifting through the result. Default is 1. |
 
-### Возврат :id=gettopalbumsbytag-return {docsify-ignore}
+### Return :id=gettopalbumsbytag-return {docsify-ignore}
 
-`albums` (массив) - результат поиска альбомов в Spotify.
+`albums` (array) - search results for albums on Spotify.
 
-### Примеры :id=gettopalbumsbytag-examples {docsify-ignore}
+### Examples :id=gettopalbumsbytag-examples {docsify-ignore}
 
-1. Получить альбомы с 51-100 по тегу рок
+1. Get albums 51-100 by rock tag
 
 ```js
 let albums = Lastfm.getTopAlbumsByTag({
-    tag: 'rock',
-    page: 2,
+  tag: 'rock',
+  page: 2,
 })
 ```
 
 ## getTopArtists
 
-Получить топ исполнителей пользователя.
+Get the top artists for a user.
 
-### Аргументы :id=gettopartists-arguments {docsify-ignore}
+### Arguments :id=gettopartists-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `params` | Объект | Параметры отбора. Аналогично параметрам [getTopTracks](/reference/lastfm?id=gettoptracks). |
+| Name | Type | Description |
+|------|------|-------------|
+| `params` | Object | Selection parameters. Similar to the parameters of [getTopTracks](/reference/lastfm?id=gettoptracks). |
 
-### Возврат :id=gettopartists-return {docsify-ignore}
+### Return :id=gettopartists-return {docsify-ignore}
 
-`artists` (массив) - результат поиска исполнителей в Spotify.
+`artists` (array) - search results for artists on Spotify.
 
-### Примеры :id=gettopartists-examples {docsify-ignore}
+### Examples :id=gettopartists-examples {docsify-ignore}
 
-1. Получить топ-10 исполнителей за полгода.
+1. Get the top 10 artists for six months.
 
 ```js
 let artists = Lastfm.getTopArtists({
@@ -421,59 +421,59 @@ let artists = Lastfm.getTopArtists({
 
 ## getTopArtistsByTag
 
-Получить топ исполнителей по тегу.
+Get top artists by tag.
 
-### Аргументы :id=gettopartistsbytag-arguments {docsify-ignore}
+### Arguments :id=gettopartistsbytag-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `params` | Объект | Параметры отбора. Аналогично параметрам [getTopAlbumsByTag](/reference/lastfm?id=gettopalbumsbytag). |
+| Name | Type | Description |
+|------|------|-------------|
+| `params` | Object | Selection parameters. Similar to the parameters of [getTopAlbumsByTag](/reference/lastfm?id=gettopalbumsbytag). |
 
-### Возврат :id=gettopartistsbytag-return {docsify-ignore}
+### Return :id=gettopartistsbytag-return {docsify-ignore}
 
-`artists` (массив) - результат поиска исполнителей в Spotify.
+`artists` (array) - search results for artists on Spotify.
 
-### Примеры :id=gettopartistsbytag-examples {docsify-ignore}
+### Examples :id=gettopartistsbytag-examples {docsify-ignore}
 
-1. Получить вторую десятку исполнителей из топа инди.
+1. Get the second ten artists from the indie top.
 
 ```js
 let artists = Lastfm.getTopArtistsByTag({
-    tag: 'indie',
-    limit: 10,
-    page: 2,
+  tag: 'indie',
+  limit: 10,
+  page: 2,
 })
 ```
 
 ## getTopTracks
 
-Получить топ треков пользователя.
+Get the top tracks for a user.
 
-### Аргументы :id=gettoptracks-arguments {docsify-ignore}
+### Arguments :id=gettoptracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `params` | Объект | Параметры отбора. |
+| Name | Type | Description |
+|------|------|-------------|
+| `params` | Object | Selection parameters. |
 
-#### Параметры отбора :id=gettoptracks-arguments {docsify-ignore}
+#### Selection Parameters :id=gettoptracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `user` | Строка | Логин пользователя Last.fm. По умолчанию используется значение из `config-файла`. |
-| `period` | Строка | Одно из значений: _overall_, _7day_, _1month_, _3month_, _6month_, _12month_. |
-| `limit` | Число | Ограничить количество треков. |
+| Name | Type | Description |
+|------|------|-------------|
+| `user` | String | Last.fm user login. Default is the value from the `config file`. |
+| `period` | String | One of the values: _overall_, _7day_, _1month_, _3month_, _6month_, _12month_. |
+| `limit` | Number | Limit the number of tracks. |
 
-### Возврат :id=gettoptracks-return {docsify-ignore}
+### Return :id=gettoptracks-return {docsify-ignore}
 
-`artists` (массив) - результат поиска исполнителей в Spotify.
+`artists` (array) - search results for artists on Spotify.
 
-### Примеры :id=gettoptracks-examples {docsify-ignore}
+### Examples :id=gettoptracks-examples {docsify-ignore}
 
-1. Получить топ-40 треков за полгода.
+1. Get the top 40 tracks for six months.
 
 ```js
 let tracks = Lastfm.getTopTracks({
-  user: 'ваш логин',
+  user: 'your login',
   period: '6month',
   limit: 40
 });
@@ -481,100 +481,100 @@ let tracks = Lastfm.getTopTracks({
 
 ## getTopTracksByTag
 
-Получить топ треков по тегу.
+Get top tracks by tag.
 
-### Аргументы :id=gettoptracksbytag-arguments {docsify-ignore}
+### Arguments :id=gettoptracksbytag-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `params` | Объект | Параметры отбора. Аналогично параметрам [getTopAlbumsByTag](/reference/lastfm?id=gettopalbumsbytag). |
+| Name | Type | Description |
+|------|------|-------------|
+| `params` | Object | Selection parameters. Similar to the parameters of [getTopAlbumsByTag](/reference/lastfm?id=gettopalbumsbytag). |
 
-### Возврат :id=gettoptracksbytag-return {docsify-ignore}
+### Return :id=gettoptracksbytag-return {docsify-ignore}
 
-`tracks` (массив) - результат поиска треков в Spotify.
+`tracks` (array) - search results for tracks on Spotify.
 
-### Примеры :id=gettoptracksbytag-examples {docsify-ignore}
+### Examples :id=gettoptracksbytag-examples {docsify-ignore}
 
-1. Получить топ 20 по тегу поп.
+1. Get top 20 tracks by pop tag.
 
 ```js
 let tracks = Lastfm.getTopTracksByTag({
-    tag: 'pop',
-    limit: 20,
+  tag: 'pop',
+  limit: 20,
 })
 ```
 
 ## getTracksByTag
 
-Получить треки по тегу. Парсит названия со страницы тега, [например](https://www.last.fm/ru/tag/vocal/tracks?page=1).
+Get tracks by tag. Parses names from the tag page, [for example](https://www.last.fm/ru/tag/vocal/tracks?page=1).
 
-### Аргументы :id=gettracksbytag-arguments {docsify-ignore}
+### Arguments :id=gettracksbytag-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `tag` | Строка | Название тега. |
-| `limit` | Число | Предельное количество треков. |
+| Name | Type | Description |
+|------|------|-------------|
+| `tag` | String | Tag name. |
+| `limit` | Number | Maximum number of tracks. |
 
-### Возврат :id=gettracksbytag-return {docsify-ignore}
+### Return :id=gettracksbytag-return {docsify-ignore}
 
-`tracks` (массив) - результат поиска треков в Spotify.
+`tracks` (array) - search results for tracks on Spotify.
 
-### Примеры :id=gettracksbytag-examples {docsify-ignore}
+### Examples :id=gettracksbytag-examples {docsify-ignore}
 
-1. Получить треки по тегу.
+1. Get tracks by tag.
 
 ```js
 let tracks = Lastfm.getTracksByTag('vocal', 40);
 ```
 
-2. Получить треки по нескольким тегам.
+2. Get tracks by multiple tags.
 
 ```js
 let tracks = ['rock', 'indie', 'pixie'].reduce((tracks, tag) => 
-    Combiner.push(tracks, Lastfm.getTracksByTag(tag, 100)), []);
+  Combiner.push(tracks, Lastfm.getTracksByTag(tag, 100)), []);
 ```
 
 ## rangeTags
 
-Отобрать треки по тегам.
+Filter tracks by tags.
 
-### Аргументы :id=rangetags-arguments {docsify-ignore}
+### Arguments :id=rangetags-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `spotifyTracks` | Массив | Проверяемые Spotify треки. |
-| `params` | Объект | Параметры отбора. |
+| Name | Type | Description |
+|------|------|-------------|
+| `spotifyTracks` | Array | Spotify tracks to check. |
+| `params` | Object | Selection parameters. |
 
-### Параметры отбора :id=rangetags-params {docsify-ignore}
+### Selection Parameters :id=rangetags-params {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `include` | Массив | Объекты тегов. Если есть у трека (хотя бы один), он сохраняется. |
-| `exclude` | Массив | Объекты тегов. Если есть у трека (хотя бы один), он удаляется. |
-| `isRemoveUnknown` | Булеов | При `true` треки без тегов удаляются. При `false` остаются. По умолчанию `false`. |
+| Name | Type | Description |
+|------|------|-------------|
+| `include` | Array | Tag objects. If a track has at least one, it is kept. |
+| `exclude` | Array | Tag objects. If a track has at least one, it is removed. |
+| `isRemoveUnknown` | Boolean | If `true`, tracks without tags are removed. If `false`, they are kept. Default is `false`. |
 
-### Возврат :id=rangetags-return {docsify-ignore}
+### Return :id=rangetags-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=rangetags-examples {docsify-ignore}
+### Examples :id=rangetags-examples {docsify-ignore}
 
-1. Оставить из недавних любимых треков только рок, исключая инди. Так как теги проставляются пользователями, у них есть показатель популярности (до 100). `minCount` - минимальное значение показателя включительно. Если будет меньше, трек удаляется не смотря на наличие тега.
+1. Keep only rock tracks from recent favorites, excluding indie. Since tags are set by users, they have a popularity indicator (up to 100). `minCount` is the minimum value of the indicator inclusive. If less, the track is removed despite the tag.
 
 ```js
 let tracks = Source.getSavedTracks(20);
 Lastfm.rangeTags(tracks, {
   isRemoveUnknown: true,
   include: [
-    { name: 'rock', minCount: 10 },
+  { name: 'rock', minCount: 10 },
   ],
   exclude: [
-    { name: 'indie', minCount: 10 },
+  { name: 'indie', minCount: 10 },
   ]
 });
 ```
 
-2. Добавить к трекам теги, удалить неизвестные.
+2. Add tags to tracks, remove unknown ones.
 
 ```js
 let tracks = Source.getSavedTracks(20);
@@ -585,47 +585,47 @@ Lastfm.rangeTags(tracks, {
 
 ## removeRecentArtists
 
-Удалить исполнителей по данным истории прослушиваний Last.fm.
+Remove artists based on Last.fm listening history.
 
-### Аргументы :id=removerecentartists-arguments {docsify-ignore}
+### Arguments :id=removerecentartists-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `original` | Массив | Треки, в которых нужно удалить элементы. |
-| `user` | Строка | Логин пользователя Last.fm. По умолчанию используется значение из `config-файла`. |
-| `count` | Число | Количество треков истории прослушиваний. По умолчанию 600. |
-| `mode` | Строка | Режим выбора исполнителей. При `every` проверка каждого, при `first` только первого (как правило основной). По умолчанию `every`. |
+| Name | Type | Description |
+|------|------|-------------|
+| `original` | Array | Tracks to remove elements from. |
+| `user` | String | Last.fm user login. Default is the value from the `config file`. |
+| `count` | Number | Number of tracks from listening history. Default is 600. |
+| `mode` | String | Selection mode for artists. If `every`, checks each one, if `first`, only the first (usually the main one). Default is `every`. |
 
-### Возврат :id=removerecentartists-return {docsify-ignore}
+### Return :id=removerecentartists-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
 ## removeRecentTracks
 
-Удалить треки по данным истории прослушиваний Last.fm.
+Remove tracks based on Last.fm listening history.
 
-### Аргументы :id=removerecenttracks-arguments {docsify-ignore}
+### Arguments :id=removerecenttracks-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
-|-----|-----|----------|
-| `original` | Массив | Треки, в которых нужно удалить элементы. |
-| `user` | Строка | Логин пользователя Last.fm. По умолчанию используется значение из `config-файла`. |
-| `count` | Число | Количество треков истории прослушиваний. По умолчанию 600. |
-| `mode` | Строка | Режим выбора исполнителей. При `every` проверка каждого, при `first` только первого (как правило основной). По умолчанию `every`. |
+| Name | Type | Description |
+|------|------|-------------|
+| `original` | Array | Tracks to remove elements from. |
+| `user` | String | Last.fm user login. Default is the value from the `config file`. |
+| `count` | Number | Number of tracks from listening history. Default is 600. |
+| `mode` | String | Selection mode for tracks. If `every`, checks each one, if `first`, only the first (usually the main one). Default is `every`. |
 
-### Возврат :id=removerecenttracks-return {docsify-ignore}
+### Return :id=removerecenttracks-return {docsify-ignore}
 
-Нет возвращаемого значения. Изменяет входной массив.
+No return value. Modifies the input array.
 
-### Примеры :id=removerecenttracks-examples {docsify-ignore}
+### Examples :id=removerecenttracks-examples {docsify-ignore}
 
-1. Создать плейлист с любимыми треками, которые не были прослушаны за последнюю тысячу скробблов.
+1. Create a playlist with favorite tracks that have not been played in the last thousand scrobbles.
 
 ```js
 let savedTracks = Source.getSavedTracks();
 Lastfm.removeRecentTracks(savedTracks, 'login', 1000)
 Playlist.saveAsNew({
-  name: 'Давно не слушал',
+  name: 'Long time no listen',
   tracks: savedTracks,
 });
 ```

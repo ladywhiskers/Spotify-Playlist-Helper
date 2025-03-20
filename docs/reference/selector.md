@@ -1,71 +1,71 @@
 # Selector
 
-Методы отбора и ветвления.
+Methods of selection and branching.
 
 ### isDayOfWeek
 
-Возвращает булево значение: `true` если сегодня день недели `strDay` и `false` если нет.
+Returns a boolean value: `true` if today is the day of the week `strDay` and `false` if not.
 
-Аргументы
-- (строка) `strDay` - день недели.
-- (строка) `locale` - локаль дня недели. По умолчанию `en-US`, для которой допустимы значения: `sunday`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`.
+Arguments
+- (string) `strDay` - day of the week.
+- (string) `locale` - locale of the day of the week. Default is `en-US`, for which valid values are: `sunday`, `monday`, `tuesday`, `wednesday`, `thursday`, `friday`, `saturday`.
 
-Пример использования
+Example usage
 ```js
 if (Selector.isDayOfWeek('friday')){
-    // сегодня пятница
+    // today is Friday
 } else {
-    // другой день недели
+    // another day of the week
 }
 ```
 
 ### isDayOfWeekRu
 
-Возвращает булево значение: `true` если сегодня день недели `strDay` и `false` если нет. Значение дня недели кириллицей.
+Returns a boolean value: `true` if today is the day of the week `strDay` and `false` if not. The value of the day of the week in Cyrillic.
 
-Аргументы
-- (строка) `strDay` - день недели. Допустимые значения: `понедельник`, `вторник`, `среда`, `четверг`, `пятница`, `суббота`, `воскресенье`.
+Arguments
+- (string) `strDay` - day of the week. Valid values are: `понедельник`, `вторник`, `среда`, `четверг`, `пятница`, `суббота`, `воскресенье`.
 
-Пример использования
+Example usage
 ```js
 if (Selector.isDayOfWeekRu('понедельник')){
-    // сегодня понедельник
+    // today is Monday
 } else if (Selector.isDayOfWeekRu('среда')) {
-    // сегодня среда
+    // today is Wednesday
 } else {
-    // другой день недели
+    // another day of the week
 }
 ```
 
 ### isWeekend
 
-Возвращает булево значение: `true` если сегодня суббота или пятница и `false` если нет.
+Returns a boolean value: `true` if today is Saturday or Friday and `false` if not.
 
-Аргументов нет.
+No arguments.
 
-Пример использования
+Example usage
 ```js
 if (Selector.isWeekend()){
-    // сегодня выходной
+    // today is a weekend
 } else {
-   // будни
+   // weekdays
 }
 ```
 
 ### keepAllExceptFirst / sliceAllExceptFirst
 
-Изменяет / возвращает массив, состоящий из всех элементов массива `array` кроме `skipCount` первых.
+Modifies / returns an array consisting of all elements of the array `array` except the first `skipCount`.
 
-> Разница функций `keep*` и `slice*`:
+> Difference between `keep*` and `slice*` functions:
 > 
-> - `keep*` изменяет содержимое оригинального массива, 
-> - `slice*` возвращает новый массив, не изменяя оригинала.
+> - `keep*` modifies the original array,
+> - `slice*` returns a new array without modifying the original.
 
-Аргументы
-- (массив) `array` - массив, из которого берутся элементы.
-- (число) `skipCount` - количество пропускаемых элементов.
+Arguments
+- (array) `array` - the array from which elements are taken.
+- (number) `skipCount` - the number of elements to skip.
 
-Пример 1 - Получить все треки кроме первых 10.
+Example 1 - Get all tracks except the first 10.
 ```js
 let tracks = Source.getTracks(playlistArray);
 tracks = Selector.sliceAllExceptFirst(tracks, 10);
@@ -73,13 +73,13 @@ tracks = Selector.sliceAllExceptFirst(tracks, 10);
 
 ### keepAllExceptLast / sliceAllExceptLast
 
-Изменяет / возвращает массив, состоящий из всех элементов массива `array` кроме `skipCount` последних.
+Modifies / returns an array consisting of all elements of the array `array` except the last `skipCount`.
 
-Аргументы
-- (массив) `array` - массив, из которого берутся элементы.
-- (число) `skipCount` - количество пропускаемых элементов.
+Arguments
+- (array) `array` - the array from which elements are taken.
+- (number) `skipCount` - the number of elements to skip.
 
-Пример 1 - Получить все треки кроме последних 10.
+Example 1 - Get all tracks except the last 10.
 ```js
 let tracks = Source.getTracks(playlistArray);
 tracks = Selector.sliceAllExceptLast(tracks, 10);
@@ -87,13 +87,13 @@ tracks = Selector.sliceAllExceptLast(tracks, 10);
 
 ### keepFirst / sliceFirst
 
-Изменяет / возвращает массив, состоящий из первых `count` элементов массива `array`.
+Modifies / returns an array consisting of the first `count` elements of the array `array`.
 
-Аргументы
-- (массив) `array` - массив, из которого берутся элементы.
-- (число) `count` - количество элементов.
+Arguments
+- (array) `array` - the array from which elements are taken.
+- (number) `count` - the number of elements.
 
-Пример 1 - Получить первые 100 треков.
+Example 1 - Get the first 100 tracks.
 ```js
 let tracks = Source.getTracks(playlistArray);
 tracks = Selector.sliceFirst(tracks, 100);
@@ -101,13 +101,13 @@ tracks = Selector.sliceFirst(tracks, 100);
 
 ### keepLast / sliceLast
 
-Изменяет / возвращает массив, состоящий из последних `count` элементов массива `array`.
+Modifies / returns an array consisting of the last `count` elements of the array `array`.
 
-Аргументы
-- (массив) `array` - массив, из которого берутся элементы.
-- (число) `count` - количество элементов.
+Arguments
+- (array) `array` - the array from which elements are taken.
+- (number) `count` - the number of elements.
 
-Пример 1 - Получить последние 100 треков.
+Example 1 - Get the last 100 tracks.
 ```js
 let tracks = Source.getTracks(playlistArray);
 tracks = Selector.sliceLast(tracks, 100);
@@ -115,36 +115,36 @@ tracks = Selector.sliceLast(tracks, 100);
 
 ### keepNoLongerThan / sliceNoLongerThan
 
-Изменяет / возвращает массив треков с общей длительностью не более, чем `minutes` минут.
+Modifies / returns an array of tracks with a total duration of no more than `minutes` minutes.
 
-Аргументы
-- (массив) `tracks` - исходный массив треков.
-- (число) `minutes` - количество минут.
+Arguments
+- (array) `tracks` - the original array of tracks.
+- (number) `minutes` - the number of minutes.
 
-Пример 1 - Получить треки с общей продолжительностью не более, чем 60 минут.
+Example 1 - Get tracks with a total duration of no more than 60 minutes.
 ```js
 let tracks = Source.getTracks(playlistArray);
 tracks = Selector.sliceNoLongerThan(tracks, 60);
 ```
 
-Пример 2 - Чтобы вычислить продолжительность треков из массива, используйте один из вариантов
+Example 2 - To calculate the duration of tracks from an array, use one of the options
 ```js
 let tracks = Source.getPlaylistTracks('', '37i9dQZF1DX5PcuIKocvtW');
-let duration_ms = tracks.reduce((d, t) => d + t.duration_ms, 0); // миллесекунды
-let duration_s = tracks.reduce((d, t) => d + t.duration_ms, 0) / 1000; // секунды
-let duration_min = tracks.reduce((d, t) => d + t.duration_ms, 0) / 1000 / 60; // минуты
-let duration_h = tracks.reduce((d, t) => d + t.duration_ms, 0) / 1000 / 60 / 60; // часы
+let duration_ms = tracks.reduce((d, t) => d + t.duration_ms, 0); // milliseconds
+let duration_s = tracks.reduce((d, t) => d + t.duration_ms, 0) / 1000; // seconds
+let duration_min = tracks.reduce((d, t) => d + t.duration_ms, 0) / 1000 / 60; // minutes
+let duration_h = tracks.reduce((d, t) => d + t.duration_ms, 0) / 1000 / 60 / 60; // hours
 ```
 
 ### keepRandom / sliceRandom
 
-Изменяет / возвращает массив, состоящий из случайно отобранных элементов исходного массива.
+Modifies / returns an array consisting of randomly selected elements from the original array.
 
-Аргументы
-- (массив) `array` - массив, из которого берутся элементы.
-- (число) `count` - количество случайно выбираемых элементов.
+Arguments
+- (array) `array` - the array from which elements are taken.
+- (number) `count` - the number of randomly selected elements.
 
-Пример 1 - Получить 20 случайных треков.
+Example 1 - Get 20 random tracks.
 ```js
 let tracks = Source.getTracks(playlistArray);
 tracks = Selector.sliceRandom(tracks, 20);
@@ -152,28 +152,28 @@ tracks = Selector.sliceRandom(tracks, 20);
 
 ### pickYear
 
-Возвращает массив треков, релиз которых был в указанном году. Если таких треков нет, выбирается ближайший год.
+Returns an array of tracks released in the specified year. If there are no such tracks, the nearest year is selected.
 
-Аргументы
-- (массив) `tracks` - треки, среди которых выбирать.
-- (строка) `year` - год релиза.
-- (число) `offset` - допустимое смещение для ближайшего года. По умолчанию 5.
+Arguments
+- (array) `tracks` - tracks to choose from.
+- (string) `year` - release year.
+- (number) `offset` - allowable offset for the nearest year. Default is 5.
 
-Пример 1 - Выбрать любимые треки, вышедшие в 2020 году
+Example 1 - Select favorite tracks released in 2020
 ```js
 let tracks = Selector.pickYear(savedTracks, '2020');
 ```
 
 ### sliceCopy
 
-Возвращает новый массив, который является копией исходного массива.
+Returns a new array that is a copy of the original array.
 
-?> Используйте создание копии, если в одном скрипте нужно выполнить разные действия над источником. Позволит ускорить время выполнения и не отправлять тех же запросов дважды.
+?> Use copy creation if you need to perform different actions on the source in one script. This will speed up execution time and avoid sending the same requests twice.
 
-Аргументы
-- (массив) `array` - исходный массив, копию которого нужно создать.
+Arguments
+- (array) `array` - the original array to copy.
 
-Пример 1 - Создать копию массива.
+Example 1 - Create a copy of the array.
 ```js
 let tracks = Source.getTracks(playlistArray);
 let tracksCopy = Selector.sliceCopy(tracks);

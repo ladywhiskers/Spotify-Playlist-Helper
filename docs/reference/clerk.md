@@ -1,89 +1,89 @@
 # Clerk {docsify-ignore}
 
-Методы выполнения нескольких функций в разное время за один триггер. Подробнее в [полезном опыте](/best-practices?id=Продвинутый-триггер)
+Methods for executing multiple functions at different times in a single trigger. More details in [best practices](/best-practices?id=Advanced-trigger)
 
-| Метод | Тип результата | Краткое описание |
+| Method | Result type | Brief description |
 |-------|----------------|------------------|
-| [runOnceAfter](/reference/clerk?id=runonceafter) | Булево | Выполнять задачу каждый день после заданного времени. |
-| [runOnceAWeek](/reference/clerk?id=runonceaweek) | Булево | Выполнять задачу в определенный день недели. |
+| [runOnceAfter](/reference/clerk?id=runonceafter) | Boolean | Run the task every day after the specified time. |
+| [runOnceAWeek](/reference/clerk?id=runonceaweek) | Boolean | Run the task on a specific day of the week. |
 
 ## runOnceAfter
 
-Выполнять задачу каждый день после заданного времени.
+Run the task every day after the specified time.
 
-### Аргументы :id=runonceafter-arguments {docsify-ignore}
+### Arguments :id=runonceafter-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
+| Name | Type | Description |
 |-----|-----|----------|
-| `timeStr` | Строка | Время, после которого задача запускается один раз. |
-| `callback` | Функция | Выполняемая функция. Имя функции обязано быть уникальным среди всех функций, вызываемых _Clerk_. |
+| `timeStr` | String | Time after which the task is run once. |
+| `callback` | Function | The function to run. The function name must be unique among all functions called by _Clerk_. |
 
-### Возврат :id=runonceafter-return {docsify-ignore}
+### Return :id=runonceafter-return {docsify-ignore}
 
-`isRun` (булево) - при `true` функция выполнялась, при `false` функция не запускалась.
+`isRun` (boolean) - if `true` the function was run, if `false` the function was not run.
 
-### Примеры :id=runonceafter-examples {docsify-ignore}
+### Examples :id=runonceafter-examples {docsify-ignore}
 
-1. Выполнить три функции в разное время за один триггер
+1. Run three functions at different times in one trigger
 
 ```js
-// Триггер каждый час
+// Trigger every hour
 function updatePlaylists() {
-    updateEveryHour() // каждый час
-    Clerk.runOnceAfter('15:00', updateInDay) // раз в день
-    Clerk.runOnceAfter('21:00', updateInEvening) // раз в день
+updateEveryHour() // every hour
+Clerk.runOnceAfter('15:00', updateInDay) // once a day
+Clerk.runOnceAfter('21:00', updateInEvening) // once a day
 
-    function updateEveryHour() {
-        // ...
-    }
+function updateEveryHour() {
+// ...
+}
 
-    function updateInDay() {
-        // ...
-    }
+function updateInDay() {
+// ...
+}
 
-    function updateInEvening() {
-        // ...
-    }
+function updateInEvening() {
+// ...
+}
 }
 ```
 
 ## runOnceAWeek
 
-Выполнять задачу в определенный день недели.
+Run a task on a specific day of the week.
 
-### Аргументы :id=runonceaweek-arguments {docsify-ignore}
+### Arguments :id=runonceaweek-arguments {docsify-ignore}
 
-| Имя | Тип | Описание |
+| Name | Type | Description |
 |-----|-----|----------|
-| `dayStr` | Строка | День недели на английском. |
-| `timeStr` | Строка | Время, после которого задача запускается один раз. |
-| `callback` | Функция | Выполняемая функция. Имя функции обязано быть уникальным среди всех функций, вызываемых _Clerk_. |
+| `dayStr` | String | Day of the week in English. |
+| `timeStr` | String | Time after which the task is run once. |
+| `callback` | Function | The function to run. The function name must be unique among all functions called by _Clerk_. |
 
-### Возврат :id=runonceaweek-return {docsify-ignore}
+### Return :id=runonceaweek-return {docsify-ignore}
 
-`isRun` (булево) - при `true` функция выполнялась, при `false` функция не запускалась.
+`isRun` (boolean) - if `true` the function was run, if `false` the function was not run.
 
-### Примеры :id=runonceaweek-examples {docsify-ignore}
+### Examples :id=runonceaweek-examples {docsify-ignore}
 
-1. Выполнить три функции в разное время за один триггер
+1. Run three functions at different times in one trigger
 
 ```js
-// Триггер каждые 15 минут
+// Trigger every 15 minutes
 function updatePlaylists() {
-    update15() // каждые 15 минут
-    Clerk.runOnceAWeek('monday', '12:00', updateMonday) // каждый понедельник после 12
-    Clerk.runOnceAWeek('saturday', '16:00', updateSaturday) // каждую субботу после 16
+update15() // every 15 minutes
+Clerk.runOnceAWeek('monday', '12:00', updateMonday) // every Monday after 12
+Clerk.runOnceAWeek('saturday', '16:00', updateSaturday) // every Saturday after 16
 
-    function update15() {
-        // ...
-    }
+function update15() {
+// ...
+}
 
-    function updateMonday() {
-        // ...
-    }
+function updateMonday() {
+// ...
+}
 
-    function updateSaturday() {
-        // ...
-    }
+function updateSaturday() {
+// ...
+}
 }
 ```

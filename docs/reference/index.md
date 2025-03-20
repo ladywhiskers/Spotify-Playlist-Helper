@@ -1,17 +1,17 @@
-# Модули
+# Modules
 
-| Модуль | Краткое описание |
-|--------|------------------|
-| [Cache](/reference/cache.md) | Методы управления данными Google Диска. |
-| [Clerk](/reference/clerk.md) | Методы выполнения нескольких функций в разное время за один триггер. |
-| [Combiner](/reference/combiner.md) | Методы комбинирования элементов. |
-| [Filter](/reference/filter.md) | Методы отсеивания элементов. |
-| [Lastfm](/reference/lastfm.md) | Методы взаимодействия с Last.fm. |
-| [Library](/reference/library.md) | Методы по управлению лайками и подписками. |
-| [Order](/reference/order.md) | Методы сортировки. |
-| [Player](/reference/player.md) | Методы управления плеером. |
-| [Playlist](/reference/playlist.md) | Методы по созданию и управлению плейлистами. |
-| [RecentTracks](/reference/recenttracks.md) | Методы работы с историей прослушиваний. |
-| [Search](/reference/search.md) | Методы поиска. |
-| [Selector](/reference/selector.md) | Методы отбора и ветвления. |
-| [Source](/reference/source.md) | Методы получения элементов Spotify. |
+| Module | Brief Description |
+|--------|-------------------|
+| [Cache](/reference/cache.md) | Methods for managing Google Drive data. |
+| [Clerk](/reference/clerk.md) | Methods for executing multiple functions at different times for a single trigger. |
+| [Combiner](/reference/combiner.md) | Methods for combining elements. |
+| [Filter](/reference/filter.md) | Methods for filtering elements. |
+| [Lastfm](/reference/lastfm.md) | Methods for interacting with Last.fm. |
+| [Library](/reference/library.md) | Methods for managing likes and subscriptions. |
+| [Order](/reference/order.md) | Methods for sorting. |
+| [Player](/reference/player.md) | Methods for controlling the player. |
+| [Playlist](/reference/playlist.md) | Methods for creating and managing playlists. |
+| [RecentTracks](/reference/recenttracks.md) | Methods for working with listening history. |
+| [Search](/reference/search.md) | Methods for searching. |
+| [Selector](/reference/selector.md) | Methods for selection and branching. |
+| [Source](/reference/source.md) | Methods for retrieving Spotify elements. |
