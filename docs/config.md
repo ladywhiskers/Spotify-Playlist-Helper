@@ -1,31 +1,33 @@
-# Параметры
+# Parameters
 
-Описание параметров из файла `config`
+Description of parameters from the `config` file
 
 ## API
-- `CLIENT_ID` и `CLIENT_SECRET` (строка) - ключи для доступа к Spotify Web API. Создаются при [первой установке](/install).
 
-- `LASTFM_API_KEY` (строка) - ключ для работы с API Last.fm. Создается [дополнительно](/tuning?id=Настройка-lastfm).
+- `CLIENT_ID` and `CLIENT_SECRET` (string) - keys for accessing the Spotify Web API. Created during [initial setup](/install).
 
-- `MUSIXMATCH_API_KEY` (строка) - ключ от сервиса musixmatch для работы функции [detectLanguage](/reference/filter?id=detectlanguage). Создается [дополнительно](/tuning?id=Настройка-musicmatch).
+- `LASTFM_API_KEY` (string) - key for working with the Last.fm API. Created [additionally](/tuning?id=lastfm-setup).
 
-## История прослушиваний
-- `ON_SPOTIFY_RECENT_TRACKS` (булево) - при `true` отслеживание истории прослушиваний Spotify. При `false` отключается.
+- `MUSIXMATCH_API_KEY` (string) - key from the musixmatch service for the [detectLanguage](/reference/filter?id=detectlanguage) function. Created [additionally](/tuning?id=Настройка-musicmatch).
 
-- `ON_LASTFM_RECENT_TRACKS` (булево) - при `true` отслеживание истории прослушиваний Last.fm. При `false` отключается.
+## Listening History
 
-- `LASTFM_LOGIN` (строка) - логин пользователя Last.fm, чья история собирается. Используется по умолчанию и в других функциях модуля.
+- `ON_SPOTIFY_RECENT_TRACKS` (boolean) - when `true`, tracks Spotify listening history. When `false`, disables it.
 
-- `LASTFM_RANGE_RECENT_TRACKS` (число) - количество последних треков, которые просматриваются в истории Last.fm за прошедшие 15 минут.
+- `ON_LASTFM_RECENT_TRACKS` (boolean) - when `true`, tracks Last.fm listening history. When `false`, disables it.
 
-- `COUNT_RECENT_TRACKS` (число) - количество сохраняемых треков истории. По умолчанию 20 тысяч. На практике работает нормально и с 40 тысячами. Предел это объем файла в 50 мб. 
+- `LASTFM_LOGIN` (string) - Last.fm user login whose history is being collected. Used by default and in other module functions.
 
-## Общее
-- `LOG_LEVEL` (строка) - при `info` выводятся сообщения с информацией и ошибками от функций библиотеки. При `error` только сообщения об ошибках. При пустой строке отключает сообщения. В параметрах `config` задается значение по умолчанию, действующие при каждом запуске. В своем коде можно изменить уровень логов на время текущего выполнения `Admin.setLogLevelOnce('значение')`.
+- `LASTFM_RANGE_RECENT_TRACKS` (number) - number of recent tracks viewed in Last.fm history for the past 15 minutes.
 
-- `LOCALE` (строка) - локаль при запросе плейлистов. Влияет на то, в каком виде представляются названия треков. [Известны случаи](https://github.com/Chimildic/goofy/discussions/79#discussioncomment-814744), когда исполнитель на кириллице возвращался с аналогом на латинице. Значение по умолчанию `RU`.
+- `COUNT_RECENT_TRACKS` (number) - number of saved history tracks. Default is 20,000. In practice, it works fine with 40,000. The limit is a file size of 50 MB.
 
-- `REQUESTS_IN_ROW` (число) - количество параллельно отправляемых запросов, когда это возможно. По умолчанию 40. Влияет на скорость получения данных. Например, запрос треков плейлиста. При получении большего количества ошибок номер `503` или наличию алгоритмов с очень большим числом запросов, рекомендуется снизить значение данного параметра. Повышение не рекомендуется.
+## General
 
-- `MIN_DICE_RATING` (число) - минимальное значение коэффициента от 0.0 до 1.0, при котором элемент считается наилучшим совпадением при импорте, например, треков в Spotify. По умолчанию _0.6005_. 
-Если найденный элемент будет иметь меньшее значение, он отбрасывается. Когда несколько элементов удовлетворяют минимальному значению, выбирается элемент с наибольшим из них.
+- `LOG_LEVEL` (string) - when `info`, displays information and error messages from library functions. When `error`, only error messages. An empty string disables messages. The default value is set in the `config` parameters, effective at each startup. In your code, you can change the log level for the current execution with `Admin.setLogLevelOnce('value')`.
+
+- `LOCALE` (string) - locale when requesting playlists. Affects how track names are presented. [There are known cases](https://github.com/Chimildic/goofy/discussions/79#discussioncomment-814744) where an artist in Cyrillic was returned with a Latin equivalent. Default value is `RU`.
+
+- `REQUESTS_IN_ROW` (number) - number of parallel requests sent when possible. Default is 40. Affects the speed of data retrieval, such as playlist tracks. If you receive more `503` errors or have algorithms with a very high number of requests, it is recommended to lower this parameter. Increasing is not recommended.
+
+- `MIN_DICE_RATING` (number) - minimum coefficient value from 0.0 to 1.0, at which an element is considered the best match when importing, for example, tracks into Spotify. Default is _0.6005_. If the found element has a lower value, it is discarded. When several elements meet the minimum value, the one with the highest value is chosen.
