@@ -23,10 +23,13 @@ const TrackUtils = (function () {
       const trackPromises = trackSources.map((source) =>
         Source.getPlaylistTracks(source.name, source.id)
       );
-      const allTracksArrays = await Promise.all(trackPromises);
+      const allTracksArrays = await Promise.allSettled(trackPromises);
 
       // Combine all tracks into a single array.
-      let allTracks = allTracksArrays.flat();
+      let allTracks = allTracksArrays
+        .filter(result => result.status === "fulfilled")
+        .map(result => result.value)
+        .flat();
 
       // Remove saved tracks.
       Filter.removeTracks(allTracks, savedTracks, true);
@@ -1737,7 +1740,7 @@ const Filter = (function () {
         seed_artists: Selector.sliceFirst(
           t.artists.map((a) => a.id),
           4
-        ).join(","),
+        ).join(",")
       };
       Object.entries(features[t.id]).forEach((item) => {
         if (!isNaN(item[1])) {

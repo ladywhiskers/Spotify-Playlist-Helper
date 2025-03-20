@@ -32,7 +32,7 @@ function getCurrentSeason_(today, seasonPlaylists) {
   return seasonPlaylists[currentSeasonName];
 }
 
-/**async function filterOutBannedTracks_(tracks) {
+async function filterOutBannedTracks_(tracks) {
   console.log("Starting filterOutBannedTracks_");
   try {
     if (!tracks) {
@@ -57,7 +57,9 @@ function getCurrentSeason_(today, seasonPlaylists) {
     }
 
     Filter.removeTracks(tracks, allBannedTracks);
-    console.log(`filterOutBannedTracks_: Removed ${allBannedTracks.length} banned tracks.`);
+    console.log(
+      `filterOutBannedTracks_: Removed ${allBannedTracks.length} banned tracks.`
+    );
     console.log("Finished filterOutBannedTracks_");
     return tracks;
   } catch (error) {
@@ -65,7 +67,6 @@ function getCurrentSeason_(today, seasonPlaylists) {
     return [];
   }
 }
-*/
 
 async function getRandomTracks_(tracks, limit) {
   console.log("Starting getRandomTracks_");
@@ -125,7 +126,7 @@ async function getCombinedTracks_(corePlaylists, existingTracks = []) {
   }
 }
 
-async function filterTracks_(tracks, filterParams) {
+/**async function filterTracks_(tracks, filterParams) {
   console.log("Starting filterTracks_");
   try {
     if (!tracks) {
@@ -134,18 +135,14 @@ async function filterTracks_(tracks, filterParams) {
     }
     // Use RangeTracks.rangeTracks to filter tracks based on the provided parameters.
     Filter.rangeTracks(tracks, { features: filterParams });
-    console.log(
-      `filterTracks_: Filtered tracks based on parameters: ${JSON.stringify(
-        filterParams
-      )}`
-    );
+    console.log(`filterTracks_: Filtered tracks based on parameters: ${JSON.stringify(filterParams)}`);
     console.log("Finished filterTracks_");
     return tracks;
   } catch (error) {
     console.error("Error in filterTracks_:", error);
     return []; // Return empty array
   }
-}
+}*/
 
 async function mixTracks_(trackArrays) {
   console.log("Starting mixTracks_");
@@ -572,7 +569,7 @@ async function updateDiscoverDaily_() {
 }
 
 //Focused Work
-async function updateFocusedWork() {
+async function updateFocusedWork_() {
   console.log("Starting updateFocusedWork_");
   try {
     const today = new Date();
@@ -1366,14 +1363,6 @@ async function updateHappyMix() {
     const bannedPlaylistId = Config.BANNED_PLAYLIST_ID;
     const happyArchivePlaylistId = Config.HAPPY_ARCHIVE_PLAYLIST_ID;
 
-    // Check if playlist IDs are defined
-    if (!moodyPlaylistId || !bannedPlaylistId || !happyArchivePlaylistId) {
-      console.error(
-        "updateHappyMix: One or more playlist IDs are undefined in UserProperties."
-      );
-      return false;
-    }
-
     // Get all tracks in parallel using Promise.allSettled
     const [
       moodyTracksResult,
@@ -1398,22 +1387,8 @@ async function updateHappyMix() {
     const savedTracks =
       savedTracksResult.status === "fulfilled" ? savedTracksResult.value : [];
 
-    // Log any rejections
-    [
-      moodyTracksResult,
-      /**bannedTracksResult,*/ happyArchiveResult,
-      savedTracksResult,
-    ].forEach((result, index) => {
-      if (result.status === "rejected") {
-        console.error(
-          `updateHappyMix: Error fetching tracks (index ${index}):`,
-          result.reason
-        );
-      }
-    });
-
     // Filter the saved tracks to only include happy tracks.
-    Filter.rangeTracks(savedTracks, {
+    /**     Filter.rangeTracks(savedTracks, {
       features: {
         valence: { min: 0.7, max: 1.0 },
         anger: { min: 0.0, max: 0.3 },
@@ -1421,7 +1396,7 @@ async function updateHappyMix() {
         sadness: { min: 0.0, max: 0.3 },
       },
     });
-
+*/
     // Combine all of the happy tracks.
     const allTracks = Combiner.push(savedTracks, happyArchive);
 
@@ -1462,14 +1437,6 @@ async function updateMoodyMix() {
     const bannedPlaylistId = Config.BANNED_PLAYLIST_ID;
     const moodyArchivePlaylistId = Config.MOODY_ARCHIVE_PLAYLIST_ID;
 
-    // Check if playlist IDs are defined
-    if (!happyPlaylistId || !bannedPlaylistId || !moodyArchivePlaylistId) {
-      console.error(
-        "updateMoodyMix: One or more playlist IDs are undefined in UserProperties."
-      );
-      return false;
-    }
-
     // Get all tracks in parallel using Promise.allSettled
     const [
       happyTracksResult,
@@ -1509,14 +1476,14 @@ async function updateMoodyMix() {
     });
 
     // Filter the saved tracks to only include moody tracks.
-    Filter.rangeTracks(savedTracks, {
+    /**     Filter.rangeTracks(savedTracks, {
       features: {
         valence: { min: 0.0, max: 0.3 },
         anger: { min: 0.3, max: 1.0 },
         happiness: { min: 0.0, max: 0.3 },
         sadness: { min: 0.5, max: 1.0 },
       },
-    });
+    });*/
 
     // Combine all of the moody tracks.
     const allTracks = Combiner.push(savedTracks, moodyArchive);
@@ -1556,13 +1523,6 @@ async function updateRomanticMix() {
     // Retrieve playlist IDs from UserProperties
     const bannedPlaylistId = Config.BANNED_PLAYLIST_ID;
     const romanticArchivePlaylistId = Config.ROMANTIC_ARCHIVE_PLAYLIST_ID;
-    // Check if playlist IDs are defined
-    if (!bannedPlaylistId || !romanticArchivePlaylistId) {
-      console.error(
-        "updateRomanticMix: One or more playlist IDs are undefined in UserProperties."
-      );
-      return false;
-    }
 
     // Get all tracks in parallel using Promise.allSettled
     const [/**bannedTracksResult,*/ romanticArchiveResult, savedTracksResult] =
@@ -1597,14 +1557,14 @@ async function updateRomanticMix() {
     );
 
     // Filter the saved tracks to only include romantic tracks.
-    Filter.rangeTracks(savedTracks, {
+    /**    Filter.rangeTracks(savedTracks, {
       features: {
         valence: { min: 0.5, max: 1.0 },
         energy: { min: 0.2, max: 0.7 },
         danceability: { min: 0.3, max: 0.8 },
       },
     });
-
+*/
     // Combine all of the romantic tracks.
     const allTracks = Combiner.push(savedTracks, romanticArchive);
 
@@ -1643,14 +1603,6 @@ async function updateSadMix() {
     const sadArchivePlaylistId = Config.SAD_ARCHIVE_PLAYLIST_ID;
     const happyPlaylistId = Config.HAPPY_PLAYLIST_ID;
     const bannedPlaylistId = Config.BANNED_PLAYLIST_ID;
-
-    // Check if playlist IDs are defined
-    if (!sadArchivePlaylistId || !happyPlaylistId || !bannedPlaylistId) {
-      console.error(
-        "updateSadMix: One or more playlist IDs are undefined in UserProperties."
-      );
-      return false;
-    }
 
     // Get all tracks in parallel using Promise.allSettled
     const [
@@ -1692,14 +1644,14 @@ async function updateSadMix() {
     });
 
     // Filter the saved tracks to only include sad tracks.
-    Filter.rangeTracks(savedTracks, {
+    /**     Filter.rangeTracks(savedTracks, {
       features: {
         valence: { min: 0.0, max: 0.4 },
         happiness: { min: 0.0, max: 0.4 },
         sadness: { min: 0.5, max: 1.0 },
       },
     });
-
+*/
     // Combine all of the sad tracks.
     const allTracks = Combiner.push(savedTracks);
 

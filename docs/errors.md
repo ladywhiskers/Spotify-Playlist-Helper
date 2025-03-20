@@ -1,28 +1,28 @@
-# Ошибки
+# Errors
 
-Если на странице нет вашей ошибки, напишите в [телеграм](https://t.me/forum_goofy) или на [форум](https://github.com/Chimildic/goofy/discussions). Подробно опишите ваши действия и добавьте код.
+If your error is not listed on this page, write to [Telegram](https://t.me/forum_goofy) or the [forum](https://github.com/Chimildic/goofy/discussions). Describe your actions in detail and include the code.
 
 ## Apps Script
 
-| Ошибка | Решение |
+| Error | Solution |
 |-|-|
-| Access not granted or expired | Нет доступа к Spotify. Часто возникает из-за смены пароля. Пройдите авторизацию повторно (`начать развертывание` - `пробное развертывание` - `веб-приложение`). |
-| Exceeded maximum execution time | Время выполнения функции [превысило 6 минут](/details?id=Ограничения). Когда каждый запуск выполняется несколько минут, пересмотрите алгоритм, проведите оптимизацию согласно примечаниям документации и [полезному опыту](/best-practices). В редких случаях наблюдается у функций, которые обычно отрабатывают за считанные секунды. Пока объясняется лагом платформы, поскольку невозможно воспроизвести ошибку для отладки. |
-| Limit exceeded | Превышен один из лимитов платформы. В классическом варианте, ограничения описаны [здесь](/details?id=Ограничения). Если экспериментируете с другими возможностями платформы, есть и [другие](https://developers.google.com/apps-script/guides/services/quotas). |
-| Service invoked too many times </br> Service using too much computer time for one day | Частный случай ранее описанных ошибок. Точная разница неизвестна. В лучшем случае, пройдет после короткой паузы. В худшем, по обновлению квоты, то есть через сутки. |
-| Client ID is required | В сохраненных параметрах отсутствует Client ID от Spotify. Вызовите функцию `setProperties` из файла `config`. При этом у параметров `CLIENT_ID` и `CLIENT_SECRET` должны быть значения из кабинета разработчика Spotify (не текст `вашеЗначение`) |
-| Address unavailable | Причина возникновения неизвестна. При возникновении автоматически выжидается пауза и отправляется повторный запрос. Как правило, со второй попытки ошибки не возникает. |
-| Ошибка службы: Диск | Причина возникновения неизвестна. С версии 1.5.4 предпринимается попытка поймать ошибку и повторить операцию.  |
-| ReferenceError: Cheerio is not defined | Добавьте библиотеку [Cheerio](https://github.com/Chimildic/goofy/discussions/91#discussioncomment-1931923). |
+| Access not granted or expired | No access to Spotify. Often occurs due to a password change. Reauthorize (`start deployment` - `test deployment` - `web application`). |
+| Exceeded maximum execution time | The function execution time [exceeded 6 minutes](/details?id=Limitations). If each run takes several minutes, review the algorithm, optimize according to the documentation notes and [best practices](/best-practices). Rarely observed in functions that usually complete in seconds. Currently explained by platform lag, as the error cannot be reproduced for debugging. |
+| Limit exceeded | One of the platform limits has been exceeded. The classic limitations are described [here](/details?id=Limitations). If experimenting with other platform capabilities, there are [other limits](https://developers.google.com/apps-script/guides/services/quotas). |
+| Service invoked too many times </br> Service using too much computer time for one day | A specific case of the previously described errors. The exact difference is unknown. In the best case, it will pass after a short pause. In the worst case, upon quota renewal, i.e., after a day. |
+| Client ID is required | The saved parameters do not contain the Client ID from Spotify. Call the `setProperties` function from the `config` file. The `CLIENT_ID` and `CLIENT_SECRET` parameters should have values from the Spotify developer dashboard (not the text `yourValue`). |
+| Address unavailable | The cause is unknown. When it occurs, a pause is automatically taken and the request is retried. Usually, the error does not occur on the second attempt. |
+| Service error: Disk | The cause is unknown. Since version 1.5.4, an attempt is made to catch the error and retry the operation. |
+| ReferenceError: Cheerio is not defined | Add the [Cheerio](https://github.com/Chimildic/goofy/discussions/91#discussioncomment-1931923) library. |
 
-## Запросы
+## Requests
 
-| Статус | Описание |
+| Status | Description |
 |-|-|
-| 400 | Сервер получил некорректный запрос. Напишите на форум или в телеграм, если ошибка стабильно воспроизводится. |
-| 401 </br> 403 | Запрос составлен корректно, но отсутствует доступ. [Обновите права доступа](/tuning?id=Обновить-права-доступа). Обратите внимание, что функции [Player](/reference/player) доступны только с активной подпиской (ограничение от Spotify). |
-| 404 | Запрашиваемые данные не найдены. Например, указано несуществующее `id` плейлиста. |
-| 413 | Известен случай возникновения при загрузке обложки плейлиста. При кодировании размер данных превысил 256 кб. Поэтому Spotify отклонил запрос. Используйте другую обложку. При `randomCover` со значением `update`, обложка обновится в следующий раз. |
-| 429 | За единицу времени совершено много запросов. Сервер перестал отвечать контентом. Как правило, автоматически выжидается пауза в несколько секунд и процесс возобновляется. |
-| 500 </br> 503 | Внутренняя ошибка на стороне сервера Spotify или Last.fm. В обычном случае, пропадет через несколько минут. Во время критических сбоев может продолжаться неопределенное время. Со своей стороны ничего исправлять невозможно. |
-| 504 | Превышено время ожидания ответа от сервера. Будет попытка повторить запрос. |
+| 400 | The server received an incorrect request. Write to the forum or Telegram if the error consistently reproduces. |
+| 401 </br> 403 | The request is correctly formatted, but access is missing. [Update access rights](/tuning?id=Update-access-rights). Note that [Player](/reference/player) functions are only available with an active subscription (Spotify restriction). |
+| 404 | The requested data was not found. For example, a non-existent playlist `id` was specified. |
+| 413 | Known to occur when uploading a playlist cover. The data size exceeded 256 KB during encoding, so Spotify rejected the request. Use a different cover. With `randomCover` set to `update`, the cover will be updated next time. |
+| 429 | Too many requests were made in a short period. The server stopped responding with content. Usually, a pause of a few seconds is automatically taken and the process resumes. |
+| 500 </br> 503 | Internal error on the Spotify or Last.fm server side. Typically disappears after a few minutes. During critical failures, it may continue indefinitely. Nothing can be fixed on your side. |
+| 504 | The server response time was exceeded. A retry attempt will be made. |
