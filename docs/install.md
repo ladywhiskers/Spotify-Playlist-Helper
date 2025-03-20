@@ -58,4 +58,4 @@ Paste the `https://ladywhiskers.github.io/Spotify-Playlist-Helper-auth/auth` lin
 
 10. Switch to the tab from step 8 and refresh the page (`F5`). Grant access rights.
 
-Installation and configuration are complete. Go to the [first playlist](/first-playlist).
+Installation and configuration are complete. Go to the [first playlist](/docs/first-playlist.md)
