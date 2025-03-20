@@ -16,11 +16,11 @@ Replace all contents of the `library.gs` file with the new content using <kbd>Ct
 When expanding the library's functions, additional access rights may be required. For example, to upload an image or access favorite tracks. If necessary, the [changelog](/changelog.md) of the next update will include instructions on updating access rights.
 
 1. Insert the following function and run it once in the editor. After that, you can delete it.
-    ```js
-    function resetAuth(){
-        Auth.reset();
-    }
-    ```
+   ```js
+   function resetAuth() {
+     Auth.reset();
+   }
+   ```
 2. Click `start deployment` - `test deployments` in the top menu of the editor
 3. Copy the link from the opened window and open it in a new tab
 4. Click `Authorize` and confirm the new access rights
