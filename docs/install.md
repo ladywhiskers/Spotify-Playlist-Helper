@@ -46,7 +46,7 @@ Click the `Allow` button at the bottom of the window.
 
 ![Select account](/docs/img/install-step-grant-permissions.png)
 
-8. The window will close. Select `Start Deployment` - `Trial Deployments`
+8. The window will close. Select `Deploy` - `Test Deployment`
 
 ![Deploy Web App](/docs/img/install-step-webapp.png ':size=40%')
 
