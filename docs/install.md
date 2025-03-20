@@ -1,63 +1,61 @@
-# Установка
+# Intstallation
 
-Вы создаете собственную копию библиотеки. Только вы имеете доступ ко всему, что происходит в этой копии. 
+To use Spotify-Playlist-Helper, you need to create your own copy of the library. 
 
-Выполняется один раз. 
+1. Go to the [Spotify Dashboard](https://developer.spotify.com/dashboard/) and click `Log in`.
 
-1. Перейдите в [Spotify Dashboard](https://developer.spotify.com/dashboard/) и нажмите `Log in`.
+2. Click the `create app` button and fill out the form as in the screenshot:
 
-2. Нажмите кнопку `create app` и заполните форму как на скриншоте:
+   ![Create an app](img/install-step-create-app.png ':size=40%')
 
-   ![Создание приложения](/img/install-step-create-app.png ':size=40%')
+3. Go to the [library in Apps Script](https://script.google.com/d/1DnC4H7yjqPV2unMZ_nmB-1bDSJT9wQUJ7Wq-ijF4Nc7Fl3qnbT0FkPSr/edit?usp=sharing). Sign in to your Google account if prompted.
 
-3. Перейдите к [библиотеке в Apps Script](https://script.google.com/d/1DnC4H7yjqPV2unMZ_nmB-1bDSJT9wQUJ7Wq-ijF4Nc7Fl3qnbT0FkPSr/edit?usp=sharing). Войдите в Google аккаунт, если потребуется.
+4. Select `General` from the drop-down menu on the left.
 
-4. Выберите слева в раскрывающемся меню `Общие сведения`. 
+![Open menu](/img/general-property.gif ':size=60%')
 
-   ![Открыть меню](/img/general-property.gif ':size=60%')
+On the page that opens, on the right, `Create a copy`. A copy created on your account will open. Rename it if necessary (click on the name at the top of the page).
 
-   На открывшейся странице, справа `Создать копию`. Откроется копия, созданная на вашем аккаунте. Переименуйте, если нужно (нажать на имя вверху страницы).
-   
-    ![Создать копию](/img/install-step-copy.png)
+![Create a copy](/img/install-step-copy.png)
 
-5. Перейдите в файл `config.gs`. Вставьте `CLIENT_ID` и `CLIENT_SECRET` вместо слов `вашеЗначение`. Значения брать в созданном приложении Spotify на шаге 2 (кнопка `Settings`).
+5. Go to the `config.gs` file. Insert `CLIENT_ID` and `CLIENT_SECRET` instead of `Your-Value`. Take the values ​​​​from the Spotify application you created in step 2 (the `Settings` button).
 
-   ![Client ID и Client Secret](/img/install-step-client-id2.png)
+![Client ID and Client Secret](/img/install-step-client-id2.png)
 
-6. Также укажите значения для `PRIVATE_CLIENT_ID` и `PRIVATE_CLIENT_SECRET` получив их [здесь](https://script.google.com/macros/s/AKfycbwwDT25i71nYAk1aICxnrXfFVDzctcmhRMqzugjEkpqmUWjGATAbMOCL5aqvlPXOIq4/exec):
- 
-   Сохраните изменение <kbd>Ctrl</kbd><kbd>S</kbd> или иконка дискеты на панели действий
+6. Specify values ​​for `PRIVATE_CLIENT_ID` and `PRIVATE_CLIENT_SECRET` obtained [here](https://script.google.com/macros/s/AKfycbwwDT25i71nYAk1aICxnrXfFVDzctcmhRMqzugjEkpqmUWjGATAbMOCL5aqvlPXOIq4/exec):
 
-7. Запустите в редакторе выполнение функции `setProperties`. 
+Save the change <kbd>Ctrl</kbd><kbd>S</kbd> or the floppy disk icon on the action bar
 
-   ![run setProperties](/img/install-run-setProperties.png)
+7. Run the `setProperties` function in the editor.
 
-   Увидите всплывающее сообщение с необходимость предоставить права доступа. Согласитесь на выдачу.
+![run setProperties](/img/install-run-setProperties.png)
 
-   ![запрос прав](/img/install-permission-request.png ':size=50%')
+You will see a pop-up message asking you to grant access rights. Agree to grant it.
 
-   Выберите Google аккаунт, на котором создали копию библиотеки.
+![request for rights](/img/install-permission-request.png ':size=50%')
 
-   ![Выбор аккаунта](/img/install-step-account.png)
+Select the Google account you used to create the copy of the library.
 
-   Нажмите `Дополнительные настройки`, затем `Перейти на страницу "Копия Goofy (Ver. 1)"`
+![Select account](/img/install-step-account.png)
 
-   ![Выбор аккаунта](/img/install-step-warning.png ':size=50%')
+Click `Additional settings`, then `Go to the "Copy of Goofy (Ver. 1)" page`
 
-   Нажмите кнопку `Разрешить` внизу окна.
+![Select account](/img/install-step-warning.png ':size=50%')
 
-   ![Выбор аккаунта](/img/install-step-grant-permissions.png)
+Click the `Allow` button at the bottom of the window.
 
-8. Окно закроется. Выберите `Начать развертывание` - `Пробные развертывания`
+![Select account](/img/install-step-grant-permissions.png)
 
-   ![Развернуть веб-приложение](/img/install-step-webapp.png ':size=40%')
+8. The window will close. Select `Start Deployment` - `Trial Deployments`
 
-   Перейдите по ссылке из `веб-приложения`.
+![Deploy Web App](/img/install-step-webapp.png ':size=40%')
 
-9.  Вернитесь в [Spotify Dashboad](https://developer.spotify.com/dashboard/). В настройках вашего приложения `settings` спуститесь вниз и нажмите кнопку `edit`
-    
-    Вставьте в поле `Redirect URIs` ссылку `https://chimildic.github.io/spotify/auth`. Нажмите кнопку `ADD` справа, затем внизу кнопку `Save`.
+Follow the link from the `web app`.
 
-10. Перейдите на вкладку из шага 8 и обновите страницу (`F5`). Выдайте права доступа.
+9. Go back to the [Spotify Dashboad](https://developer.spotify.com/dashboard/). In your app's `settings`, scroll down and click the `edit` button
 
-    Установка и настройка завершены. Переходите к [первому плейлисту](/first-playlist).
+Paste the `https://chimildic.github.io/spotify/auth` link into the `Redirect URIs` field. Click the `ADD` button on the right, then the `Save` button at the bottom.
+
+10. Switch to the tab from step 8 and refresh the page (`F5`). Grant access rights.
+
+Installation and configuration are complete. Go to the [first playlist](/first-playlist).
