@@ -4,10 +4,6 @@ My configuration for this is in the examples folder, feel free to have an explor
 
 <p align="center">Spotify Playlist Constructor. Collect tracks, filter, update by events. Free.</p>
 <p align="center">Follow the <a target="_blank" href="https://chimildic.github.io/goofy/#/install">installation</a> and create your <a target="_blank" href="https://chimildic.github.io/goofy/#/first-playlist">first playlist</a>.</p>
-
-<p align="center"><a target="_blank" href="https://play.google.com/store/apps/details?id=ru.chimildic.audiolist">Audiolist</a></p>
-
-<p align="center"><a target="_blank" href="https://t.me/forum_goofy"><img alt="Chat" src="https://img.shields.io/badge/Telegram-Chat-blue?logo=telegram&logoColor=white"></a></p>
  
 ## Features
 
