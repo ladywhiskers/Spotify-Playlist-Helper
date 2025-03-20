@@ -2,22 +2,18 @@
 async function updateDailyPlaylists() {
   console.log("Starting updateDailyPlaylists");
   try {
-    const results = await Promise.allSettled([
-      // Use Promise.allSettled
+    const results = await Promise.allSettled([ // Use Promise.allSettled
       updateHeardLikedandForgotten_(),
       songsToLike_(),
       updateDiscoverDaily_(),
-      updateFocusedWork_(),
+      updateFocusedWork_()
     ]);
     console.log("Finished updateDailyPlaylists");
 
     // Check for rejections
     results.forEach((result, index) => {
-      if (result.status === "rejected") {
-        console.error(
-          `Error in daily playlist update (index ${index}):`,
-          result.reason
-        );
+      if (result.status === 'rejected') {
+        console.error(`Error in daily playlist update (index ${index}):`, result.reason);
       }
     });
     return true;
@@ -57,9 +53,7 @@ async function filterOutBannedTracks_(tracks) {
     }
 
     Filter.removeTracks(tracks, allBannedTracks);
-    console.log(
-      `filterOutBannedTracks_: Removed ${allBannedTracks.length} banned tracks.`
-    );
+    console.log(`filterOutBannedTracks_: Removed ${allBannedTracks.length} banned tracks.`);
     console.log("Finished filterOutBannedTracks_");
     return tracks;
   } catch (error) {
@@ -67,6 +61,7 @@ async function filterOutBannedTracks_(tracks) {
     return [];
   }
 }
+
 
 async function getRandomTracks_(tracks, limit) {
   console.log("Starting getRandomTracks_");
@@ -90,23 +85,14 @@ async function getCombinedTracks_(corePlaylists, existingTracks = []) {
   try {
     const playlistTracksPromises = corePlaylists.map(async (playlist) => {
       if (playlist.id) {
-        const tracks = await Source.getPlaylistTracks(
-          playlist.name,
-          playlist.id,
-          "",
-          playlist.limit
-        );
+        const tracks = await Source.getPlaylistTracks(playlist.name, playlist.id, "", playlist.limit);
         if (tracks === false) {
-          console.error(
-            `getCombinedTracks_: Failed to get tracks for playlist: ${playlist.name}`
-          );
+          console.error(`getCombinedTracks_: Failed to get tracks for playlist: ${playlist.name}`);
           return []; // Return empty array if getting tracks fails
         }
         return tracks;
       } else {
-        console.warn(
-          `getCombinedTracks_: Playlist ID not defined for: ${playlist.name}`
-        );
+        console.warn(`getCombinedTracks_: Playlist ID not defined for: ${playlist.name}`);
         return [];
       }
     });
@@ -115,9 +101,7 @@ async function getCombinedTracks_(corePlaylists, existingTracks = []) {
     const allPlaylistTracks = playlistTracksArrays.flat();
 
     const combinedTracks = Combiner.push(existingTracks, allPlaylistTracks);
-    console.log(
-      `getCombinedTracks_: Combined ${allPlaylistTracks.length} tracks from ${corePlaylists.length} playlists.`
-    );
+    console.log(`getCombinedTracks_: Combined ${allPlaylistTracks.length} tracks from ${corePlaylists.length} playlists.`);
     console.log("Finished getCombinedTracks_");
     return combinedTracks;
   } catch (error) {
@@ -125,6 +109,7 @@ async function getCombinedTracks_(corePlaylists, existingTracks = []) {
     return []; // Return empty array
   }
 }
+
 
 /**async function filterTracks_(tracks, filterParams) {
   console.log("Starting filterTracks_");
@@ -192,17 +177,12 @@ async function songsToLike_() {
     const playlistResults = await Promise.allSettled(playlistPromises);
 
     // Handle rejections and extract tracks
-    const savedPlexTracks =
-      playlistResults[0].status === "fulfilled" ? playlistResults[0].value : [];
-    const allPlexTracks =
-      playlistResults[1].status === "fulfilled" ? playlistResults[1].value : [];
+    const savedPlexTracks = playlistResults[0].status === 'fulfilled' ? playlistResults[0].value : [];
+    const allPlexTracks = playlistResults[1].status === 'fulfilled' ? playlistResults[1].value : [];
 
     playlistResults.forEach((result, index) => {
-      if (result.status === "rejected") {
-        console.error(
-          `Error in songsToLike_ (playlist index ${index}):`,
-          result.reason
-        );
+      if (result.status === 'rejected') {
+        console.error(`Error in songsToLike_ (playlist index ${index}):`, result.reason);
       }
     });
 
@@ -214,42 +194,30 @@ async function songsToLike_() {
     }
 
     // Create sets of track IDs for quick lookups
-    const savedPlexTrackIds = new Set(
-      savedPlexTracks.map((trackItem) => trackItem.id)
-    );
-    const allPlexTrackIds = new Set(
-      allPlexTracks.map((trackItem) => trackItem.id)
-    );
+    const savedPlexTrackIds = new Set(savedPlexTracks.map(trackItem => trackItem.id));
+    const allPlexTrackIds = new Set(allPlexTracks.map(trackItem => trackItem.id));
 
     // Filter out tracks in allPlexTracks from savedTracks
-    const tracksToLikeInPlex = savedTracks.filter(
-      (trackItem) => !allPlexTrackIds.has(trackItem.id)
-    );
+    const tracksToLikeInPlex = savedTracks.filter(trackItem => !allPlexTrackIds.has(trackItem.id));
 
     // Filter out tracks in savedTracks from savedPlexTracks
-    const tracksToLikeOnSpotify = savedPlexTracks.filter(
-      (trackItem) => !savedPlexTrackIds.has(trackItem.id)
-    );
+    const tracksToLikeOnSpotify = savedPlexTracks.filter(trackItem => !savedPlexTrackIds.has(trackItem.id));
 
     // Save the "Plex to like" playlist
     await Playlist.saveWithReplace({
       id: plexToLikePlaylistId,
-      name: "Plex to like",
+      name: 'Plex to like',
       tracks: tracksToLikeInPlex,
     });
-    console.log(
-      `songsToLike_: Saved ${tracksToLikeInPlex.length} tracks to Plex to like`
-    );
+    console.log(`songsToLike_: Saved ${tracksToLikeInPlex.length} tracks to Plex to like`);
 
     // Save the "Songs to like on Spotify" playlist
     await Playlist.saveWithReplace({
       id: spotifyLikePlaylistId,
-      name: "🎵 Songs to like on Spotify",
+      name: '🎵 Songs to like on Spotify',
       tracks: tracksToLikeOnSpotify,
     });
-    console.log(
-      `songsToLike_: Saved ${tracksToLikeOnSpotify.length} tracks to Songs to like on Spotify`
-    );
+    console.log(`songsToLike_: Saved ${tracksToLikeOnSpotify.length} tracks to Songs to like on Spotify`);
 
     console.log("Finished songsToLike_");
     return true;
@@ -272,9 +240,7 @@ async function updatePoolOfMemory() {
     // Get existing memory tracks from cache
     let memoryTracks = Cache.read(filename);
     if (!memoryTracks) {
-      console.warn(
-        "updatePoolOfMemory: No existing memory tracks found in cache."
-      );
+      console.warn("updatePoolOfMemory: No existing memory tracks found in cache.");
       memoryTracks = []; // Initialize as an empty array if not found
     }
 
@@ -296,9 +262,7 @@ async function updatePoolOfMemory() {
 
     // Combine tracks
     memoryTracks = Combiner.push(memoryTracks, lastfmTracks);
-    console.log(
-      `updatePoolOfMemory: Combined ${lastfmTracks.length} new Last.fm tracks with existing memory tracks.`
-    );
+    console.log(`updatePoolOfMemory: Combined ${lastfmTracks.length} new Last.fm tracks with existing memory tracks.`);
 
     // Remove duplicate tracks
     Filter.dedupTracks(memoryTracks);
@@ -311,16 +275,12 @@ async function updatePoolOfMemory() {
         duration_ms: { min: 120000 },
       },
     });
-    console.log(
-      "updatePoolOfMemory: Filtered tracks based on popularity and duration."
-    );
+    console.log("updatePoolOfMemory: Filtered tracks based on popularity and duration.");
 
     // Compress and write the updated memory tracks to cache
     Cache.compressTracks(memoryTracks);
     Cache.write(filename, memoryTracks);
-    console.log(
-      `updatePoolOfMemory: Compressed and wrote ${memoryTracks.length} tracks to cache.`
-    );
+    console.log(`updatePoolOfMemory: Compressed and wrote ${memoryTracks.length} tracks to cache.`);
 
     // Save the updated memory tracks as a playlist
     await Playlist.saveWithUpdate({
@@ -328,9 +288,7 @@ async function updatePoolOfMemory() {
       name: "Pool of Memory",
       tracks: memoryTracks,
     });
-    console.log(
-      `updatePoolOfMemory: Saved ${memoryTracks.length} tracks to playlist.`
-    );
+    console.log(`updatePoolOfMemory: Saved ${memoryTracks.length} tracks to playlist.`);
 
     console.log("Finished updatePoolOfMemory");
     return true;
@@ -358,28 +316,24 @@ async function updateHeardLikedandForgotten_() {
     }
 
     // Get saved tracks and pool of memory tracks
-    const savedTracksCache = Cache.read("SavedTracks");
-    const poolOfMemoryCache = Cache.read("PoolofMemory");
+    const savedTracksCache = Cache.read('SavedTracks');
+    const poolOfMemoryCache = Cache.read('PoolofMemory');
     if (!savedTracksCache) {
-      console.error(
-        "updateHeardLikedandForgotten_: savedTracksCache is undefined"
-      );
+      console.error("updateHeardLikedandForgotten_: savedTracksCache is undefined");
       return [];
     }
     if (!poolOfMemoryCache) {
-      console.error(
-        "updateHeardLikedandForgotten_: poolOfMemoryCache is undefined"
-      );
+      console.error("updateHeardLikedandForgotten_: poolOfMemoryCache is undefined");
       return [];
     }
     let savedTracks = Combiner.push(savedTracksCache, poolOfMemoryCache);
 
     // Get banned tracks
-    //    const bannedTracks = await Source.getPlaylistTracks('banned', Config.BANNED_PLAYLIST_ID);
-    //    if (!bannedTracks) {
-    //      console.error("updateHeardLikedandForgotten_: bannedTracks is undefined");
-    //      return [];
-    //    }
+//    const bannedTracks = await Source.getPlaylistTracks('banned', Config.BANNED_PLAYLIST_ID);
+//    if (!bannedTracks) {
+//      console.error("updateHeardLikedandForgotten_: bannedTracks is undefined");
+//      return [];
+//    }
 
     // Get liked tracks
     const likedTracks = await Source.getSavedTracks();
@@ -389,14 +343,7 @@ async function updateHeardLikedandForgotten_() {
     }
 
     // Find tracks
-    let tracks = await findTracks_(
-      savedTracks,
-      recentTracks,
-      /**bannedTracks,*/ likedTracks,
-      startDateForgotten,
-      daysAgoForgotten,
-      maxTracksForgotten
-    );
+    let tracks = await findTracks_(savedTracks, recentTracks, /**bannedTracks,*/ likedTracks, startDateForgotten, daysAgoForgotten, maxTracksForgotten);
     if (!tracks) {
       console.error("updateHeardLikedandForgotten_: tracks is undefined");
       return [];
@@ -408,12 +355,10 @@ async function updateHeardLikedandForgotten_() {
     // Save playlist
     await Playlist.saveWithReplace({
       id: playlistId,
-      name: "heard, liked, then forgotten",
+      name: 'heard, liked, then forgotten',
       tracks: tracks,
     });
-    console.log(
-      `updateHeardLikedandForgotten_: Saved ${tracks.length} tracks to playlist.`
-    );
+    console.log(`updateHeardLikedandForgotten_: Saved ${tracks.length} tracks to playlist.`);
 
     console.log("Finished updateHeardLikedandForgotten_");
     return true;
@@ -442,7 +387,7 @@ async function findTracks_(
     Filter.rangeDateAbs(savedTracks, startDate, endDate);
 
     // Remove recent and banned tracks
-    //    Filter.removeTracks(savedTracks, Combiner.push(recentTracks, bannedTracks));
+//    Filter.removeTracks(savedTracks, Combiner.push(recentTracks, bannedTracks));
 
     // Deduplicate tracks
     Filter.dedupTracks(savedTracks);
@@ -468,6 +413,7 @@ async function findTracks_(
   }
 }
 
+
 //Pulling new songs from my Release Radar,  Discover Weekly, Daily Mixes, triple j's New Music Hitlist, triple j Unearthed, and The Needle / Australia. Updates daily.
 // utils.gs.js (Updated updateDiscoverDaily_)
 
@@ -491,32 +437,23 @@ async function updateDiscoverDaily_() {
       return false;
     }
 
-    //    const bannedTracks = await Source.getPlaylistTracks(
-    //      "banned",
-    //      bannedPlaylistId
-    //    );
-    //    if (!bannedTracks) {
-    //     console.error("updateDiscoverDaily_: bannedTracks is undefined");
-    //     return false;
-    //    }
+//    const bannedTracks = await Source.getPlaylistTracks(
+//      "banned",
+//      bannedPlaylistId
+//    );
+//    if (!bannedTracks) {
+ //     console.error("updateDiscoverDaily_: bannedTracks is undefined");
+ //     return false;
+//    }
 
     // Define an array of track sources.
     const trackSources = [
       { name: "dailyjams", id: "78CmSGx8iaHMxGwN9OknSv" },
       { name: "Discover Weekly Archive", id: "1yLjDzSM5NEEQ5yGc5ZRhp" },
-      {
-        name: "The Needle / Australia - Emerging",
-        id: "2xQ33augU2OmdZQVijYecH",
-      },
-      {
-        name: "The Needle / Australia - Current",
-        id: "2mjbz0gH1KwFWj5Sku7LJI",
-      },
+      { name: "The Needle / Australia - Emerging", id: "2xQ33augU2OmdZQVijYecH" },
+      { name: "The Needle / Australia - Current", id: "2mjbz0gH1KwFWj5Sku7LJI" },
       { name: "triple js New Music Hitlist", id: "7vFQNWXoblEJXpbnTuyz76" },
-      {
-        name: "triple j Unearthed Best New Music",
-        id: "78d1cKN9xYtKialnOYkI92",
-      },
+      { name: "triple j Unearthed Best New Music", id: "78d1cKN9xYtKialnOYkI92" },
       { name: "The Sound of Canberra Indie", id: "6NtolKQzqsuJxnDi5NgBkH" },
       { name: "Top from neighbors", id: "0gKuGvhISOaY8uieM7ywsY" },
       { name: "Release Radar Archive", id: "5AY0ForsC3aIc5Uf3A1m7w" },
@@ -533,7 +470,7 @@ async function updateDiscoverDaily_() {
     }
 
     // Remove saved and banned tracks from the retrieved tracks.
-    //    Filter.removeTracks(tracks, Combiner.push(savedTracks, bannedTracks));
+//    Filter.removeTracks(tracks, Combiner.push(savedTracks, bannedTracks));
 
     // Deduplicate the tracks.
     Filter.dedupTracks(tracks);
@@ -579,22 +516,22 @@ async function updateFocusedWork_() {
       summer: {
         name: "Season: Summer",
         id: "2h10grHRIER0b6M8CITsCO",
-        limit: 100,
+        limit: 50,
       },
       autumn: {
         name: "Season: Autumn",
         id: "2137grXLE1vCOO2MucbkiU",
-        limit: 100,
+        limit: 50,
       },
       winter: {
         name: "Season: Winter",
         id: "73aUH1Sv8w28usXnPLIjV7",
-        limit: 100,
+        limit: 50,
       },
       spring: {
         name: "Season: Spring",
         id: "4N97YkOZec45LFTPu7FT6e",
-        limit: 100,
+        limit: 50,
       },
     };
 
@@ -608,26 +545,18 @@ async function updateFocusedWork_() {
       console.error("updateFocusedWork_: memoryTracks is undefined");
       return false;
     }
-    console.log(
-      `updateFocusedWork_: memoryTracks has ${memoryTracks.length} tracks.`
-    );
+    console.log(`updateFocusedWork_: memoryTracks has ${memoryTracks.length} tracks.`);
     const originalCountSavedAlbumTracks = Source.getSavedAlbumTracks(5).length;
     const savedAlbumTracks = await getRandomTracks_(
       Source.getSavedAlbumTracks(5),
       20
     );
-    console.log(
-      `updateFocusedWork_: getRandomTracks_ removed ${
-        originalCountSavedAlbumTracks - savedAlbumTracks.length
-      } tracks.`
-    );
+    console.log(`updateFocusedWork_: getRandomTracks_ removed ${originalCountSavedAlbumTracks - savedAlbumTracks.length} tracks.`);
     if (!savedAlbumTracks) {
       console.error("updateFocusedWork_: savedAlbumTracks is undefined");
       return false;
     }
-    console.log(
-      `updateFocusedWork_: savedAlbumTracks has ${savedAlbumTracks.length} tracks.`
-    );
+    console.log(`updateFocusedWork_: savedAlbumTracks has ${savedAlbumTracks.length} tracks.`);
     const topTracks = await Source.getPlaylistTracks(
       "Top Tracks (Last 3 months)",
       "6AyRqWJ3YzVQbYXQZjQZg5",
@@ -637,9 +566,7 @@ async function updateFocusedWork_() {
     if (topTracks === false) {
       console.error("updateFocusedWork_: topTracks is false");
     }
-    console.log(
-      `updateFocusedWork_: topTracks has ${topTracks.length} tracks.`
-    );
+    console.log(`updateFocusedWork_: topTracks has ${topTracks.length} tracks.`);
     const dailyTracks = await Source.getPlaylistTracks(
       "Discover Daily",
       "7aPZj5UPndnpHD7anj2AtU",
@@ -649,33 +576,23 @@ async function updateFocusedWork_() {
     if (dailyTracks === false) {
       console.error("updateFocusedWork_: dailyTracks is false");
     }
-    console.log(
-      `updateFocusedWork_: dailyTracks has ${dailyTracks.length} tracks.`
-    );
+    console.log(`updateFocusedWork_: dailyTracks has ${dailyTracks.length} tracks.`);
 
     // Compile seasonal and memory tracks
     const corePlaylists = [
       {
         name: "heard, liked, then forgotten",
         id: Config.HEARD_LIKED_FORGOTTEN_PLAYLIST_ID,
-        limit: 100,
+        limit: 20,
       },
-      { name: "happy", id: "04z4EQ0AC9a7cjtdcKnDpn", limit: 100 },
-      { name: "gay", id: "4CHdd4KMQABX3inKKEiDMV", limit: 100 },
-      {
-        name: "Spotify All-Time Top 100",
-        id: "5AFTprIryCRYJeR4TUFNAM",
-        limit: 100,
-      },
-      {
-        name: "Absolute Bangers Collection",
-        id: "08ZBip1gxb97iNoHjFEBYh",
-        limit: 100,
-      },
+      { name: "happy", id: "04z4EQ0AC9a7cjtdcKnDpn", limit: 20 },
+      { name: "gay", id: "4CHdd4KMQABX3inKKEiDMV", limit: 20 },
+      { name: "Spotify All-Time Top 100", id: "5AFTprIryCRYJeR4TUFNAM", limit: 10 },
+      { name: 'Absolute Bangers Collection', id: '08ZBip1gxb97iNoHjFEBYh', limit: 10 },
       {
         name: "Top Tracks (All Time)",
         id: "4YWHWAECe9R5nIxIUDlkAj",
-        limit: 100,
+        limit: 10,
       },
       currentSeason,
     ];
@@ -717,100 +634,56 @@ async function updateFocusedWork_() {
       {
         name: "Instrumental Soundtracks I dig",
         id: "5qqdXcHnly1RuBnpkZzueE",
-        limit: 10,
+        limit: 30,
       },
     ];
 
     let additionalMixTracks = await getCombinedTracks_(additionalMixPlaylists);
-    if (!additionalMixTracks) {
-      console.error("updateFocusedWork_: additionalMixTracks is undefined");
-      return false;
-    }
-    console.log(
-      `updateFocusedWork_: additionalMixTracks has ${additionalMixTracks.length} tracks before getRandomTracks_.`
-    );
+    console.log(`updateFocusedWork_: additionalMixTracks has ${additionalMixTracks.length} tracks before getRandomTracks_.`);
     additionalMixTracks = await getRandomTracks_(additionalMixTracks, 20);
-    if (!additionalMixTracks) {
-      console.error("updateFocusedWork_: additionalMixTracks is undefined");
-      return false;
-    }
-    console.log(
-      `updateFocusedWork_: additionalMixTracks has ${additionalMixTracks.length} tracks after getRandomTracks_.`
-    );
+    console.log(`updateFocusedWork_: additionalMixTracks has ${additionalMixTracks.length} tracks after getRandomTracks_.`);
 
-    const dailyJams = await Source.getPlaylistTracks(
-      "",
-      "1zl8x9E1JxcwbA0InkkL39"
-    );
+    const dailyJams = await Source.getPlaylistTracks("", "1zl8x9E1JxcwbA0InkkL39");
     if (!dailyJams) {
       console.error("updateFocusedWork_: dailyJams is undefined");
       return false;
     }
-    console.log(
-      `updateFocusedWork_: dailyJams has ${dailyJams.length} tracks.`
-    );
+    console.log(`updateFocusedWork_: dailyJams has ${dailyJams.length} tracks.`);
 
     let focusedWorkTracks = await mixTracks_([
       additionalMixTracks,
       combinedTracks,
       dailyJams,
     ]);
-    if (!focusedWorkTracks) {
-      console.error("updateFocusedWork_: focusedWorkTracks is undefined");
-      return false;
-    }
-    console.log(
-      `updateFocusedWork_: focusedWorkTracks has ${focusedWorkTracks.length} tracks before applySeasonalTracks.`
-    );
+
+    console.log(`updateFocusedWork_: focusedWorkTracks has ${focusedWorkTracks.length} tracks before applySeasonalTracks.`);
     const originalCountSeasonal = focusedWorkTracks.length;
     focusedWorkTracks = await Source.applySeasonalTracks(
       focusedWorkTracks,
       isSpookySeason,
       isFestiveSeason
     );
-    console.log(
-      `updateFocusedWork_: applySeasonalTracks added ${
-        focusedWorkTracks.length - originalCountSeasonal
-      } tracks.`
-    );
-    if (!focusedWorkTracks) {
-      console.error(
-        "updateFocusedWork_: applySeasonalTracks returned undefined"
-      );
-      return false;
-    }
-    console.log(
-      `updateFocusedWork_: focusedWorkTracks has ${focusedWorkTracks.length} tracks after applySeasonalTracks.`
-    );
+    console.log(`updateFocusedWork_: applySeasonalTracks added ${focusedWorkTracks.length - originalCountSeasonal} tracks.`);
+
+    console.log(`updateFocusedWork_: focusedWorkTracks has ${focusedWorkTracks.length} tracks after applySeasonalTracks.`);
 
     // Finalize tracks
     const originalCountDeduplicate2 = focusedWorkTracks.length;
     focusedWorkTracks = deduplicateTracks_(focusedWorkTracks);
-    console.log(
-      `updateFocusedWork_: Removed ${
-        originalCountDeduplicate2 - focusedWorkTracks.length
-      } tracks due to deduplication.`
-    );
-    if (!focusedWorkTracks) {
-      console.error(
-        "updateFocusedWork_: deduplicateTracks_ returned undefined"
-      );
+    console.log(`updateFocusedWork_: Removed ${originalCountDeduplicate2 - focusedWorkTracks.length} tracks due to deduplication.`);
+
+    console.log(`updateFocusedWork_: focusedWorkTracks has ${focusedWorkTracks.length} tracks after deduplication.`);
+
+    const originalCountBanned = focusedWorkTracks.length;
+    focusedWorkTracks = await filterOutBannedTracks_(focusedWorkTracks);
+    console.log(`updateFocusedWork_: filterOutBannedTracks_ removed ${originalCountBanned - focusedWorkTracks.length} tracks.`);
+    if (!Array.isArray(focusedWorkTracks)) {
+      console.error("updateFocusedWork_: filterOutBannedTracks_ returned false");
       return false;
     }
-    console.log(
-      `updateFocusedWork_: focusedWorkTracks has ${focusedWorkTracks.length} tracks after deduplication.`
-    );
-    //    const originalCountBanned = focusedWorkTracks.length;
-    //    focusedWorkTracks = await filterOutBannedTracks_(focusedWorkTracks);
-    //    console.log(`updateFocusedWork_: filterOutBannedTracks_ removed ${originalCountBanned - focusedWorkTracks.length} tracks.`);
-    //    if (!Array.isArray(focusedWorkTracks)) {
-    //      console.error("updateFocusedWork_: filterOutBannedTracks_ returned false");
-    //      return false;
-    //    }
+
     Selector.keepFirst(focusedWorkTracks, 150);
-    console.log(
-      `updateFocusedWork_: focusedWorkTracks has ${focusedWorkTracks.length} tracks after keepFirst.`
-    );
+    console.log(`updateFocusedWork_: focusedWorkTracks has ${focusedWorkTracks.length} tracks after keepFirst.`);
 
     // Save to focused work playlist
     Playlist.saveWithReplace({
@@ -826,13 +699,10 @@ async function updateFocusedWork_() {
   }
 }
 
+
 function deduplicateTracks_(tracks) {
   console.log("Starting deduplicateTracks_");
   try {
-    if (!tracks) {
-      console.error("deduplicateTracks_: tracks is undefined");
-      return false;
-    }
     Filter.dedupTracks(tracks);
     console.log("Finished deduplicateTracks_");
     return tracks;
@@ -843,7 +713,6 @@ function deduplicateTracks_(tracks) {
 }
 
 //Discover Weekly Archive and Daily Jams. Updates Daily.
-
 /**
  * Updates the Discover Weekly Archive and Daily Jams Archive playlists.
  * This function retrieves the current Discover Weekly and Daily Jams playlists,
@@ -972,8 +841,7 @@ async function updateHottest100Shortlist() {
   console.log("Starting updateHottest100Shortlist");
   try {
     // Constants
-    const PLAYLIST_ID =
-      Config.HOTTEST_100_SHORTLIST_ID || "5Otvdwpoipe7o1lDOy4oFN"; // Added default ID and config retrieval
+    const PLAYLIST_ID = Config.HOTTEST_100_SHORTLIST_ID || "5Otvdwpoipe7o1lDOy4oFN"; // Added default ID and config retrieval
     const START_DATE = "2023-12-01"; // Changed to string format for consistency
     const END_DATE = "2024-11-30"; // Changed to string format for consistency
     const CURRENT_YEAR = new Date().getFullYear();
@@ -1094,13 +962,16 @@ async function updateChill() {
       savedTracksResult,
       savedAlbumsResult,
       otherTracksResult,
-      //      bannedTracksResult,
+      bannedTracksResult,
       danceableTracksResult,
       chillArchiveResult,
     ] = await Promise.allSettled([
       Source.getSavedTracks(500),
       Source.getSavedAlbumTracks(5),
-      Source.getPlaylistTracks("Dad Kinda Music", dadKindaMusicPlaylistId),
+      Source.getPlaylistTracks(
+        "Dad Kinda Music",
+        dadKindaMusicPlaylistId
+      ),
       Source.getPlaylistTracks("banned", bannedPlaylistId),
       Source.getPlaylistTracks("danceable", danceablePlaylistId),
       Source.getPlaylistTracks("chill archive", chillArchivePlaylistId),
@@ -1113,23 +984,25 @@ async function updateChill() {
       savedAlbumsResult.status === "fulfilled" ? savedAlbumsResult.value : [];
     const otherTracks =
       otherTracksResult.status === "fulfilled" ? otherTracksResult.value : [];
-    //    const bannedTracks =
-    //      bannedTracksResult.status === "fulfilled"
-    //        ? bannedTracksResult.value
-    //        : [];
+//    const bannedTracks =
+//      bannedTracksResult.status === "fulfilled"
+//        ? bannedTracksResult.value
+//        : [];
     const danceableTracks =
       danceableTracksResult.status === "fulfilled"
         ? danceableTracksResult.value
         : [];
     const chillArchive =
-      chillArchiveResult.status === "fulfilled" ? chillArchiveResult.value : [];
+      chillArchiveResult.status === "fulfilled"
+        ? chillArchiveResult.value
+        : [];
 
     // Log any rejections
     [
       savedTracksResult,
       savedAlbumsResult,
       otherTracksResult,
-      //      bannedTracksResult,
+//      bannedTracksResult,
       danceableTracksResult,
       chillArchiveResult,
     ].forEach((result, index) => {
@@ -1150,7 +1023,7 @@ async function updateChill() {
     );
 
     // Filter out danceable and banned tracks.
-    //    Filter.removeTracks(allTracks, Combiner.push(danceableTracks, bannedTracks));
+//    Filter.removeTracks(allTracks, Combiner.push(danceableTracks, bannedTracks));
 
     // Deduplicate the tracks.
     Filter.dedupTracks(allTracks);
@@ -1167,7 +1040,9 @@ async function updateChill() {
       name: "chill",
       tracks: allTracks,
     });
-    console.log(`updateChill: Updated chill with ${allTracks.length} tracks.`);
+    console.log(
+      `updateChill: Updated chill with ${allTracks.length} tracks.`
+    );
 
     console.log("Finished updateChill");
     return true;
@@ -1187,7 +1062,11 @@ async function updateDanceable() {
     const danceArchivePlaylistId = Config.DANCE_ARCHIVE_PLAYLIST_ID;
 
     // Check if playlist IDs are defined
-    if (!danceablePlaylistId || !happyPlaylistId || !danceArchivePlaylistId) {
+    if (
+      !danceablePlaylistId ||
+      !happyPlaylistId ||
+      !danceArchivePlaylistId
+    ) {
       console.error(
         "updateDanceable: One or more playlist IDs are undefined in UserProperties."
       );
@@ -1215,22 +1094,21 @@ async function updateDanceable() {
     const savedAlbums =
       savedAlbumsResult.status === "fulfilled" ? savedAlbumsResult.value : [];
     const danceArchive =
-      danceArchiveResult.status === "fulfilled" ? danceArchiveResult.value : [];
+      danceArchiveResult.status === "fulfilled"
+        ? danceArchiveResult.value
+        : [];
 
     // Log any rejections
-    [
-      happyTracksResult,
-      savedTracksResult,
-      savedAlbumsResult,
-      danceArchiveResult,
-    ].forEach((result, index) => {
-      if (result.status === "rejected") {
-        console.error(
-          `updateDanceable: Error fetching tracks (index ${index}):`,
-          result.reason
-        );
+    [happyTracksResult, savedTracksResult, savedAlbumsResult, danceArchiveResult].forEach(
+      (result, index) => {
+        if (result.status === "rejected") {
+          console.error(
+            `updateDanceable: Error fetching tracks (index ${index}):`,
+            result.reason
+          );
+        }
       }
-    });
+    );
 
     // Combine all tracks.
     const allTracks = Combiner.push(
@@ -1284,48 +1162,45 @@ async function updateHighEnergy() {
     }
 
     // Get all tracks in parallel using Promise.allSettled
-    const [
-      danceArchiveResult,
-      savedTracksResult,
-      savedAlbumsResult /**bannedTracksResult*/,
-    ] = await Promise.allSettled([
-      Source.getPlaylistTracks("dance archive", danceArchivePlaylistId),
-      Cache.read("SavedTracks"),
-      Source.getSavedAlbumTracks(5),
-      Source.getPlaylistTracks("banned", bannedPlaylistId),
-    ]);
+    const [danceArchiveResult, savedTracksResult, savedAlbumsResult, /**bannedTracksResult*/] =
+      await Promise.allSettled([
+        Source.getPlaylistTracks("dance archive", danceArchivePlaylistId),
+        Cache.read("SavedTracks"),
+        Source.getSavedAlbumTracks(5),
+        Source.getPlaylistTracks("banned", bannedPlaylistId),
+      ]);
 
     // Handle rejections and extract tracks
     const danceArchive =
-      danceArchiveResult.status === "fulfilled" ? danceArchiveResult.value : [];
+      danceArchiveResult.status === "fulfilled"
+        ? danceArchiveResult.value
+        : [];
     const savedTracks =
       savedTracksResult.status === "fulfilled" ? savedTracksResult.value : [];
     const savedAlbums =
       savedAlbumsResult.status === "fulfilled" ? savedAlbumsResult.value : [];
-    //    const bannedTracks =
-    //      bannedTracksResult.status === "fulfilled"
-    //        ? bannedTracksResult.value
-    //        : [];
+//    const bannedTracks =
+//      bannedTracksResult.status === "fulfilled"
+//        ? bannedTracksResult.value
+//        : [];
 
     // Log any rejections
-    [
-      danceArchiveResult,
-      savedTracksResult,
-      savedAlbumsResult /**bannedTracksResult*/,
-    ].forEach((result, index) => {
-      if (result.status === "rejected") {
-        console.error(
-          `updateHighEnergy: Error fetching tracks (index ${index}):`,
-          result.reason
-        );
+    [danceArchiveResult, savedTracksResult, savedAlbumsResult, /**bannedTracksResult*/].forEach(
+      (result, index) => {
+        if (result.status === "rejected") {
+          console.error(
+            `updateHighEnergy: Error fetching tracks (index ${index}):`,
+            result.reason
+          );
+        }
       }
-    });
+    );
 
     // Combine all tracks.
     const allTracks = Combiner.push(danceArchive, savedTracks, savedAlbums);
 
     // Filter out banned tracks.
-    //    Filter.removeTracks(allTracks, bannedTracks);
+//    Filter.removeTracks(allTracks, bannedTracks);
 
     // Deduplicate the tracks.
     Filter.dedupTracks(allTracks);
@@ -1364,31 +1239,31 @@ async function updateHappyMix() {
     const happyArchivePlaylistId = Config.HAPPY_ARCHIVE_PLAYLIST_ID;
 
     // Get all tracks in parallel using Promise.allSettled
-    const [
-      moodyTracksResult,
-      /**bannedTracksResult,*/ happyArchiveResult,
-      savedTracksResult,
-    ] = await Promise.allSettled([
-      Source.getPlaylistTracks("moody", moodyPlaylistId),
-      Source.getPlaylistTracks("banned", bannedPlaylistId),
-      Source.getPlaylistTracks("happy archive", happyArchivePlaylistId),
-      Cache.read("SavedTracks"),
-    ]);
+    const [moodyTracksResult, /**bannedTracksResult,*/ happyArchiveResult, savedTracksResult] =
+      await Promise.allSettled([
+        Source.getPlaylistTracks("moody", moodyPlaylistId),
+        Source.getPlaylistTracks("banned", bannedPlaylistId),
+        Source.getPlaylistTracks("happy archive", happyArchivePlaylistId),
+        Cache.read("SavedTracks"),
+      ]);
 
     // Handle rejections and extract tracks
     const moodyTracks =
       moodyTracksResult.status === "fulfilled" ? moodyTracksResult.value : [];
-    //    const bannedTracks =
-    //     bannedTracksResult.status === "fulfilled"
-    //       ? bannedTracksResult.value
-    //       : [];
+//    const bannedTracks =
+ //     bannedTracksResult.status === "fulfilled"
+ //       ? bannedTracksResult.value
+ //       : [];
     const happyArchive =
-      happyArchiveResult.status === "fulfilled" ? happyArchiveResult.value : [];
+      happyArchiveResult.status === "fulfilled"
+        ? happyArchiveResult.value
+        : [];
     const savedTracks =
       savedTracksResult.status === "fulfilled" ? savedTracksResult.value : [];
 
+
     // Filter the saved tracks to only include happy tracks.
-    /**     Filter.rangeTracks(savedTracks, {
+/**     Filter.rangeTracks(savedTracks, {
       features: {
         valence: { min: 0.7, max: 1.0 },
         anger: { min: 0.0, max: 0.3 },
@@ -1401,7 +1276,7 @@ async function updateHappyMix() {
     const allTracks = Combiner.push(savedTracks, happyArchive);
 
     // Filter out moody and banned tracks.
-    //    Filter.removeTracks(allTracks, Combiner.push(moodyTracks, bannedTracks));
+//    Filter.removeTracks(allTracks, Combiner.push(moodyTracks, bannedTracks));
 
     // Alternate the happy tracks with the happy archive.
     const tracks = Combiner.alternate("max", allTracks, happyArchive);
@@ -1418,7 +1293,9 @@ async function updateHappyMix() {
       name: "happy",
       tracks: tracks,
     });
-    console.log(`updateHappyMix: Updated happy with ${tracks.length} tracks.`);
+    console.log(
+      `updateHappyMix: Updated happy with ${tracks.length} tracks.`
+    );
 
     console.log("Finished updateHappyMix");
     return true;
@@ -1438,45 +1315,42 @@ async function updateMoodyMix() {
     const moodyArchivePlaylistId = Config.MOODY_ARCHIVE_PLAYLIST_ID;
 
     // Get all tracks in parallel using Promise.allSettled
-    const [
-      happyTracksResult,
-      /**bannedTracksResult,*/ moodyArchiveResult,
-      savedTracksResult,
-    ] = await Promise.allSettled([
-      Source.getPlaylistTracks("happy", happyPlaylistId),
-      Source.getPlaylistTracks("banned", bannedPlaylistId),
-      Source.getPlaylistTracks("moody archive", moodyArchivePlaylistId),
-      Cache.read("SavedTracks"),
-    ]);
+    const [happyTracksResult, /**bannedTracksResult,*/ moodyArchiveResult, savedTracksResult] =
+      await Promise.allSettled([
+        Source.getPlaylistTracks("happy", happyPlaylistId),
+        Source.getPlaylistTracks("banned", bannedPlaylistId),
+        Source.getPlaylistTracks("moody archive", moodyArchivePlaylistId),
+        Cache.read("SavedTracks"),
+      ]);
 
     // Handle rejections and extract tracks
     const happyTracks =
       happyTracksResult.status === "fulfilled" ? happyTracksResult.value : [];
-    //    const bannedTracks =
-    //      bannedTracksResult.status === "fulfilled"
-    //        ? bannedTracksResult.value
-    //        : [];
+//    const bannedTracks =
+//      bannedTracksResult.status === "fulfilled"
+//        ? bannedTracksResult.value
+//        : [];
     const moodyArchive =
-      moodyArchiveResult.status === "fulfilled" ? moodyArchiveResult.value : [];
+      moodyArchiveResult.status === "fulfilled"
+        ? moodyArchiveResult.value
+        : [];
     const savedTracks =
       savedTracksResult.status === "fulfilled" ? savedTracksResult.value : [];
 
     // Log any rejections
-    [
-      happyTracksResult,
-      /**bannedTracksResult,*/ moodyArchiveResult,
-      savedTracksResult,
-    ].forEach((result, index) => {
-      if (result.status === "rejected") {
-        console.error(
-          `updateMoodyMix: Error fetching tracks (index ${index}):`,
-          result.reason
-        );
+    [happyTracksResult, /**bannedTracksResult,*/ moodyArchiveResult, savedTracksResult].forEach(
+      (result, index) => {
+        if (result.status === "rejected") {
+          console.error(
+            `updateMoodyMix: Error fetching tracks (index ${index}):`,
+            result.reason
+          );
+        }
       }
-    });
+    );
 
     // Filter the saved tracks to only include moody tracks.
-    /**     Filter.rangeTracks(savedTracks, {
+/**     Filter.rangeTracks(savedTracks, {
       features: {
         valence: { min: 0.0, max: 0.3 },
         anger: { min: 0.3, max: 1.0 },
@@ -1489,7 +1363,7 @@ async function updateMoodyMix() {
     const allTracks = Combiner.push(savedTracks, moodyArchive);
 
     // Filter out happy and banned tracks.
-    //    Filter.removeTracks(allTracks, Combiner.push(happyTracks, bannedTracks));
+//    Filter.removeTracks(allTracks, Combiner.push(happyTracks, bannedTracks));
 
     // Combine the moody tracks with the moody archive.
     const tracks = Combiner.push(allTracks, moodyArchive);
@@ -1506,7 +1380,9 @@ async function updateMoodyMix() {
       name: "moody",
       tracks: tracks,
     });
-    console.log(`updateMoodyMix: Updated moody with ${tracks.length} tracks.`);
+    console.log(
+      `updateMoodyMix: Updated moody with ${tracks.length} tracks.`
+    );
 
     console.log("Finished updateMoodyMix");
     return true;
@@ -1524,6 +1400,7 @@ async function updateRomanticMix() {
     const bannedPlaylistId = Config.BANNED_PLAYLIST_ID;
     const romanticArchivePlaylistId = Config.ROMANTIC_ARCHIVE_PLAYLIST_ID;
 
+
     // Get all tracks in parallel using Promise.allSettled
     const [/**bannedTracksResult,*/ romanticArchiveResult, savedTracksResult] =
       await Promise.allSettled([
@@ -1533,10 +1410,10 @@ async function updateRomanticMix() {
       ]);
 
     // Handle rejections and extract tracks
-    //    const bannedTracks =
-    //      bannedTracksResult.status === "fulfilled"
-    //        ? bannedTracksResult.value
-    //        : [];
+//    const bannedTracks =
+//      bannedTracksResult.status === "fulfilled"
+//        ? bannedTracksResult.value
+//        : [];
     const romanticArchive =
       romanticArchiveResult.status === "fulfilled"
         ? romanticArchiveResult.value
@@ -1557,7 +1434,7 @@ async function updateRomanticMix() {
     );
 
     // Filter the saved tracks to only include romantic tracks.
-    /**    Filter.rangeTracks(savedTracks, {
+/**    Filter.rangeTracks(savedTracks, {
       features: {
         valence: { min: 0.5, max: 1.0 },
         energy: { min: 0.2, max: 0.7 },
@@ -1569,7 +1446,7 @@ async function updateRomanticMix() {
     const allTracks = Combiner.push(savedTracks, romanticArchive);
 
     // Filter out banned tracks.
-    //    Filter.removeTracks(allTracks, bannedTracks);
+//    Filter.removeTracks(allTracks, bannedTracks);
 
     // Deduplicate the tracks.
     Filter.dedupTracks(allTracks);
@@ -1604,11 +1481,13 @@ async function updateSadMix() {
     const happyPlaylistId = Config.HAPPY_PLAYLIST_ID;
     const bannedPlaylistId = Config.BANNED_PLAYLIST_ID;
 
+
+
     // Get all tracks in parallel using Promise.allSettled
     const [
       sadArchiveResult,
       happyTracksResult,
-      //      bannedTracksResult,
+//      bannedTracksResult,
       savedTracksResult,
     ] = await Promise.allSettled([
       Source.getPlaylistTracks("", sadArchivePlaylistId),
@@ -1622,29 +1501,27 @@ async function updateSadMix() {
       sadArchiveResult.status === "fulfilled" ? sadArchiveResult.value : [];
     const happyTracks =
       happyTracksResult.status === "fulfilled" ? happyTracksResult.value : [];
-    //    const bannedTracks =
-    //      bannedTracksResult.status === "fulfilled"
-    //        ? bannedTracksResult.value
-    //        : [];
+//    const bannedTracks =
+//      bannedTracksResult.status === "fulfilled"
+//        ? bannedTracksResult.value
+//        : [];
     const savedTracks =
       savedTracksResult.status === "fulfilled" ? savedTracksResult.value : [];
 
     // Log any rejections
-    [
-      sadArchiveResult,
-      happyTracksResult,
-      /**bannedTracksResult,*/ savedTracksResult,
-    ].forEach((result, index) => {
-      if (result.status === "rejected") {
-        console.error(
-          `updateSadMix: Error fetching tracks (index ${index}):`,
-          result.reason
-        );
+    [sadArchiveResult, happyTracksResult, /**bannedTracksResult,*/ savedTracksResult].forEach(
+      (result, index) => {
+        if (result.status === "rejected") {
+          console.error(
+            `updateSadMix: Error fetching tracks (index ${index}):`,
+            result.reason
+          );
+        }
       }
-    });
+    );
 
     // Filter the saved tracks to only include sad tracks.
-    /**     Filter.rangeTracks(savedTracks, {
+/**     Filter.rangeTracks(savedTracks, {
       features: {
         valence: { min: 0.0, max: 0.4 },
         happiness: { min: 0.0, max: 0.4 },
@@ -1656,7 +1533,7 @@ async function updateSadMix() {
     const allTracks = Combiner.push(savedTracks);
 
     // Filter out happy and banned tracks.
-    //    Filter.removeTracks(allTracks, Combiner.push(happyTracks, bannedTracks));
+//    Filter.removeTracks(allTracks, Combiner.push(happyTracks, bannedTracks));
 
     // Combine the sad tracks with the sad archive.
     const tracks = Combiner.push(allTracks, sadArchive);
@@ -1682,3 +1559,4 @@ async function updateSadMix() {
     return false;
   }
 }
+
