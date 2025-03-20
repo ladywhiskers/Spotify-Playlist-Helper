@@ -8,9 +8,9 @@ To use Spotify-Playlist-Helper, you need to create your own copy of the library.
 
    ![Create an app](img/install-step-create-app.png ':size=40%')
 
-3. Go to the [library in Apps Script](https://script.google.com/d/1DnC4H7yjqPV2unMZ_nmB-1bDSJT9wQUJ7Wq-ijF4Nc7Fl3qnbT0FkPSr/edit?usp=sharing). Sign in to your Google account if prompted.
+3. Go to the [library in Apps Script](https://script.google.com/d/1EBdTR2yHrN2NHvLmcLQ76FFMBZrGTtURkFZclVfDRqMg8Rn-Hgo-1OKg/edit?usp=sharing). Sign in to your Google account if prompted.
 
-4. Select `General` from the drop-down menu on the left.
+4. Select `Overview` from the drop-down menu on the left.
 
 ![Open menu](/docs/img/general-property.gif ':size=60%')
 
@@ -54,7 +54,7 @@ Follow the link from the `web app`.
 
 9. Go back to the [Spotify Dashboad](https://developer.spotify.com/dashboard/). In your app's `settings`, scroll down and click the `edit` button
 
-Paste the `https://chimildic.github.io/spotify/auth` link into the `Redirect URIs` field. Click the `ADD` button on the right, then the `Save` button at the bottom.
+Paste the `https://ladywhiskers.github.io/Spotify-Playlist-Helper-auth/auth` link into the `Redirect URIs` field. Click the `ADD` button on the right, then the `Save` button at the bottom.
 
 10. Switch to the tab from step 8 and refresh the page (`F5`). Grant access rights.
 
