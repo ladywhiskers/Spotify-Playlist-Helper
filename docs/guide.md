@@ -1,33 +1,33 @@
-# Дополнительно
+# Additional
 
-# Параметры
+# Parameters
 
-Описание параметров из файла `config`
+Description of parameters from the `config` file
 
 ## API
-- `CLIENT_ID` и `CLIENT_SECRET` (строка) - ключи для доступа к Spotify Web API. Создаются при [первой установке](/install).
+- `CLIENT_ID` and `CLIENT_SECRET` (string) - keys for accessing Spotify Web API. Created during [first installation](/install).
 
-- `LASTFM_API_KEY` (строка) - ключ для работы с API Last.fm. Создается [дополнительно](/tuning?id=Настройка-lastfm).
+- `LASTFM_API_KEY` (string) - key for working with Last.fm API. Created [additionally](/tuning?id=Settings-lastfm).
 
-- `MUSIXMATCH_API_KEY` (строка) - ключ от сервиса musixmatch для работы функции [detectLanguage](/reference/filter?id=detectlanguage). Создается [дополнительно](/tuning?id=Настройка-musicmatch).
+- `MUSIXMATCH_API_KEY` (string) - key from the musixmatch service for the [detectLanguage](/reference/filter?id=detectlanguage) function. Created [additionally](/tuning?id=Settings-musicmatch).
 
-## История прослушиваний
-- `ON_SPOTIFY_RECENT_TRACKS` (булево) - при `true` отслеживание истории прослушиваний Spotify. При `false` отключается.
+ ## Listening history
+- `ON_SPOTIFY_RECENT_TRACKS` (boolean) - if `true`, Spotify listening history is tracked. If `false`, it is disabled.
 
-- `ON_LASTFM_RECENT_TRACKS` (булево) - при `true` отслеживание истории прослушиваний Last.fm. При `false` отключается.
+- `ON_LASTFM_RECENT_TRACKS` (boolean) - if `true`, Last.fm listening history is tracked. If `false`, it is disabled.
 
-- `LASTFM_LOGIN` (строка) - логин пользователя Last.fm, чья история собирается. Используется по умолчанию и в других функциях модуля.
+- `LASTFM_LOGIN` (string) - Last.fm user login whose history is being collected. Used by default and in other module functions.
 
-- `LASTFM_RANGE_RECENT_TRACKS` (число) - количество последних треков, которые просматриваются в истории Last.fm за прошедшие 15 минут.
+- `LASTFM_RANGE_RECENT_TRACKS` (number) - number of recent tracks viewed in Last.fm history over the past 15 minutes.
 
-- `COUNT_RECENT_TRACKS` (число) - количество сохраняемых треков истории. По умолчанию 60 тысяч. На практике работает и с большими значениями. Предел это объем файла в 50 мб. 
+- `COUNT_RECENT_TRACKS` (number) - number of history tracks to save. Default is 60 thousand. In practice, it works with larger values.  The limit is a file size of 50 MB. 
 
-## Общее
-- `LOG_LEVEL` (строка) - при `info` выводятся сообщения с информацией и ошибками от функций библиотеки. При `error` только сообщения об ошибках. При пустой строке отключает сообщения. В параметрах `config` задается значение по умолчанию, действующие при каждом запуске. В своем коде можно изменить уровень логов на время текущего выполнения `Admin.setLogLevelOnce('значение')`.
+## General
+- `LOG_LEVEL` (string) - when `info`, messages with information and errors from library functions are displayed. When `error`, only error messages are displayed. An empty string disables messages. The `config` parameters specify the default value that applies to each run. In your code, you can change the log level for the duration of the current execution `Admin.setLogLevelOnce('value')`.
 
-- `LOCALE` (строка) - локаль при запросе плейлистов. Влияет на то, в каком виде представляются названия треков. [Известны случаи](https://github.com/Chimildic/goofy/discussions/79#discussioncomment-814744), когда исполнитель на кириллице возвращался с аналогом на латинице. Значение по умолчанию `RU`.
+- `LOCALE` (string) - the locale when requesting playlists. Affects how track names are presented. [There are known cases](https://github.com/Chimildic/goofy/discussions/79#discussioncomment-814744) when an artist in Cyrillic returned with an analogue in Latin. The default value is `RU`.
 
-- `REQUESTS_IN_ROW` (число) - количество параллельно отправляемых запросов, когда это возможно. По умолчанию 20. Влияет на скорость получения данных. Например, запрос треков плейлиста. Повышение не рекомендуется. Spotify стал давать теневой бан на сутки и больше (то есть перестает отвечать на запросы). Если продолжаете получать бан, уменьшите значение до 10 или оптимизируйте код для уменьшения количества запросов от источника.
+ - `REQUESTS_IN_ROW` (number) - the number of parallel requests sent when possible. Defaults to 20. Affects the speed of data retrieval. For example, a request for playlist tracks. Increasing this is not recommended. Spotify started giving a shadow ban for a day or more (i.e. it stops responding to requests). If you continue to get banned, reduce the value to 10 or optimize the code to reduce the number of requests from the source. 
 
 - `MIN_DICE_RATING` (число) - минимальное значение коэффициента от 0.0 до 1.0, при котором элемент считается наилучшим совпадением при импорте, например, треков в Spotify. По умолчанию _0.6005_. 
 Если найденный элемент будет иметь меньшее значение, он отбрасывается. Когда несколько элементов удовлетворяют минимальному значению, выбирается элемент с наибольшим из них.
