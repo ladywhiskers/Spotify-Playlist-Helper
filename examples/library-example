@@ -2265,8 +2265,6 @@ const Selector = (function () {
     return isDayOfWeek("saturday") || isDayOfWeek("sunday");
   }
 
-  function isDayOfWeekRu(strDay) {
-    return isDayOfWeek(strDay, "ru-RU");
   }
 
   function isDayOfWeek(strDay, locale = "en-US") {
@@ -4128,7 +4126,7 @@ function getFullObjByIds(objType, ids, limit, market) {
   function appendLocale(url) {
     if (!url.includes("locale")) {
       url += `${url.includes("?") ? "&" : "?"}locale=${
-        KeyValue.LOCALE || "RU"
+        KeyValue.LOCALE || "AU"
       }`;
     }
     return url;

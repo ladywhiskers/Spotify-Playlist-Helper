@@ -28,7 +28,7 @@ Description of parameters from the `config` file
 
 - `LOG_LEVEL` (string) - when `info`, messages with information and errors from library functions are displayed. When `error`, only error messages are displayed. An empty string disables messages. The `config` parameters specify the default value that applies to each run. In your code, you can change the log level for the duration of the current execution `Admin.setLogLevelOnce('value')`.
 
-- `LOCALE` (string) - the locale when requesting playlists. Affects how track names are presented. [There are known cases](https://github.com/Chimildic/goofy/discussions/79#discussioncomment-814744) when an artist in Cyrillic returned with an analogue in Latin. The default value is `RU`.
+- `LOCALE` (string) - the locale when requesting playlists. Affects how track names are presented. The default value is `AU`.
 
 - `REQUESTS_IN_ROW` (number) - the number of parallel requests sent when possible. Defaults to 20. Affects the speed of data retrieval. For example, a request for playlist tracks. Increasing this is not recommended. Spotify started giving a shadow ban for a day or more (i.e. it stops responding to requests). If you continue to get banned, reduce the value to 10 or optimize the code to reduce the number of requests from the source.
 - `MIN_DICE_RATING` (number) - the minimum coefficient value from 0.0 to 1.0 at which an item is considered the best match during imports, such as tracks in Spotify. The default is _0.6005_.  

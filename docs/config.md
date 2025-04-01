@@ -26,7 +26,7 @@ Description of parameters from the `config` file
 
 - `LOG_LEVEL` (string) - when `info`, displays information and error messages from library functions. When `error`, only error messages. An empty string disables messages. The default value is set in the `config` parameters, effective at each startup. In your code, you can change the log level for the current execution with `Admin.setLogLevelOnce('value')`.
 
-- `LOCALE` (string) - locale when requesting playlists. Affects how track names are presented. [There are known cases](https://github.com/Chimildic/goofy/discussions/79#discussioncomment-814744) where an artist in Cyrillic was returned with a Latin equivalent. Default value is `RU`.
+- `LOCALE` (string) - locale when requesting playlists. Affects how track names are presented. Default value is `AU`.
 
 - `REQUESTS_IN_ROW` (number) - number of parallel requests sent when possible. Default is 40. Affects the speed of data retrieval, such as playlist tracks. If you receive more `503` errors or have algorithms with a very high number of requests, it is recommended to lower this parameter. Increasing is not recommended.
 
