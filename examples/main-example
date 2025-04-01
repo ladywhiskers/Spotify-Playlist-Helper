@@ -297,7 +297,7 @@ async function updatePoolOfMemory() {
     return false;
   }
 }
-//Heard, Liked, Forgotten
+
 async function updateHeardLikedandForgotten_() {
   console.log("Starting updateHeardLikedandForgotten_");
   try {
@@ -316,8 +316,8 @@ async function updateHeardLikedandForgotten_() {
     }
 
     // Get saved tracks and pool of memory tracks
-    const savedTracksCache = Cache.read('SavedTracks');
-    const poolOfMemoryCache = Cache.read('PoolofMemory');
+    const savedTracksCache = Cache.read("SavedTracks");
+    const poolOfMemoryCache = Cache.read("PoolofMemory");
     if (!savedTracksCache) {
       console.error("updateHeardLikedandForgotten_: savedTracksCache is undefined");
       return [];
@@ -329,11 +329,11 @@ async function updateHeardLikedandForgotten_() {
     let savedTracks = Combiner.push(savedTracksCache, poolOfMemoryCache);
 
     // Get banned tracks
-//    const bannedTracks = await Source.getPlaylistTracks('banned', Config.BANNED_PLAYLIST_ID);
-//    if (!bannedTracks) {
-//      console.error("updateHeardLikedandForgotten_: bannedTracks is undefined");
-//      return [];
-//    }
+    const bannedTracks = await Source.getPlaylistTracks('banned', Config.BANNED_PLAYLIST_ID);
+    if (!bannedTracks) {
+      console.error("updateHeardLikedandForgotten_: bannedTracks is undefined");
+      return [];
+    }
 
     // Get liked tracks
     const likedTracks = await Source.getSavedTracks();
@@ -342,8 +342,15 @@ async function updateHeardLikedandForgotten_() {
       return [];
     }
 
-    // Find tracks
-    let tracks = await findTracks_(savedTracks, recentTracks, /**bannedTracks,*/ likedTracks, startDateForgotten, daysAgoForgotten, maxTracksForgotten);
+    // Filter tracks to prioritize less recently played ones
+    let tracks = await findTracks_(
+      savedTracks,
+      recentTracks,
+      likedTracks,
+      startDateForgotten,
+      daysAgoForgotten,
+      maxTracksForgotten
+    );
     if (!tracks) {
       console.error("updateHeardLikedandForgotten_: tracks is undefined");
       return [];
@@ -352,10 +359,14 @@ async function updateHeardLikedandForgotten_() {
     // Remove saved tracks
     Filter.removeTracks(tracks, savedTracks, true);
 
+    // Introduce variety by shuffling and slicing
+    Order.shuffle(tracks); // Shuffle the tracks to randomize the order
+    tracks = Selector.sliceFirst(tracks, maxTracksForgotten); // Limit to the maximum number of tracks
+
     // Save playlist
     await Playlist.saveWithReplace({
       id: playlistId,
-      name: 'heard, liked, then forgotten',
+      name: "heard, liked, then forgotten",
       tracks: tracks,
     });
     console.log(`updateHeardLikedandForgotten_: Saved ${tracks.length} tracks to playlist.`);
