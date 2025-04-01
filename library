@@ -2133,7 +2133,6 @@ const Selector = (function () {
     sliceCopy,
     pickYear,
     isWeekend,
-    isDayOfWeekRu,
     isDayOfWeek,
   };
 
@@ -2214,10 +2213,6 @@ const Selector = (function () {
 
   function isWeekend() {
     return isDayOfWeek("saturday") || isDayOfWeek("sunday");
-  }
-
-  function isDayOfWeekRu(strDay) {
-    return isDayOfWeek(strDay, "ru-RU");
   }
 
   function isDayOfWeek(strDay, locale = "en-US") {
