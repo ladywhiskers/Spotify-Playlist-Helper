@@ -824,7 +824,7 @@ const Source = (function () {
       getTracksMethod = getAlbumsTracks;
     } else if (params.type == "track") {
       findMethod = Search.findTracks;
-      // getTracksMethod - не нужно, треки уже в результате поиска
+      // getTracksMethod - not needed, tracks are already in the search result
     } else {
       params.type = "playlist";
       findMethod = Search.findPlaylists;
@@ -932,7 +932,7 @@ const Source = (function () {
         value -= params.query.seed_artists.split(",").length;
       }
       if (value <= 0) {
-        throw `Не осталось места под ${params.key}. Reduce the number of values for other seed_*`;
+        throw `No space left for ${params.key}. Reduce the number of values for other seed_*`;
       }
       return value;
     }
@@ -1789,7 +1789,7 @@ const Filter = (function () {
 
   function detectLanguage(tracks, params) {
     if (!KeyValue.MUSIXMATCH_API_KEY) {
-      throw "Задайте параметр MUSIXMATCH_API_KEY для работы с функцией detectLanguage";
+      throw "Set the MUSIXMATCH_API_KEY parameter to use the detectLanguage function";
     }
 
     let isError = getLyrics();
@@ -1843,13 +1843,13 @@ const Filter = (function () {
 
         if (json.message.header.status_code == 404) {
           Admin.printInfo(
-            "Не найден текст для",
+            "No text found for",
             `${unknownLyrics[i].artists[0].name} - ${unknownLyrics[i].name}`
           );
           unknownLyrics[i].lyrics.lang = "und";
         } else if (json.message.header.status_code != 200) {
           Admin.printError(
-            "Ошибка при получении текста",
+            "Error getting text",
             "The limit from musixmatch may have been exceeded..",
             "Code:",
             json.message.header.status_code
@@ -3796,8 +3796,8 @@ const getCachedTracks = (function () {
       );
     }
     if (uncachedTracks.features.length > 0) {
-      // limit = 100, но UrlFetchApp.fetch выдает ошибку о превышении длины URL
-      // При limit 85, длина URL для этого запроса 2001 символ
+      // limit = 100, but UrlFetchApp.fetch throws an error about exceeding the URL length
+      // With limit 85, the URL length for this request is 2001 characters
       let features = SpotifyRequest.getFullObjByIds(
         "audio-features",
         uncachedTracks.features,
@@ -3818,7 +3818,7 @@ const getCachedTracks = (function () {
     }
   }
 
-  // В объектах Track, Album, Artist Simplified нет ключа popularity
+  // In Track, Album, Artist Simplified objects, the popularity key is missing
   function isSimplified(item) {
     return !item.popularity;
   }
@@ -3896,14 +3896,14 @@ const Auth = (function () {
       isAuthorized = privateService.handleCallback(request);
     }
     return HtmlService.createHtmlOutput(
-      isAuthorized ? "Успешно" : "Отказано в доступе"
+      isAuthorized ? "Successfully authorized" : "Access denied"
     );
   }
 
   function displayAuthPage() {
     let redirectTemplate = `https://chimildic.github.io/spotify/auth?baseurl=https://accounts.spotify.com/authorize&projectId=${ScriptApp.getScriptId()}&`;
     let htmlTemplate =
-      '<p>При первой установке: добавьте нижнюю ссылку в поле Redirect URIs вашего приложения в Spotify Dashboard</p><p>https://chimildic.github.io/spotify/auth</p><p>Для работы всех функций предоставьте доступ каждому приложению:</p><ul><li><a href="%s" target="_blank">Выдать публичные права</a></li><li><a href="%s" target="_blank">Выдать приватные права</a></li>';
+      '<p>For the first installation: add the following link to the Redirect URIs field of your application in the Spotify Dashboard</p><p>https://chimildic.github.io/spotify/auth</p><p>To enable all functions, grant access to each application:</p><ul><li><a href="%s" target="_blank">Grant public permissions</a></li><li><a href="%s" target="_blank">Grant private permissions</a></li>';
 
     let publicAuthUrl = publicService.getAuthorizationUrl();
     let privateAuthUrl = privateService.getAuthorizationUrl();
