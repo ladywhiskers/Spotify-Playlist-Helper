@@ -474,11 +474,10 @@ const Audiolist = (function () {
       let recentTracks = RecentTracks.get();
       return responseItems(
         recentTracks,
-        Audiolist.VARIABLE_TYPES.SPOTIFY_TRACK
-      );
-    },
-  };
-})();
+        Audiolist.VARIABLE_TYPES.SPOTIFY_TRACK)
+        }
+    }
+})()
 
 const Source = (function () {
   return {
@@ -1095,8 +1094,8 @@ const Source = (function () {
         tracks.push(item.track);
       }
       return tracks;
-    }, []);
-  }
+        }, []);
+    }
 })();
 
 const Player = (function () {
@@ -1176,8 +1175,9 @@ const Player = (function () {
   function createUrl(path, deviceId = "", queryObj = {}) {
     queryObj.device_id = queryObj.device_id || deviceId;
     let query = CustomUrlFetchApp.parseQuery(queryObj);
-    return API_BASE_URL + path + `?${query ? query : ""}`;
-  }
+    return API_BASE_URL + path + `?${query ? query : ''}`;
+    }
+
 })();
 
 const RecentTracks = (function () {
@@ -1324,7 +1324,7 @@ const RecentTracks = (function () {
     let tracks = Cache.read(filename);
     Cache.compressTracks(tracks);
     Cache.write(filename, tracks);
-  }
+    }
 })();
 
 const Combiner = (function () {
@@ -1426,7 +1426,7 @@ const Combiner = (function () {
     let lengthArray = arrays.map((item) => item.length);
     let mathMethod = type == "min" ? Math.min : Math.max;
     return mathMethod(...lengthArray);
-  }
+    }
 })();
 
 const RangeTracks = (function () {
@@ -1612,7 +1612,7 @@ const RangeTracks = (function () {
       }
     }
     return true;
-  }
+    }
 })();
 
 const Filter = (function () {
@@ -2142,8 +2142,8 @@ const Filter = (function () {
       dedupArtists: dedupArtists,
       dedupAlbums: dedupAlbums,
       separateArtistsDuplicated: separateArtistsDuplicated,
-    };
-  })();
+        };
+    })();
 
   return {
     removeTracks,
@@ -2166,7 +2166,7 @@ const Filter = (function () {
     separateArtistsDuplicated: Deduplicator.separateArtistsDuplicated,
     rangeTracks: RangeTracks.rangeTracks,
     getLastOutRange: RangeTracks.getLastOutRange,
-  };
+    };
 })();
 
 const Selector = (function () {
@@ -2279,7 +2279,7 @@ const Selector = (function () {
       return tracksByYear[year] || [];
     }
     Admin.printInfo(
-      `Среди ${tracks.length} треков нет вышедших в ${year} году`
+      `There are no ${tracks.length} tracks released in ${year}`
     );
     year = parseInt(year);
     let keys = Object.keys(tracksByYear).map((item) => parseInt(item));
@@ -2295,6 +2295,7 @@ const Selector = (function () {
     );
     return [];
   }
+})();
 
   const Order = (function () {
     function shuffle(array, factor = 1.0) {
@@ -2434,7 +2435,7 @@ const Selector = (function () {
           return xDate.getTime() - yDate.getTime();
         }
         return yDate.getTime() - xDate.getTime();
-      }
+        }
     })();
 
     function separateArtists(items, space, isRandom = false) {
@@ -2494,8 +2495,8 @@ const Selector = (function () {
       sort,
       separateArtists,
       separateYears,
-    };
-  })();
+        }
+    })();
 
   const Playlist = (function () {
     const LIMIT_TRACKS = 11000;
@@ -2515,7 +2516,7 @@ const Selector = (function () {
           playlistsOfUsers[key] = SpotifyRequest.getItemsByPath(path + ARGS);
         }
         return playlistsOfUsers[key];
-      }
+        }
     })();
 
     return {
@@ -2765,100 +2766,84 @@ const Selector = (function () {
         );
       }
       return payload;
-    }
-  })();
+        }
+    })();
 
-  const Library = (function () {
+const Library = (function () {
     return {
-      checkFavoriteTracks,
-      deleteAlbums,
-      deleteFavoriteTracks,
-      followArtists,
-      followPlaylists,
-      saveAlbums,
-      saveFavoriteTracks,
-      unfollowArtists,
-      unfollowPlaylists,
+        checkFavoriteTracks, deleteAlbums, deleteFavoriteTracks, followArtists, followPlaylists, saveAlbums, saveFavoriteTracks, unfollowArtists, unfollowPlaylists,
     };
 
     function checkFavoriteTracks(tracks) {
-      let urls = [];
-      let limit = 50;
-      let offset = 50;
-      for (let i = 0; i < Math.ceil(tracks.length / limit); i++) {
-        let ids = tracks.slice(i * limit, offset).map((t) => t.id);
-        urls.push(`${API_BASE_URL}/me/tracks/contains?ids=${ids}`);
-        offset += limit;
-      }
-      SpotifyRequest.getAll(urls)
-        .flat(1)
-        .map((value, i) => {
-          tracks[i].isFavorite = value;
-        });
+        let urls = [];
+        let limit = 50;
+        let offset = 50;
+        for (let i = 0; i < Math.ceil(tracks.length / limit); i++) {
+            let ids = tracks.slice(i * limit, offset).map(t => t.id);
+            urls.push(`${API_BASE_URL}/me/tracks/contains?ids=${ids}`);
+            offset += limit;
+        }
+        SpotifyRequest.getAll(urls).flat(1).map((value, i) => {
+            tracks[i].isFavorite = value;
+        })
     }
 
     function followArtists(artists) {
-      modifyFollowArtists(SpotifyRequest.putItems, artists);
+        modifyFollowArtists(SpotifyRequest.putItems, artists);
     }
 
     function unfollowArtists(artists) {
-      modifyFollowArtists(SpotifyRequest.deleteItems, artists);
+        modifyFollowArtists(SpotifyRequest.deleteItems, artists);
     }
 
     function modifyFollowArtists(method, artists) {
-      let url = `${API_BASE_URL}/me/following?type=artist`;
-      let ids = artists.map((artist) => artist.id);
-      method({ url: url, items: ids, limit: 50, key: "ids" });
+        let url = `${API_BASE_URL}/me/following?type=artist`;
+        let ids = artists.map((artist) => artist.id);
+        method({ url: url, items: ids, limit: 50, key: 'ids' });
     }
 
     function followPlaylists(playlists) {
-      modifyFollowPlaylists(SpotifyRequest.put, playlists);
+        modifyFollowPlaylists(SpotifyRequest.put, playlists);
     }
 
     function unfollowPlaylists(playlists) {
-      modifyFollowPlaylists(SpotifyRequest.deleteRequest, playlists);
+        modifyFollowPlaylists(SpotifyRequest.deleteRequest, playlists);
     }
 
     function modifyFollowPlaylists(method, playlists) {
-      playlists = Array.isArray(playlists)
-        ? playlists
-        : playlists.split(",").map((id) => {
-            return { id: id };
-          });
-      let urls = playlists.map(
-        (p) => `${API_BASE_URL}/playlists/${p.id}/followers`
-      );
-      urls.forEach((url) => method(url));
+        playlists = Array.isArray(playlists) ? playlists : playlists.split(',').map(id => { return { id: id } });
+        let urls = playlists.map(p => `${API_BASE_URL}/playlists/${p.id}/followers`);
+        urls.forEach(url => method(url));
     }
 
     function saveFavoriteTracks(tracks) {
-      modifyFavoriteTracks(SpotifyRequest.putItems, tracks);
+        modifyFavoriteTracks(SpotifyRequest.putItems, tracks);
     }
 
     function deleteFavoriteTracks(tracks) {
-      modifyFavoriteTracks(SpotifyRequest.deleteItems, tracks);
+        modifyFavoriteTracks(SpotifyRequest.deleteItems, tracks);
     }
 
     function modifyFavoriteTracks(method, tracks) {
-      let url = `${API_BASE_URL}/me/tracks`;
-      let ids = tracks.map((track) => track.id);
-      method({ url: url, items: ids, limit: 50, key: "ids" });
+        let url = `${API_BASE_URL}/me/tracks`;
+        let ids = tracks.map((track) => track.id);
+        method({ url: url, items: ids, limit: 50, key: 'ids' });
     }
 
     function saveAlbums(albums) {
-      modifyAlbums(SpotifyRequest.putItems, albums);
+        modifyAlbums(SpotifyRequest.putItems, albums);
     }
 
     function deleteAlbums(albums) {
-      modifyAlbums(SpotifyRequest.deleteItems, albums);
+        modifyAlbums(SpotifyRequest.deleteItems, albums);
     }
 
     function modifyAlbums(method, albums) {
-      let url = `${API_BASE_URL}/me/albums`;
-      let ids = albums.map((album) => album.id);
-      method({ url: url, items: ids, limit: 50, key: "ids" });
+        let url = `${API_BASE_URL}/me/albums`;
+        let ids = albums.map((album) => album.id);
+        method({ url: url, items: ids, limit: 50, key: 'ids' });
     }
-  })();
+})();
 
   const Lastfm = (function () {
     const LASTFM_API_BASE_URL = "http://ws.audioscrobbler.com/2.0/?";
@@ -3479,7 +3464,7 @@ const Selector = (function () {
       }
       return name.formatName();
     }
-  })();
+})();
 
   const Search = (function () {
     const TEMPLATE = API_BASE_URL + "/search?%s";
@@ -3535,8 +3520,8 @@ const Selector = (function () {
           .split("")
           .map((s) => (TABLE.hasOwnProperty(s) ? TABLE[s] : s))
           .join("");
-      }
-    })();
+    }
+})();
 
     // https://github.com/aceakash/string-similarity
     const DiceCoefficient = (function () {
@@ -3590,8 +3575,8 @@ const Selector = (function () {
         }
 
         return (2.0 * intersectionSize) / (first.length + second.length - 2);
-      }
-    })();
+    }
+})();
 
     return {
       DicesCoefficient: DiceCoefficient,
@@ -4568,7 +4553,7 @@ const Selector = (function () {
     function create(name, minutes) {
       ScriptApp.newTrigger(name).timeBased().everyMinutes(minutes).create();
     }
-  })();
+})();
 
   const Clerk = (function () {
     let tasks;
@@ -4641,76 +4626,60 @@ const Selector = (function () {
     }
   })();
 
-  const Admin = (function () {
+
+const Admin = (function () {
     let isInfoLvl, isErrorLvl;
     setLogLevelOnce(KeyValue.LOG_LEVEL);
     if (VERSION != KeyValue.VERSION) {
-      if (KeyValue.REQUESTS_IN_ROW == 40) {
-        UserProperties.setProperty("REQUESTS_IN_ROW", "20");
-      }
-      UserProperties.setProperty("VERSION", VERSION);
-      sendVersion(VERSION);
-      ["updateSavedTracks", "updateSavedTracks_"].forEach((name) =>
-        Trigger.remove(Trigger.get(name))
-      );
+        if (KeyValue.REQUESTS_IN_ROW == 40) {
+            UserProperties.setProperty('REQUESTS_IN_ROW', '20')
+        }
+        UserProperties.setProperty('VERSION', VERSION);
+        sendVersion(VERSION);
+        ['updateSavedTracks', 'updateSavedTracks_'].forEach(name => Trigger.remove(Trigger.get(name)));
     }
     return {
-      reset,
-      setLogLevelOnce,
-      printInfo,
-      printError,
-      pause,
+        reset, setLogLevelOnce, printInfo, printError, pause,
     };
 
-    function setLogLevelOnce(level = "info") {
-      if (level == "info") {
-        isInfoLvl = isErrorLvl = true;
-      } else if (level == "error") {
-        isInfoLvl = false;
-        isErrorLvl = true;
-      } else {
-        isInfoLvl = isErrorLvl = false;
-      }
+    function setLogLevelOnce(level = 'info') {
+        if (level == 'info') {
+            isInfoLvl = isErrorLvl = true;
+        } else if (level == 'error') {
+            isInfoLvl = false;
+            isErrorLvl = true;
+        } else {
+            isInfoLvl = isErrorLvl = false;
+        }
     }
 
     function printInfo(...data) {
-      isInfoLvl && console.info(...data);
+        isInfoLvl && console.info(...data);
     }
 
     function printError(...data) {
-      isErrorLvl &&
-        console.error(
-          ...data,
-          `\n\Description and solution of errors: https://chimildic.github.io/goofy/#/errors\nTelegram: https://t.me/forum_goofy`
-        );
+        isErrorLvl && console.error(...data, `\n\nDescription and solutions for errors: https://chimildic.github.io/goofy/#/errors\nTelegram: https://t.me/forum_goofy`);
     }
 
     function pause(seconds) {
-      isInfoLvl &&
-        console.info(
-          `The operation will continue after a pause of ${seconds}s.`
-        );
-      Utilities.sleep(seconds * 1000);
+        isInfoLvl && console.info(`Operation will resume after a pause of ${seconds}s.`);
+        Utilities.sleep(seconds * 1000);
     }
 
     function sendVersion(value) {
-      let id = "1FAIpQLSeSe9Jgw5Ml1XxTlz1HHnyHGoFcA65CabbAAJcvk5elXL2gZw";
-      CustomUrlFetchApp.fetch(
-        `https://docs.google.com/forms/u/0/d/e/${id}/formResponse`,
-        {
-          method: "post",
-          payload: {
-            "entry.1598003363": value,
-            "entry.1594601658": ScriptApp.getScriptId(),
-            "entry.1666409024": User.id || "install",
-          },
-        }
-      );
+        let id = '1FAIpQLSeSe9Jgw5Ml1XxTlz1HHnyHGoFcA65CabbAAJcvk5elXL2gZw';
+        CustomUrlFetchApp.fetch(`https://docs.google.com/forms/u/0/d/e/${id}/formResponse`, {
+            method: 'post',
+            payload: {
+                'entry.1598003363': value,
+                'entry.1594601658': ScriptApp.getScriptId(),
+                'entry.1666409024': User.id || 'install',
+            },
+        });
     }
 
     function reset() {
-      Auth.reset();
-      UserProperties.deleteAllProperties();
+        Auth.reset();
+        UserProperties.deleteAllProperties();
     }
-  })();
 })();

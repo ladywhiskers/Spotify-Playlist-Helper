@@ -10,7 +10,7 @@ Suppose there is a daily playlist that does not need to be updated on Wednesdays
 
 ?> Read more about the `if` condition [here](https://itchief.ru/javascript/сonditional-and-logical-operators)
 
-The keyword `return` is used to return a value from a function. Code after this command is never executed. Using `return` without a return value is a special case, the receiving side will get an `undefined` value. In the case of a trigger run, this is simply equivalent to the function ending.
+The keyword `return` is used to return a value from a function. Code after this command is never executed. Using `return` without a return value is a special case; the receiving side will get an `undefined` value. In the case of a trigger run, this is simply equivalent to the function ending.
 
 The example demonstrates that if today is Wednesday, the function terminates. The code after `return` will not be executed. But if today is another day of the week, execution will not enter the `if` branch, meaning it will not execute the `return` command, and will proceed further to the playlist update logic.
 
@@ -36,7 +36,7 @@ Filter.removeTracks(tracks, RecentTracks.get());
 if (tracks.length == 40) {
   return;
 } else if (tracks.length > 10 && tracks.length < 40) {
-  Playlist.saveWitUpdate({
+  Playlist.saveWithUpdate({
     id: ID_TARGET,
     tracks: tracks,
   });

@@ -1,13 +1,14 @@
 /* exported Config */
 /* global PLAYLIST_IDS */
-// Documentation: https://ladywhiskers.github.io/Spotify-Playlist-Helper
-// Forum - Original: https://github.com/Chimildic/goofy/discussions
-// Forum: https://github.com/ladywhiskers/Spotify-Playlist-Helper/discussions
+// Documentation: https://chimildic.github.io/goofy
+// Telegram: https://t.me/forum_goofy
+// Forum: https://github.com/Chimildic/goofy/discussions
 const VERSION = "2.1.0";
 const UserProperties = PropertiesService.getUserProperties();
 const KeyValue = UserProperties.getProperties();
 const API_BASE_URL = "https://api.spotify.com/v1";
 const DEFAULT_DATE = new Date("2000-01-01");
+
 const TrackUtils = (function () {
   return {
     getAndProcessTracks,
@@ -23,10 +24,13 @@ const TrackUtils = (function () {
       const trackPromises = trackSources.map((source) =>
         Source.getPlaylistTracks(source.name, source.id)
       );
-      const allTracksArrays = await Promise.all(trackPromises);
+      const allTracksArrays = await Promise.allSettled(trackPromises);
 
       // Combine all tracks into a single array.
-      let allTracks = allTracksArrays.flat();
+      let allTracks = allTracksArrays
+        .filter((result) => result.status === "fulfilled")
+        .map((result) => result.value)
+        .flat();
 
       // Remove saved tracks.
       Filter.removeTracks(allTracks, savedTracks, true);
@@ -2220,15 +2224,12 @@ const Selector = (function () {
     let strWeekday = today.toLocaleDateString(locale, { weekday: "long" });
     return strDay.toLowerCase() === strWeekday.toLowerCase();
   }
-
   function pickYear(tracks, year, offset = 5) {
     let tracksByYear = Order.separateYears(tracks);
     if (tracksByYear.hasOwnProperty(year) || tracks.length == 0) {
       return tracksByYear[year] || [];
     }
-    Admin.printInfo(
-      `Среди ${tracks.length} треков нет вышедших в ${year} году`
-    );
+    Admin.printInfo(`There are no ${tracks.length} tracks released in ${year}`);
     year = parseInt(year);
     let keys = Object.keys(tracksByYear).map((item) => parseInt(item));
     let nearYear = keys.sort(
@@ -4073,7 +4074,7 @@ const SpotifyRequest = (function () {
   function appendLocale(url) {
     if (!url.includes("locale")) {
       url += `${url.includes("?") ? "&" : "?"}locale=${
-        KeyValue.LOCALE || "RU"
+        KeyValue.LOCALE || "AU"
       }`;
     }
     return url;
@@ -4612,13 +4613,13 @@ const Admin = (function () {
     isErrorLvl &&
       console.error(
         ...data,
-        `\nDescription and solution of errors: https://chimildic.github.io/goofy/#/errors\nTelegram: https://t.me/forum_goofy`
+        `\n\nDescription and solutions for errors: https://chimildic.github.io/goofy/#/errors\nTelegram: https://t.me/forum_goofy`
       );
   }
 
   function pause(seconds) {
     isInfoLvl &&
-      console.info(`The operation will continue after a pause of ${seconds}s.`);
+      console.info(`Operation will resume after a pause of ${seconds}s.`);
     Utilities.sleep(seconds * 1000);
   }
 
